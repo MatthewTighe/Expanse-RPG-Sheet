@@ -3,9 +3,9 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-        app:startDestination="@id/launchFragment">
+        app:startDestination="@id/characterListFragment">
 
     <fragment
-        android:id="@+id/launchFragment"
-        android:name="tighe.matthew.expanserpgsheet.fragments.LaunchFragment" />
+        android:id="@+id/characterListFragment"
+        android:name="tighe.matthew.expanserpgsheet.characterlist.CharacterListFragment" />
 </navigation>
