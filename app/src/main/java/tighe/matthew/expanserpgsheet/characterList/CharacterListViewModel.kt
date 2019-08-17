@@ -9,14 +9,10 @@ import tighe.matthew.expanserpgsheet.R
 
 internal class CharacterListViewModel : ViewModel(), BaseViewModel<CharacterListViewState, CharacterListAction> {
     private val event = MutableLiveData<Event>()
-    override fun observeEvent(): LiveData<Event> {
-        return event
-    }
+    override fun observeEvent(): LiveData<Event> { return event }
 
     private val viewState = MutableLiveData<CharacterListViewState>()
-    override fun observeViewState(): LiveData<CharacterListViewState> {
-        return viewState
-    }
+    override fun observeViewState(): LiveData<CharacterListViewState> { return viewState }
 
     override fun submitAction(action: CharacterListAction) {
         return when (action) {
