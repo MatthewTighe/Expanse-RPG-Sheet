@@ -7,5 +7,10 @@
 
     <fragment
         android:id="@+id/characterListFragment"
-        android:name="tighe.matthew.expanserpgsheet.characterlist.CharacterListFragment" />
+        android:name="tighe.matthew.expanserpgsheet.characterList.CharacterListFragment" >
+        <action android:id="@+id/action_characterListFragment_to_charactionCreationFragment"
+                app:destination="@id/charactionCreationFragment"/>
+    </fragment>
+    <fragment android:id="@+id/charactionCreationFragment" android:name="tighe.matthew.expanserpgsheet.characterCreation.CharacterCreationFragment"
+              android:label="fragment_charaction_creation" tools:layout="@layout/fragment_charaction_creation"/>
 </navigation>
