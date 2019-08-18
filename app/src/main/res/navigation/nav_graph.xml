@@ -13,6 +13,9 @@
         <action
                 android:id="@+id/action_characterListFragment_to_characterCreationFragment"
                 app:destination="@id/characterCreationFragment"/>
+        <action
+                android:id="@+id/action_characterListFragment_to_characterDetailsFragment"
+                app:destination="@id/characterDetailsFragment"/>
     </fragment>
 
     <fragment
@@ -25,6 +28,13 @@
         android:id="@+id/characterDetailsFragment"
         android:name="tighe.matthew.expanserpgsheet.characterDetails.CharacterDetailsFragment"
         android:label="fragment_character_details"
-        tools:layout="@layout/fragment_character_details" />
+        tools:layout="@layout/fragment_character_details" >
+        <argument
+            android:name="character"
+            android:defaultValue="@null"
+            app:argType="tighe.matthew.expanserpgsheet.model.CharacterModel"
+            app:nullable="true" />
+
+    </fragment>
 
 </navigation>
