@@ -1,3 +1,6 @@
 package tighe.matthew.expanserpgsheet.model
 
-class CharacterModel(val name: String, val maxFortune: Int) : Model
+data class CharacterModel(
+    val name: String = "",
+    val maxFortune: Int = 0
+) : Model

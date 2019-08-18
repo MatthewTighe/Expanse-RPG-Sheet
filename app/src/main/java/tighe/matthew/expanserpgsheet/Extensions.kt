@@ -1,5 +1,6 @@
 package tighe.matthew.expanserpgsheet
 
+import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -19,4 +20,11 @@ fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
     })
+}
+
+fun SharedPreferences.putInt(key: String, value: Int) {
+    with (this.edit()) {
+        putInt(key, value)
+        apply()
+    }
 }
