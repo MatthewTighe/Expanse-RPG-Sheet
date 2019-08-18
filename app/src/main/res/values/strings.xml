@@ -3,8 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="placeholder">Placeholder</string>
 
     <string name="hint_name">Character name</string>
     <string name="hint_max_fortune">Max fortune</string>
 
+    <string name="desc_btn_options">Options buttons</string>
 </resources>

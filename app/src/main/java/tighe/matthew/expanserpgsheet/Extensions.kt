@@ -28,3 +28,11 @@ fun SharedPreferences.putInt(key: String, value: Int) {
         apply()
     }
 }
+
+fun SharedPreferences.appendStringSet(key: String, value: String) {
+    val set = this.getStringSet(key, setOf()) ?: setOf()
+    with (this.edit()) {
+        putStringSet(key, set.plus(value))
+        apply()
+    }
+}

@@ -7,10 +7,12 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import tighe.matthew.expanserpgsheet.characterCreation.CharacterCreationViewModel
+import tighe.matthew.expanserpgsheet.characterList.CharacterListViewModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
 val appModule = module {
-    single { CharacterRepository() }
+    single { CharacterRepository(androidContext()) }
+    viewModel { CharacterListViewModel(get()) }
     viewModel { CharacterCreationViewModel(get()) }
 }
 

@@ -1,7 +1,9 @@
 package tighe.matthew.expanserpgsheet.characterList
 
 import tighe.matthew.expanserpgsheet.ViewState
+import tighe.matthew.expanserpgsheet.model.CharacterModel
 
 internal data class CharacterListViewState(
-    val characterList: List<String> // TODO model characters
+    val loading: Boolean = false,
+    val characterList: List<CharacterModel> = emptyList()
 ): ViewState

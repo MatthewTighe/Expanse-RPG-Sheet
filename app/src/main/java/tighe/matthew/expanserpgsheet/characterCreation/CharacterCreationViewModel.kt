@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.SingleLiveEvent
 import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
@@ -16,8 +17,8 @@ internal class CharacterCreationViewModel(
     private val viewState = MutableLiveData<CharacterCreationViewState>()
     override fun observeViewState(): LiveData<CharacterCreationViewState> { return viewState }
 
-    private val event = MutableLiveData<Event>()
-    override fun observeEvent(): LiveData<Event> { return event }
+    private val event = SingleLiveEvent<Event>()
+    override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
     var model: CharacterModel = CharacterModel()
 

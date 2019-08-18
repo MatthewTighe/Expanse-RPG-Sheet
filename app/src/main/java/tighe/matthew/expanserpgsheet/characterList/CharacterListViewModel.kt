@@ -3,13 +3,14 @@ package tighe.matthew.expanserpgsheet.characterList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import tighe.matthew.expanserpgsheet.BaseViewModel
-import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
-internal class CharacterListViewModel : ViewModel(), BaseViewModel<CharacterListViewState, CharacterListAction> {
-    private val event = MutableLiveData<Event>()
-    override fun observeEvent(): LiveData<Event> { return event }
+internal class CharacterListViewModel(
+    private val repository: CharacterRepository
+) : ViewModel(), BaseViewModel<CharacterListViewState, CharacterListAction> {
+    private val event = SingleLiveEvent<Event>()
+    override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
     private val viewState = MutableLiveData<CharacterListViewState>()
     override fun observeViewState(): LiveData<CharacterListViewState> { return viewState }
@@ -17,9 +18,13 @@ internal class CharacterListViewModel : ViewModel(), BaseViewModel<CharacterList
     override fun submitAction(action: CharacterListAction) {
         return when (action) {
             is CharacterListAction.Add -> {
-                event.postValue(Event.Navigate(R.id.charactionCreationFragment))
+                event.postValue(Event.Navigate(R.id.characterCreationFragment))
             }
-            is CharacterListAction.Refresh -> {}
+            is CharacterListAction.Refresh -> {
+                viewState.postValue(CharacterListViewState(loading = true))
+                val characters = repository.loadAll()
+                viewState.postValue(CharacterListViewState(characterList = characters))
+            }
         }
     }
 }
