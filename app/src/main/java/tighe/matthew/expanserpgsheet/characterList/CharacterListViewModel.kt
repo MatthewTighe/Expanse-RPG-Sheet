@@ -1,9 +1,14 @@
 package tighe.matthew.expanserpgsheet.characterList
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.BaseViewModel
+import tighe.matthew.expanserpgsheet.Event
+import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
 internal class CharacterListViewModel(
@@ -19,6 +24,10 @@ internal class CharacterListViewModel(
         return when (action) {
             is CharacterListAction.Add -> {
                 event.postValue(Event.Navigate(R.id.characterCreationFragment))
+            }
+            is CharacterListAction.CharacterClicked -> {
+                val bundle = bundleOf(CharacterModel.bundleKey to action.character)
+                event.postValue(Event.Navigate(R.id.characterDetailsFragment, bundle))
             }
             is CharacterListAction.Refresh -> {
                 viewState.postValue(CharacterListViewState(loading = true))

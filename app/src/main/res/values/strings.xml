@@ -8,5 +8,10 @@
     <string name="hint_name">Character name</string>
     <string name="hint_max_fortune">Max fortune</string>
 
+    <string name="dec_5">-5</string>
+    <string name="dec_1">-1</string>
+    <string name="inc_1">+1</string>
+    <string name="inc_5">+5</string>
+
     <string name="desc_btn_options">Options buttons</string>
 </resources>

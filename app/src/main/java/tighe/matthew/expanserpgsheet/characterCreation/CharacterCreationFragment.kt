@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import org.koin.android.viewmodel.ext.android.viewModel
+import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.navTo
 import tighe.matthew.expanserpgsheet.onTextFinished
 
 class CharacterCreationFragment : Fragment() {
@@ -20,6 +23,12 @@ class CharacterCreationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        viewModel.observeEvent().observe(this, Observer { it?.let { event ->
+            return@let when (event) {
+                is Event.Navigate -> navTo(event)
+            }
+        }})
 
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->

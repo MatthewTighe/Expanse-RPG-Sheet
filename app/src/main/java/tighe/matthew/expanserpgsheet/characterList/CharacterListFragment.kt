@@ -12,9 +12,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.navTo
 
-class CharacterListFragment : Fragment() {
+class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
     private val viewModel: CharacterListViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,7 +31,7 @@ class CharacterListFragment : Fragment() {
             }
         }})
 
-        val adapter = CharacterListAdapter()
+        val adapter = CharacterListAdapter(this)
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_characters)!!
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
@@ -44,5 +45,9 @@ class CharacterListFragment : Fragment() {
         }
 
         viewModel.submitAction(CharacterListAction.Refresh)
+    }
+
+    override fun onClick(character: CharacterModel) {
+        viewModel.submitAction(CharacterListAction.CharacterClicked(character))
     }
 }
