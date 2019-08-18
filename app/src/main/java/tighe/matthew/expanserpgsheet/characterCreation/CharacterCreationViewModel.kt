@@ -18,7 +18,9 @@ internal class CharacterCreationViewModel :
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {
-            else -> {}
+            is CharacterCreationAction.NameInput -> {}
+            is CharacterCreationAction.MaxFortuneInput -> {}
+            is CharacterCreationAction.Save -> {}
         }
     }
 }
