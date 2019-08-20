@@ -1,3 +1,5 @@
 package tighe.matthew.expanserpgsheet.model
 
-interface Model
+import android.os.Parcelable
+
+interface Model : Parcelable

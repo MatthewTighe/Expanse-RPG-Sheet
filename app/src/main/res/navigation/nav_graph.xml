@@ -31,9 +31,9 @@
         tools:layout="@layout/fragment_character_details" >
         <argument
             android:name="character"
-            android:defaultValue="@null"
             app:argType="tighe.matthew.expanserpgsheet.model.CharacterModel"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
 
     </fragment>
 

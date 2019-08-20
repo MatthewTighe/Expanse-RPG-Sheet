@@ -15,7 +15,7 @@ val appModule = module {
     single { CharacterRepository(androidContext()) }
     viewModel { CharacterListViewModel(get()) }
     viewModel { CharacterCreationViewModel(get()) }
-    viewModel { CharacterDetailsViewModel() }
+    viewModel { CharacterDetailsViewModel(get()) }
 }
 
 class Application : Application() {
