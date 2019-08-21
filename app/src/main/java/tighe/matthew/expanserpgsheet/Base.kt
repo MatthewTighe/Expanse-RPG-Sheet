@@ -1,6 +1,7 @@
 package tighe.matthew.expanserpgsheet
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
@@ -21,8 +22,13 @@ interface ViewState
 
 interface Action
 
+data class NavigationArgument(
+    val key: String = "",
+    val parcelable: Parcelable
+)
+
 sealed class Event {
-    data class Navigate(@IdRes val fragment: Int, val bundle: Bundle? = null) : Event()
+    data class Navigate(@IdRes val fragment: Int, val navigationArgs: List<NavigationArgument> = listOf()) : Event()
 }
 
 class SingleLiveEvent<E: Event> : MutableLiveData<E>() {

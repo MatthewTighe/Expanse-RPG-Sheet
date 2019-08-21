@@ -5,9 +5,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CharacterModel(
     val name: String = "",
-    val maxFortune: Int = 0
-) : Model {
-    companion object {
-        val bundleKey = "character"
-    }
-}
+    val maxFortune: Int = 0,
+    override val bundleKey: String = "character"
+) : Model

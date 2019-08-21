@@ -9,7 +9,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 
 fun Fragment.navTo(event: Event.Navigate) {
-    this.findNavController().navigate(event.fragment)
+    val bundle = bundleOf()
+    with (bundle) {
+        for (navArg in event.navigationArgs) {
+            putParcelable(navArg.key, navArg.parcelable)
+        }
+    }
+    this.findNavController().navigate(event.fragment, bundle)
 }
 
 fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
