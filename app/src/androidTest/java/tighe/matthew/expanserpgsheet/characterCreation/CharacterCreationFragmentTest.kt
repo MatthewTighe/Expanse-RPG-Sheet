@@ -1,0 +1,40 @@
+package tighe.matthew.expanserpgsheet.characterCreation
+
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.ActivityTestRule
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.model.CharacterModel
+import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+
+@RunWith(AndroidJUnit4::class)
+class CharacterCreationFragmentTest {
+    @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
+
+    private lateinit var characterRepository: CharacterRepository
+
+    @Before
+    fun setup() {
+        characterRepository = CharacterRepository(activityRule.activity)
+    }
+
+    @Test
+    fun characterValuesCanBeEnteredAndSaved() {
+        activityRule.navTo(R.id.character_creation_fragment)
+        R.id.layout_fragment_character_creation.isDisplayed()
+
+        val name = "TestCharacter"
+        val fortune = 20
+        R.id.input_name.writeText(name)
+        R.id.input_max_fortune.writeText(fortune.toString())
+        R.id.btn_save.click()
+        
+        val expectedModel = CharacterModel(name, fortune)
+        val result = characterRepository.load(name)
+        assertEquals(expectedModel, result)
+    }
+}
