@@ -32,7 +32,7 @@ class CharacterCreationFragmentTest {
         R.id.input_name.writeText(name)
         R.id.input_max_fortune.writeText(fortune.toString())
         R.id.btn_save.click()
-        
+
         val expectedModel = CharacterModel(name, fortune)
         val result = characterRepository.load(name)
         assertEquals(expectedModel, result)

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,6 +27,16 @@ data class NavigationArgument(
     val key: String = "",
     val parcelable: Parcelable
 )
+
+fun navArgsToBundle(args: List<NavigationArgument>): Bundle {
+    val bundle = bundleOf()
+    with (bundle) {
+        for (navArg in args) {
+            putParcelable(navArg.key, navArg.parcelable)
+        }
+    }
+    return bundle
+}
 
 sealed class Event {
     data class Navigate(@IdRes val fragment: Int, val navigationArgs: List<NavigationArgument> = listOf()) : Event()
