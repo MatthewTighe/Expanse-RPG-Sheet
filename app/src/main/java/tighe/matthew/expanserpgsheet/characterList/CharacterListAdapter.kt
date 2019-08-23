@@ -18,7 +18,6 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var name = row.findViewById<TextView>(R.id.text_character_name)
         var maxFortune = row.findViewById<TextView>(R.id.text_max_fortune)
-
     }
 
     fun updateCharacters(newCharacters: List<CharacterModel>) {

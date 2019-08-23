@@ -1,9 +1,7 @@
 package tighe.matthew.expanserpgsheet.characterCreation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.*

@@ -28,7 +28,7 @@ class CharacterCreationFragment : Fragment() {
             return@let when (event) {
                 is Event.Navigate -> navTo(event)
             }
-        }})
+        } })
 
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->

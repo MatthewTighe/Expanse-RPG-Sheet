@@ -8,7 +8,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import tighe.matthew.expanserpgsheet.ViewState
 import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 

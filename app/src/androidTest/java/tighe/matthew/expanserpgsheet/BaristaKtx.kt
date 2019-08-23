@@ -4,9 +4,6 @@ import androidx.annotation.IdRes
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
-import com.schibsted.spain.barista.internal.failurehandler.BaristaException
-import java.util.concurrent.TimeoutException
-
 
 // Interactions
 @IdRes fun Int.click() {

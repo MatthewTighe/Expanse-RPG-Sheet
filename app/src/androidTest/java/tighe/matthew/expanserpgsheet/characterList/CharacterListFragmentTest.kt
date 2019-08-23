@@ -1,9 +1,7 @@
 package tighe.matthew.expanserpgsheet.characterList
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import androidx.test.rule.ActivityTestRule
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -13,7 +11,6 @@ import tighe.matthew.expanserpgsheet.MainActivity
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.click
 import tighe.matthew.expanserpgsheet.isDisplayed
-import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
 @RunWith(AndroidJUnit4::class)

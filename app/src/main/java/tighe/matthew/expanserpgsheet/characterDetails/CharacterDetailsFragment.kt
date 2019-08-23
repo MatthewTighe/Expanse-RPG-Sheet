@@ -29,7 +29,7 @@ class CharacterDetailsFragment : Fragment() {
         val textFortune = activity?.findViewById<TextView>(R.id.text_fortune)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             textFortune?.text = viewState.fortune.toString()
-        }})
+        } })
 
         val inc1 = activity?.findViewById<TextView>(R.id.text_increment_one)!!
         inc1.setOnClickListener { viewModel.submitAction(CharacterDetailsAction.IncrementFortune(1)) }

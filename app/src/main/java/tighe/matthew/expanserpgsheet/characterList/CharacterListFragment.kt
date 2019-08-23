@@ -31,7 +31,7 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
             return@let when (event) {
                 is Event.Navigate -> { navTo(event) }
             }
-        }})
+        } })
 
         val adapter = CharacterListAdapter(this)
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_characters)!!
@@ -39,7 +39,7 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         recyclerView.adapter = adapter
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             adapter.updateCharacters(viewState.characterList)
-        }})
+        } })
 
         val createBtn = activity?.findViewById<FloatingActionButton>(R.id.btn_create_new)!!
         createBtn.setOnClickListener {

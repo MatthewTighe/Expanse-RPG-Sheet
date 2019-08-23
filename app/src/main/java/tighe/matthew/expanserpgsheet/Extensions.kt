@@ -3,7 +3,6 @@ package tighe.matthew.expanserpgsheet
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
@@ -25,7 +24,7 @@ fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
 }
 
 fun SharedPreferences.putInt(key: String, value: Int) {
-    with (this.edit()) {
+    with(this.edit()) {
         putInt(key, value)
         apply()
     }
@@ -33,7 +32,7 @@ fun SharedPreferences.putInt(key: String, value: Int) {
 
 fun SharedPreferences.appendStringSet(key: String, value: String) {
     val set = this.getStringSet(key, setOf()) ?: setOf()
-    with (this.edit()) {
+    with(this.edit()) {
         putStringSet(key, set.plus(value))
         apply()
     }
