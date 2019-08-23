@@ -32,7 +32,7 @@ internal class CharacterCreationViewModel(
             }
             is CharacterCreationAction.Save -> {
                 repository.persist(model)
-                event.postValue(Event.Navigate(R.id.characterListFragment))
+                event.postValue(Event.Navigate(R.id.character_list_fragment))
             }
         }
     }

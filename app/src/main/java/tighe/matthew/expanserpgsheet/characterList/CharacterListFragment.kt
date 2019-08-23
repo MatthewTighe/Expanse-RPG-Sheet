@@ -25,6 +25,8 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val test = this.id
+
         viewModel.observeEvent().observe(this, Observer { it?.let { event ->
             return@let when (event) {
                 is Event.Navigate -> { navTo(event) }

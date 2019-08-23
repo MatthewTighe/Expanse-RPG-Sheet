@@ -3,29 +3,29 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
-        app:startDestination="@id/characterListFragment">
+        app:startDestination="@id/character_list_fragment">
 
     <fragment
-            android:id="@+id/characterListFragment"
+            android:id="@+id/character_list_fragment"
             android:name="tighe.matthew.expanserpgsheet.characterList.CharacterListFragment"
             android:label="fragment_character_list"
             tools:layout="@layout/fragment_character_list">
         <action
-                android:id="@+id/action_characterListFragment_to_characterCreationFragment"
-                app:destination="@id/characterCreationFragment"/>
+                android:id="@+id/action_character_list_fragment_to_character_creation_fragment"
+                app:destination="@id/character_creation_fragment"/>
         <action
-                android:id="@+id/action_characterListFragment_to_characterDetailsFragment"
-                app:destination="@id/characterDetailsFragment"/>
+                android:id="@+id/action_character_list_fragment_to_character_details_fragment"
+                app:destination="@id/character_details_fragment"/>
     </fragment>
 
     <fragment
-            android:id="@+id/characterCreationFragment"
+            android:id="@+id/character_creation_fragment"
             android:name="tighe.matthew.expanserpgsheet.characterCreation.CharacterCreationFragment"
             android:label="fragment_character_creation"
             tools:layout="@layout/fragment_character_creation"/>
 
     <fragment
-        android:id="@+id/characterDetailsFragment"
+        android:id="@+id/character_details_fragment"
         android:name="tighe.matthew.expanserpgsheet.characterDetails.CharacterDetailsFragment"
         android:label="fragment_character_details"
         tools:layout="@layout/fragment_character_details" >

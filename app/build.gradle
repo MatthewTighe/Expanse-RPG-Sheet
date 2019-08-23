@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -24,6 +25,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
 
@@ -58,5 +62,11 @@ dependencies {
     testImplementation "org.koin:koin-test:$koin_version"
     testImplementation "androidx.arch.core:core-testing:2.1.0-rc01"
     androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    // Espresso core is included in Barista
+    androidTestImplementation('com.schibsted.spain:barista:3.2.0') {
+        exclude group: 'com.android.support'
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
 }
