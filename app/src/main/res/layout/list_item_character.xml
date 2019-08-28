@@ -29,7 +29,7 @@
 
     <ImageView
             android:id="@+id/btn_options"
-            app:srcCompat="@drawable/ic_vertical_dots_black_24dp"
+            app:srcCompat="@drawable/ic_vertical_dots_24dp"
             android:contentDescription="@string/desc_btn_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

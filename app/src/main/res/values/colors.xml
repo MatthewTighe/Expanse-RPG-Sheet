@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- Brand colors -->
+    <color name="colorPrimary">#00838f</color> <!-- Cyan 800 -->
+    <color name="colorPrimaryLight">#4fb3bf</color>
+    <color name="colorPrimaryDark">#005662</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#ff8a65</color> <!-- Deep Orange 300 -->
+    <color name="colorSecondaryLight">#ffbb93</color>
+    <color name="colorSecondaryDark">#c75b39</color>
+    <color name="colorOnSecondary">#000000</color>
+
+    <color name="colorIcon">#000000</color>
 </resources>
