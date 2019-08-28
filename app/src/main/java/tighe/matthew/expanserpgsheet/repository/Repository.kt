@@ -6,4 +6,6 @@ interface Repository<M : Model> {
     fun persist(model: M)
 
     fun load(key: String): M
+
+    fun delete(model: M)
 }

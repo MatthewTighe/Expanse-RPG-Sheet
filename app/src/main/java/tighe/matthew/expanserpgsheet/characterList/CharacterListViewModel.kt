@@ -20,17 +20,20 @@ internal class CharacterListViewModel(
 
     override fun submitAction(action: CharacterListAction) {
         return when (action) {
-            is CharacterListAction.Add -> {
-                event.postValue(Event.Navigate(R.id.character_creation_fragment))
-            }
-            is CharacterListAction.CharacterClicked -> {
-                val navArgs = listOf(action.character.buildNavArg())
-                event.postValue(Event.Navigate(R.id.character_details_fragment, navArgs))
-            }
             is CharacterListAction.Refresh -> {
                 viewState.postValue(CharacterListViewState(loading = true))
                 val characters = repository.loadAll()
                 viewState.postValue(CharacterListViewState(characterList = characters))
+            }
+            is CharacterListAction.Add -> {
+                event.postValue(Event.Navigate(R.id.character_creation_fragment))
+            }
+            is CharacterListAction.Delete -> {
+                repository.delete(action.character)
+            }
+            is CharacterListAction.CharacterClicked -> {
+                val navArgs = listOf(action.character.buildNavArg())
+                event.postValue(Event.Navigate(R.id.character_details_fragment, navArgs))
             }
         }
     }

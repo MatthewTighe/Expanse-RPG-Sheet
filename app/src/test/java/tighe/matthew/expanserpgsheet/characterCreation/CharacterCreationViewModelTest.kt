@@ -16,8 +16,8 @@ import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 class CharacterCreationViewModelTest : KoinTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
-    val mockEventObserver = mockk<Observer<Event?>>(relaxUnitFun = true)
-    val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
+    private val mockEventObserver = mockk<Observer<Event?>>(relaxUnitFun = true)
+    private val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
 
     private lateinit var viewModel: CharacterCreationViewModel
 
@@ -36,6 +36,6 @@ class CharacterCreationViewModelTest : KoinTest {
         viewModel.submitAction(CharacterCreationAction.Save)
 
         verify { mockRepo.persist(model) }
-        verify { mockEventObserver.onChanged(Event.Navigate(R.id.characterListFragment)) }
+        verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_list_fragment)) }
     }
 }

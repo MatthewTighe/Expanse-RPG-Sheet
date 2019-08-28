@@ -44,7 +44,6 @@ class CharacterListFragmentTest {
 //        R.id.character_details_fragment.isNotDisplayed()
 //    }
 
-
 //    @Test
 //    fun clickingCharacterNavsToDetails() {
 //        val name = "TestCharacter"

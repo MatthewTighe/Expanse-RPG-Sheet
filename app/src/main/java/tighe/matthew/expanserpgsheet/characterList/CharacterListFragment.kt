@@ -56,5 +56,11 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         val popup = PopupMenu(activity!!, anchor)
         popup.menuInflater.inflate(R.menu.menu_character_options, popup.menu)
         popup.show()
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.delete -> viewModel.submitAction(CharacterListAction.Delete(character))
+            }
+            true
+        }
     }
 }

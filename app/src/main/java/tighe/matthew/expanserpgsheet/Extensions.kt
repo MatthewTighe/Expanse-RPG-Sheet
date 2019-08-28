@@ -37,3 +37,18 @@ fun SharedPreferences.appendStringSet(key: String, value: String) {
         apply()
     }
 }
+
+fun SharedPreferences.removeFromStringSet(key: String, value: String) {
+    val set = this.getStringSet(key, setOf()) ?: setOf()
+    with(this.edit()) {
+        putStringSet(key, set.minus(value))
+        apply()
+    }
+}
+
+fun SharedPreferences.delete(key: String) {
+    with(this.edit()) {
+        remove(key)
+        apply()
+    }
+}

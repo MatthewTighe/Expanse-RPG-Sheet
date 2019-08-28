@@ -31,23 +31,6 @@ class CharacterListViewModelTest {
     }
 
     @Test
-    fun `Add action navigates to characterCreation`() {
-        viewModel.submitAction(CharacterListAction.Add)
-
-        verify { mockEventObserver.onChanged(Event.Navigate(R.id.characterCreationFragment)) }
-    }
-
-    @Test
-    fun `Character clicked navigates to character details with bundled character`() {
-        val model = CharacterModel("name", 15)
-
-        viewModel.submitAction(CharacterListAction.CharacterClicked(model))
-
-        val expectedArgs = listOf(model.buildNavArg())
-        verify { mockEventObserver.onChanged(Event.Navigate(R.id.characterDetailsFragment, expectedArgs)) }
-    }
-
-    @Test
     fun `Refresh action updates view and loads from the repository`() {
         val char1 = CharacterModel("name1", 10)
         val char2 = CharacterModel("name2", 15)
@@ -64,5 +47,30 @@ class CharacterListViewModelTest {
         }
 
         confirmVerified(mockRepo, mockViewStateObserver)
+    }
+
+    @Test
+    fun `Add action navigates to characterCreation`() {
+        viewModel.submitAction(CharacterListAction.Add)
+
+        verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_creation_fragment)) }
+    }
+
+    @Test
+    fun `Delete action delegates to model`() {
+        val characterModel = CharacterModel("test1", 15)
+        viewModel.submitAction(CharacterListAction.Delete(characterModel))
+
+        verify { mockRepo.delete(characterModel) }
+    }
+
+    @Test
+    fun `Character clicked navigates to character details with bundled character`() {
+        val model = CharacterModel("name", 15)
+
+        viewModel.submitAction(CharacterListAction.CharacterClicked(model))
+
+        val expectedArgs = listOf(model.buildNavArg())
+        verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_details_fragment, expectedArgs)) }
     }
 }
