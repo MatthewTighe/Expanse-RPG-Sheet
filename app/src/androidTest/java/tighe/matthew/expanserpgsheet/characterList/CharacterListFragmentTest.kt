@@ -7,10 +7,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import tighe.matthew.expanserpgsheet.MainActivity
-import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.click
-import tighe.matthew.expanserpgsheet.isDisplayed
+import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.model.CharacterModel
 import tighe.matthew.expanserpgsheet.repository.CharacterRepository
 
 @RunWith(AndroidJUnit4::class)
@@ -18,10 +16,12 @@ class CharacterListFragmentTest {
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
     private lateinit var characterRepository: CharacterRepository
+    private val model = CharacterModel("name", 10)
 
     @Before
     fun setup() {
         characterRepository = CharacterRepository(activityRule.activity)
+        characterRepository.persist(model)
     }
 
     @Test
@@ -33,7 +33,18 @@ class CharacterListFragmentTest {
         R.id.layout_fragment_character_creation.isDisplayed()
     }
 
-    // TODO This test can't be written until a migration to an observable model is made or a refresh button is added.
+    // TODO These tests can't be written until a migration to an observable model is made or a refresh button is added.
+//    @Test
+//    fun clickingOptionsShouldOpenMenuNotNav() {
+//        R.id.layout_fragment_character_list.isDisplayed()
+//
+//        R.id.btn_options.click()
+//
+//        R.id.delete.isDisplayed()
+//        R.id.character_details_fragment.isNotDisplayed()
+//    }
+
+
 //    @Test
 //    fun clickingCharacterNavsToDetails() {
 //        val name = "TestCharacter"

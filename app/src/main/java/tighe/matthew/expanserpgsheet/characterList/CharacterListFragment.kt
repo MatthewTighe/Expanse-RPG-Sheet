@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +25,6 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        val test = this.id
 
         viewModel.observeEvent().observe(this, Observer { it?.let { event ->
             return@let when (event) {
@@ -51,5 +50,11 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
 
     override fun onClick(character: CharacterModel) {
         viewModel.submitAction(CharacterListAction.CharacterClicked(character))
+    }
+
+    override fun onOptionsClick(character: CharacterModel, anchor: View) {
+        val popup = PopupMenu(activity!!, anchor)
+        popup.menuInflater.inflate(R.menu.menu_character_options, popup.menu)
+        popup.show()
     }
 }

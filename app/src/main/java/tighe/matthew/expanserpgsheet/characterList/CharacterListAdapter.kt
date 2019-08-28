@@ -3,6 +3,7 @@ package tighe.matthew.expanserpgsheet.characterList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tighe.matthew.expanserpgsheet.R
@@ -11,6 +12,7 @@ import tighe.matthew.expanserpgsheet.model.CharacterModel
 class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
     interface ClickListeners {
         fun onClick(character: CharacterModel)
+        fun onOptionsClick(character: CharacterModel, anchor: View)
     }
 
     private val characters = mutableListOf<CharacterModel>()
@@ -18,6 +20,7 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var name = row.findViewById<TextView>(R.id.text_character_name)
         var maxFortune = row.findViewById<TextView>(R.id.text_max_fortune)
+        var options = row.findViewById<ImageView>(R.id.btn_options)
     }
 
     fun updateCharacters(newCharacters: List<CharacterModel>) {
@@ -41,6 +44,8 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
         val character = characters[position]
         holder.name.text = character.name
         holder.maxFortune.text = character.maxFortune.toString()
+
         holder.itemView.setOnClickListener { listeners.onClick(character) }
+        holder.options.setOnClickListener { listeners.onOptionsClick(character, holder.options) }
     }
 }
