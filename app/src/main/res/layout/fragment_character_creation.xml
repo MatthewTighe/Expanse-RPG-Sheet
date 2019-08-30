@@ -11,21 +11,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:hint="@string/hint_name"
+            app:layout_constraintEnd_toStartOf="@id/layout_input_max_fortune"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layout_input_max_fortune">
+            app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_name"
-                app:hintEnabled="true" />
+                android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_input_max_fortune"
+            android:hint="@string/hint_max_fortune"
+            app:hintEnabled="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
@@ -37,9 +38,7 @@
                 android:id="@+id/input_max_fortune"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/hint_max_fortune"
-                android:inputType="number"
-                app:hintEnabled="true"/>
+                android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

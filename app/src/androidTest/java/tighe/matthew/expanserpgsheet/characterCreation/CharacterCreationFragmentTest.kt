@@ -20,11 +20,11 @@ class CharacterCreationFragmentTest {
     @Before
     fun setup() {
         characterRepository = CharacterRepository(activityRule.activity)
+        activityRule.navTo(R.id.character_creation_fragment)
     }
 
     @Test
     fun characterValuesCanBeEnteredAndSaved() {
-        activityRule.navTo(R.id.character_creation_fragment)
         R.id.layout_fragment_character_creation.isDisplayed()
 
         val name = "TestCharacter"
@@ -37,4 +37,14 @@ class CharacterCreationFragmentTest {
         val result = characterRepository.load(name)
         assertEquals(expectedModel, result)
     }
+
+    @Test
+    fun errorIsDisplayedIfNameFieldIsEmpty() {
+        R.id.layout_fragment_character_creation.isDisplayed()
+
+        R.id.btn_save.click()
+
+        R.string.error_name_required.isDisplayed()
+    }
+
 }

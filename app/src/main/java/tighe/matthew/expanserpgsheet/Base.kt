@@ -2,13 +2,16 @@ package tighe.matthew.expanserpgsheet
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface BaseViewModel<V : ViewState, A : Action> {
@@ -20,6 +23,19 @@ interface BaseViewModel<V : ViewState, A : Action> {
 }
 
 interface ViewState
+
+interface TextInputFieldError {
+    val errorEnabled: Boolean
+    val errorMessage: Int
+    fun handleDisplay(view: TextInputLayout?) {
+        if (errorEnabled) {
+            view?.isErrorEnabled = true
+            view?.error = view?.context?.getString(errorMessage)
+        } else {
+            view?.isErrorEnabled = false
+        }
+    }
+}
 
 interface Action
 

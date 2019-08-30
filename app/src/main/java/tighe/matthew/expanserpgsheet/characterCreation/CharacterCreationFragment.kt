@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import org.koin.android.viewmodel.ext.android.viewModel
-import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.navTo
-import tighe.matthew.expanserpgsheet.onTextFinished
+import tighe.matthew.expanserpgsheet.*
 
 class CharacterCreationFragment : Fragment() {
     private val viewModel: CharacterCreationViewModel by viewModel()
@@ -30,6 +29,10 @@ class CharacterCreationFragment : Fragment() {
             }
         } })
 
+        viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
+            handleViewStateErrors(viewState)
+        } })
+
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->
             viewModel.submitAction(CharacterCreationAction.NameInput(name))
@@ -42,5 +45,10 @@ class CharacterCreationFragment : Fragment() {
 
         val saveBtn = activity?.findViewById<FloatingActionButton>(R.id.btn_save)!!
         saveBtn.setOnClickListener { viewModel.submitAction(CharacterCreationAction.Save) }
+    }
+
+    private fun handleViewStateErrors(viewState: CharacterCreationViewState) {
+        val nameView = activity?.findViewById<TextInputLayout>(R.id.layout_input_name)
+        viewState.nameError.handleDisplay(nameView)
     }
 }

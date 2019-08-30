@@ -14,5 +14,7 @@
     <string name="inc_5">+5</string>
     <string name="delete">Delete</string>
 
+    <string name="error_name_required">Name must be entered</string>
+
     <string name="desc_btn_options">Options buttons</string>
 </resources>
