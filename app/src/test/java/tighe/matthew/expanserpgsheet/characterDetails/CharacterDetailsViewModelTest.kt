@@ -4,12 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import tighe.matthew.expanserpgsheet.model.CharacterModel
-import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 class CharacterDetailsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
@@ -18,7 +17,8 @@ class CharacterDetailsViewModelTest {
     val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
 
     private val testInitialFortune = 10
-    private val testInitialCharacterModel = CharacterModel("name", testInitialFortune)
+    private val testInitialCharacterModel =
+        Character(0, "name", testInitialFortune)
 
     private lateinit var viewModel: CharacterDetailsViewModel
 

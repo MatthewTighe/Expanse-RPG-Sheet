@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
-import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 internal class CharacterDetailsViewModel(
     private val repository: CharacterRepository

@@ -10,11 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.model.CharacterModel
+import tighe.matthew.expanserpgsheet.model.character.Character
 
 class CharacterDetailsFragment : Fragment() {
     private val viewModel: CharacterDetailsViewModel by viewModel()
-    private val character: CharacterModel by lazy {
+    private val character: Character by lazy {
         val args: CharacterDetailsFragmentArgs by navArgs()
         args.character!!
     }

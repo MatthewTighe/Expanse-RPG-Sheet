@@ -3,13 +3,25 @@ package tighe.matthew.expanserpgsheet.characterCreation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.*
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.model.CharacterModel
-import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import kotlin.coroutines.CoroutineContext
 
 internal class CharacterCreationViewModel(
     private val repository: CharacterRepository
-) : ViewModel(), BaseViewModel<CharacterCreationViewState, CharacterCreationAction> {
+) : ViewModel(),
+    BaseViewModel<CharacterCreationViewState, CharacterCreationAction>,
+    CoroutineScope {
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun onCleared() {
+        this.coroutineContext.cancel()
+    }
 
     private val viewState = MutableLiveData<CharacterCreationViewState>().apply {
         postValue(CharacterCreationViewState())
@@ -19,7 +31,8 @@ internal class CharacterCreationViewModel(
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
-    var model: CharacterModel = CharacterModel()
+    var model: Character =
+        Character(0)
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {
@@ -44,7 +57,7 @@ internal class CharacterCreationViewModel(
 
     private fun handleSaveAction() {
         if (modelIsComplete()) {
-            repository.persist(model)
+            this.launch { repository.persist(model) }
             event.postValue(Event.Navigate(R.id.character_list_fragment))
             return
         }

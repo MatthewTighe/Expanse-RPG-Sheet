@@ -2,14 +2,15 @@ package tighe.matthew.expanserpgsheet.characterCreation
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.model.CharacterModel
-import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 @RunWith(AndroidJUnit4::class)
 class CharacterCreationFragmentTest {
@@ -19,7 +20,8 @@ class CharacterCreationFragmentTest {
 
     @Before
     fun setup() {
-        characterRepository = CharacterRepository(activityRule.activity)
+        characterRepository =
+            CharacterRepository(activityRule.activity)
         activityRule.navTo(R.id.character_creation_fragment)
     }
 
@@ -33,8 +35,8 @@ class CharacterCreationFragmentTest {
         R.id.input_max_fortune.writeText(fortune.toString())
         R.id.btn_save.click()
 
-        val expectedModel = CharacterModel(name, fortune)
-        val result = characterRepository.load(name)
+        val expectedModel = Character(1, name, fortune)
+        val result = runBlocking { characterRepository.load(1) }
         assertEquals(expectedModel, result)
     }
 

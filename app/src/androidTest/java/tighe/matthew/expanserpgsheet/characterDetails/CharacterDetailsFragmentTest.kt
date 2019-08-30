@@ -2,19 +2,19 @@ package tighe.matthew.expanserpgsheet.characterDetails
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.model.CharacterModel
+import tighe.matthew.expanserpgsheet.model.character.Character
 
 @RunWith(AndroidJUnit4::class)
 class CharacterDetailsFragmentTest {
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
     private val initialFortune = 25
-    private val initialModel = CharacterModel("name", initialFortune)
+    private val initialModel =
+        Character(0, "name", initialFortune)
 
     @Test
     fun characterFortuneCanBeIncremented() {

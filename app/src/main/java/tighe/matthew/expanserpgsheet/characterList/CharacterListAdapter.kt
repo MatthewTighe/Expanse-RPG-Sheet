@@ -7,15 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.model.CharacterModel
+import tighe.matthew.expanserpgsheet.model.character.Character
 
 class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
     interface ClickListeners {
-        fun onClick(character: CharacterModel)
-        fun onOptionsClick(character: CharacterModel, anchor: View)
+        fun onClick(character: Character)
+        fun onOptionsClick(character: Character, anchor: View)
     }
 
-    private val characters = mutableListOf<CharacterModel>()
+    private val characters = mutableListOf<Character>()
 
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var name = row.findViewById<TextView>(R.id.text_character_name)
@@ -23,11 +23,9 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
         var options = row.findViewById<ImageView>(R.id.btn_options)
     }
 
-    fun updateCharacters(newCharacters: List<CharacterModel>) {
-        for (character in newCharacters) {
-            if (characters.contains(character)) continue
-            characters.add(character)
-        }
+    fun updateCharacters(newCharacters: List<Character>) {
+        characters.clear()
+        characters.addAll(newCharacters)
         notifyDataSetChanged()
     }
 

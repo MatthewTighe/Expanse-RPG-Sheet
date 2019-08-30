@@ -2,19 +2,24 @@ package tighe.matthew.expanserpgsheet.characterCreation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Assert.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.test.KoinTest
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.model.CharacterModel
-import tighe.matthew.expanserpgsheet.repository.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 class CharacterCreationViewModelTest {
-    @get:Rule val rule = InstantTaskExecutorRule()
+
+    @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
+    private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockEventObserver = mockk<Observer<Event?>>(relaxUnitFun = true)
     private val mockViewStateObserver = mockk<Observer<ViewState>>(relaxed = true)
@@ -23,7 +28,10 @@ class CharacterCreationViewModelTest {
     private lateinit var viewModel: CharacterCreationViewModel
 
     @Before
+    @ExperimentalCoroutinesApi
     fun setup() {
+        Dispatchers.setMain(mainThreadSurrogate)
+
         viewModel = CharacterCreationViewModel(mockRepo)
         viewModel.observeEvent().observeForever(mockEventObserver)
         viewModel.observeViewState().observeForever(mockViewStateObserver)
@@ -31,13 +39,13 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Save action persists model to repository`() {
-        val model = CharacterModel("name", 10)
+        val model = Character(0, "name", 10)
 
         viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune))
         viewModel.submitAction(CharacterCreationAction.Save)
 
-        verify { mockRepo.persist(model) }
+        coVerify { mockRepo.persist(model) }
         verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_list_fragment)) }
     }
 

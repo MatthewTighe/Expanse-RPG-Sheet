@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.model.CharacterModel
+import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.navTo
 
 class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
@@ -48,17 +48,17 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         viewModel.submitAction(CharacterListAction.Refresh)
     }
 
-    override fun onClick(character: CharacterModel) {
+    override fun onClick(character: Character) {
         viewModel.submitAction(CharacterListAction.CharacterClicked(character))
     }
 
-    override fun onOptionsClick(character: CharacterModel, anchor: View) {
+    override fun onOptionsClick(character: Character, anchor: View) {
         val popup = PopupMenu(activity!!, anchor)
         popup.menuInflater.inflate(R.menu.menu_character_options, popup.menu)
         popup.show()
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.delete -> viewModel.submitAction(CharacterListAction.Delete(character))
+                R.id.item_delete -> viewModel.submitAction(CharacterListAction.Delete(character))
             }
             true
         }
