@@ -26,6 +26,9 @@ class CharacterDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val textName = activity?.findViewById<TextView>(R.id.text_character_name_details)
+        textName?.text = character.name
+
         val textFortune = activity?.findViewById<TextView>(R.id.text_fortune)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             textFortune?.text = viewState.fortune.toString()

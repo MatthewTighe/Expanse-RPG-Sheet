@@ -49,6 +49,7 @@ internal class CharacterCreationViewModel(
             return
         }
 
+        // TODO this is starting to look like a reducer
         val nameError = NameError(errorEnabled = model.name.isBlank())
 
         val updatedViewState = viewState.value!!.copy(nameError = nameError)
@@ -56,6 +57,7 @@ internal class CharacterCreationViewModel(
     }
 
     private fun modelIsComplete(): Boolean {
+        // TODO maybe the model itself should determine whether it has been filled?
         return model.name.isNotBlank()
     }
 }

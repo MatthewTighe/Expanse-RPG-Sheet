@@ -7,6 +7,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+            android:id="@+id/text_character_name_details"
+            android:text="@string/placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_fortune"/>
+
+    <TextView
             android:id="@+id/text_decrement_five"
             android:text="@string/dec_5"
             android:layout_width="wrap_content"
