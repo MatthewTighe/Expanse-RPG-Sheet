@@ -2,7 +2,6 @@ package tighe.matthew.expanserpgsheet.characterList
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.schibsted.spain.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -17,6 +16,7 @@ class CharacterListFragmentTest {
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
     private lateinit var characterRepository: CharacterRepository
+    private val modelName = "name"
     private val model = Character(0, "name", 10)
 
     @Before
@@ -37,16 +37,17 @@ class CharacterListFragmentTest {
         R.id.layout_fragment_character_creation.isDisplayed()
     }
 
-    // TODO figure out how to assert on context menu item
-//    @Test
-//    fun clickingOptionsShouldOpenMenuNotNav() {
-//        R.id.layout_fragment_character_list.isDisplayed()
-//
-//        R.id.btn_options.click()
-//
-//        R.id.item_delete.isDisplayed()
-//        R.id.character_details_fragment.isNotDisplayed()
-//    }
+    @Test
+    fun characterCanBeDeleted() {
+        R.id.layout_fragment_character_list.isDisplayed()
+        modelName.isDisplayed()
+
+        R.id.btn_options.click()
+
+        modelName.doesNotExist()
+        R.string.delete.isContained()
+        R.string.delete.click()
+    }
 
     @Test
     fun clickingCharacterNavsToDetails() {
