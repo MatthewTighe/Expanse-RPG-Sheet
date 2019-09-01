@@ -18,7 +18,7 @@ class CharacterRepository(context: Context) : Repository<Character> {
     }
 
     override suspend fun load(id: Long): Character {
-        return characterDao.getById(id).first()
+        return characterDao.getById(id)
     }
 
     override fun observeAll(): LiveData<List<Character>> {

@@ -15,5 +15,5 @@ internal interface CharacterDao {
     fun observeAll(): LiveData<List<Character>>
 
     @Query("SELECT * FROM character WHERE id = :id")
-    suspend fun getById(id: Long): List<Character>
+    suspend fun getById(id: Long): Character
 }

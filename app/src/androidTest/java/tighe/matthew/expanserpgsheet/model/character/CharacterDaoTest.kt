@@ -1,0 +1,73 @@
+package tighe.matthew.expanserpgsheet.model.character
+
+import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import tighe.matthew.expanserpgsheet.blockingObserve
+import tighe.matthew.expanserpgsheet.model.AppDatabase
+
+@RunWith(AndroidJUnit4::class)
+class CharacterDaoTest {
+    @get:Rule val rule = InstantTaskExecutorRule()
+
+    private lateinit var db: AppDatabase
+    private lateinit var characterDao: CharacterDao
+
+    private val character = Character(0, "name", 10)
+
+    @Before
+    fun setup() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+        characterDao = db.characterDao()
+    }
+
+    @Test
+    fun characterCanBeInserted() = runBlocking {
+        val id = characterDao.insert(character)
+
+        val result = characterDao.getById(id)
+        assertEquals(character.name, result.name)
+        assertEquals(character.maxFortune, result.maxFortune)
+    }
+
+    @Test
+    fun characterCanBeDeleted() = runBlocking {
+        val id = characterDao.insert(character)
+
+        val updatedCharacter = character.copy(id = id)
+        characterDao.delete(updatedCharacter)
+
+        val result = characterDao.getById(id)
+        assertNull(result)
+    }
+
+    @Test
+    fun characterListCanBeObserved() = runBlocking {
+        val id = characterDao.insert(character)
+
+        val data = characterDao.observeAll().blockingObserve()!!
+
+        val expected = listOf(character.copy(id = id))
+        assertEquals(expected, data)
+    }
+
+    @Test
+    fun characterCanBeRetrievedById() = runBlocking {
+        val id = characterDao.insert(character)
+
+        val result = characterDao.getById(id)
+
+        val expected = character.copy(id = id)
+        assertEquals(expected, result)
+    }
+}

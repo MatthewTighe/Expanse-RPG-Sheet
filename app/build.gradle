@@ -83,6 +83,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0-rc01"
 
     // Espresso core is included in Barista
     androidTestImplementation('com.schibsted.spain:barista:3.2.0') {

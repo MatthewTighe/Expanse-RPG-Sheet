@@ -28,10 +28,6 @@ fun String.click() {
     assertDisplayed(this)
 }
 
-@IdRes fun Int.doesNotExist() {
-    assertNotExist(this)
-}
-
 fun String.isDisplayed() {
     assertDisplayed(this)
 }

@@ -51,19 +51,10 @@ class CharacterListFragmentTest {
 
     @Test
     fun clickingCharacterNavsToDetails() {
-        val name = "TestCharacter"
-        val fortune = 25
-        insertNewCharacter(name, fortune)
-        Thread.sleep(10000)
-        name.isDisplayed()
+        modelName.isDisplayed()
 
-        name.click()
+        modelName.click()
 
         R.id.layout_fragment_character_details.isDisplayed()
-    }
-
-    private fun insertNewCharacter(name: String, fortune: Int) {
-        val model = Character(0, name, fortune)
-        runBlocking { characterRepository.persist(model) }
     }
 }
