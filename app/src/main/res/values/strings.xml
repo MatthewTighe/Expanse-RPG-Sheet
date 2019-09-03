@@ -12,6 +12,9 @@
     <string name="dec_1">-1</string>
     <string name="inc_1">+1</string>
     <string name="inc_5">+5</string>
+
+    <string name="characters">Characters</string>
+    <string name="encounter">Encounter</string>
     <string name="delete">Delete</string>
 
     <string name="error_name_required">Name must be entered</string>

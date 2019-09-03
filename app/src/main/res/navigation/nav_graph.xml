@@ -37,4 +37,10 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/encounter_fragment"
+        android:name="tighe.matthew.expanserpgsheet.encounter.EncounterFragment"
+        android:label="fragment_encounter"
+        tools:layout="@layout/fragment_encounter" />
+
 </navigation>
