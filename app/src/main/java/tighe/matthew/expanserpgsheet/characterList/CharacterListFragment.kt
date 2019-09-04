@@ -58,6 +58,9 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         popup.show()
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
+                R.id.item_add_to_encounter -> {
+                    viewModel.submitAction(CharacterListAction.AddToEncounter(character, 0))
+                }
                 R.id.item_delete -> viewModel.submitAction(CharacterListAction.Delete(character))
             }
             true

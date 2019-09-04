@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bb51523a5b983f59b35d433c095ecb45",
+    "identityHash": "0b2407b1aa6efbad3e73530e98c0fdf2",
     "entities": [
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL, `bundleKey` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -25,12 +25,6 @@
             "columnName": "maxFortune",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "bundleKey",
-            "columnName": "bundleKey",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -41,12 +35,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "character_encounter_detail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `initiative` INTEGER NOT NULL, `characterId` INTEGER NOT NULL, PRIMARY KEY(`position`))",
+        "fields": [
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "initiative",
+            "columnName": "initiative",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "characterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "position"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bb51523a5b983f59b35d433c095ecb45')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0b2407b1aa6efbad3e73530e98c0fdf2')"
     ]
   }
 }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/item_add_to_encounter"
+        android:title="@string/add_encounter"/>
+
+    <item
         android:id="@+id/item_delete"
         android:title="@string/delete" />
 </menu>

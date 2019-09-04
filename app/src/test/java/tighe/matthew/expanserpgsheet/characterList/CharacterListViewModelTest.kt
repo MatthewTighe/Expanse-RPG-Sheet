@@ -1,7 +1,6 @@
 package tighe.matthew.expanserpgsheet.characterList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.mockk.*
@@ -70,7 +69,7 @@ class CharacterListViewModelTest {
 
     @Test
     fun `Delete action delegates to model`() {
-        val characterModel = Character(0,"test1", 15)
+        val characterModel = Character(0, "test1", 15)
         viewModel.submitAction(CharacterListAction.Delete(characterModel))
 
         coVerify { mockRepo.delete(characterModel) }

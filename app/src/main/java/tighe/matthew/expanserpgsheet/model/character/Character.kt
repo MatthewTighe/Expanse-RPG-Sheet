@@ -10,6 +10,8 @@ import tighe.matthew.expanserpgsheet.model.Model
 data class Character(
     @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String = "",
-    val maxFortune: Int = 0,
-    override val bundleKey: String = "character"
-) : Model
+    val maxFortune: Int = 0
+) : Model {
+    override val bundleKey: String
+        get() = "character"
+}

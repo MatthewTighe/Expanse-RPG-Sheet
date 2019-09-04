@@ -2,30 +2,30 @@ package tighe.matthew.expanserpgsheet.model.character
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import tighe.matthew.expanserpgsheet.appendStringSet
-import tighe.matthew.expanserpgsheet.delete
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import tighe.matthew.expanserpgsheet.model.AppDatabase
-import tighe.matthew.expanserpgsheet.model.DatabaseEntity
-import tighe.matthew.expanserpgsheet.model.Repository
-import tighe.matthew.expanserpgsheet.putInt
-import tighe.matthew.expanserpgsheet.removeFromStringSet
 
-class CharacterRepository(context: Context) : Repository<Character> {
+class CharacterRepository(context: Context) {
     private val characterDao = AppDatabase.getInstance(context).characterDao()
 
-    override suspend fun persist(model: Character) {
+    suspend fun persist(model: Character) {
         characterDao.insert(model)
     }
 
-    override suspend fun load(id: Long): Character {
+    suspend fun load(id: Long): Character {
         return characterDao.getById(id)
     }
 
-    override fun observeAll(): LiveData<List<Character>> {
+    suspend fun loadAll(): List<Character> {
+        return characterDao.loadAll()
+    }
+
+    fun observeAll(): Flow<List<Character>> {
         return characterDao.observeAll()
     }
 
-    override suspend fun delete(model: Character) {
+    suspend fun delete(model: Character) {
         characterDao.delete(model)
     }
 }

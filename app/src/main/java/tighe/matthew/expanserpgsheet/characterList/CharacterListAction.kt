@@ -6,6 +6,7 @@ import tighe.matthew.expanserpgsheet.model.character.Character
 internal sealed class CharacterListAction : Action {
     object Refresh : CharacterListAction()
     object Add : CharacterListAction()
+    data class AddToEncounter(val character: Character, val initiative: Int) : CharacterListAction()
     data class Delete(val character: Character) : CharacterListAction()
     data class CharacterClicked(val character: Character) : CharacterListAction()
 }

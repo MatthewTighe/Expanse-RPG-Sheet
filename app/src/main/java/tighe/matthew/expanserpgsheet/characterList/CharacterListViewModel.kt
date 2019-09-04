@@ -2,18 +2,20 @@ package tighe.matthew.expanserpgsheet.characterList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 import kotlin.coroutines.CoroutineContext
 
 internal class CharacterListViewModel(
-    private val repository: CharacterRepository
+    private val characterRepository: CharacterRepository,
+    private val encounterRepository: EncounterRepository
 ) : ViewModel(),
     BaseViewModel<CharacterListViewState, CharacterListAction>,
     CoroutineScope {
@@ -32,16 +34,24 @@ internal class CharacterListViewModel(
         when (action) {
             is CharacterListAction.Refresh -> {
                 viewState.postValue(CharacterListViewState(loading = true))
-                repository.observeAll().observeForever { it?.let { characters ->
-                    viewState.postValue(CharacterListViewState(characterList = characters))
-                } }
+                this.launch {
+                    characterRepository.observeAll().collect { characters ->
+                        viewState.postValue(CharacterListViewState(characterList = characters))
+                    }
+                }
             }
             is CharacterListAction.Add -> {
                 event.postValue(Event.Navigate(R.id.character_creation_fragment))
             }
+            is CharacterListAction.AddToEncounter -> {
+                this.launch {
+                    encounterRepository.addCharacter(action.character, action.initiative)
+                    // TODO event.postValue(Snackbar)
+                }
+            }
             is CharacterListAction.Delete -> {
                 this.launch {
-                    repository.delete(action.character)
+                    characterRepository.delete(action.character)
                 }
             }
             is CharacterListAction.CharacterClicked -> {

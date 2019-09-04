@@ -48,5 +48,4 @@ class CharacterCreationFragmentTest {
 
         R.string.error_name_required.isDisplayed()
     }
-
 }
