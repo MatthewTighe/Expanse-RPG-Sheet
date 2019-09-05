@@ -9,8 +9,8 @@
     <string name="hint_name">Character name</string>
     <string name="hint_max_fortune">Max fortune</string>
     <string name="hint_current_fortune">Current fortune</string>
-    <string name="fortune">Fortune</string>
-    <string name="initiative">Initiative</string>
+    <string name="label_max_fortune">Max Fortune:</string>
+    <string name="label_initiative">Initiative:</string>
 
     <string name="status">Status</string>
     <string name="injured">Injured</string>
