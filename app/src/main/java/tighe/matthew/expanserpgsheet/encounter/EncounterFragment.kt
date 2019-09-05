@@ -26,9 +26,9 @@ class EncounterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val test = activity?.findViewById<TextView>(R.id.text_test)
-        viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            test?.text =  viewState.encounter.characters.first().character.name
-        } })
+//        val test = activity?.findViewById<TextView>(R.id.text_test)
+//        viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
+//            test?.text =  viewState.encounter.characters.first().character.name
+//        } })
     }
 }

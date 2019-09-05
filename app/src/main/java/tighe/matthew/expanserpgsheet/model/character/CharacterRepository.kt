@@ -17,10 +17,6 @@ class CharacterRepository(context: Context) {
         return characterDao.getById(id)
     }
 
-    suspend fun loadAll(): List<Character> {
-        return characterDao.loadAll()
-    }
-
     fun observeAll(): Flow<List<Character>> {
         return characterDao.observeAll()
     }

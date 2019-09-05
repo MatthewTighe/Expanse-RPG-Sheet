@@ -7,6 +7,8 @@
 
     <string name="hint_name">Character name</string>
     <string name="hint_max_fortune">Max fortune</string>
+    <string name="hint_current_fortune">Current fortune</string>
+    <string name="fortune">Fortune</string>
 
     <string name="dec_5">-5</string>
     <string name="dec_1">-1</string>
