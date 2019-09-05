@@ -5,14 +5,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    <!--
    <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/list_encounter_characters"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            app:layout_constraintTop_toTopOf="parent"
            app:layout_constraintBottom_toBottomOf="parent"/>
-           -->
-    <include layout="@layout/list_item_encounter_character" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

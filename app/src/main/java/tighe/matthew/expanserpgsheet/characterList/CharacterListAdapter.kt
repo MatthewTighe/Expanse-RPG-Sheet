@@ -10,6 +10,7 @@ import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.character.Character
 
 class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
+
     interface ClickListeners {
         fun onClick(character: Character)
         fun onOptionsClick(character: Character, anchor: View)
@@ -34,10 +35,6 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
             .inflate(R.layout.list_item_character, parent, false))
     }
 
-    override fun getItemCount(): Int {
-        return characters.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = characters[position]
         holder.name.text = character.name
@@ -45,5 +42,9 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
 
         holder.itemView.setOnClickListener { listeners.onClick(character) }
         holder.options.setOnClickListener { listeners.onOptionsClick(character, holder.options) }
+    }
+
+    override fun getItemCount(): Int {
+        return characters.size
     }
 }
