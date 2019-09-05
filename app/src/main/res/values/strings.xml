@@ -4,12 +4,20 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="placeholder">Placeholder</string>
+    <string name="number_placeholder">0</string>
 
     <string name="hint_name">Character name</string>
     <string name="hint_max_fortune">Max fortune</string>
     <string name="hint_current_fortune">Current fortune</string>
     <string name="fortune">Fortune</string>
+    <string name="initiative">Initiative</string>
 
+    <string name="status">Status</string>
+    <string name="injured">Injured</string>
+    <string name="wounded">Wounded</string>
+    <string name="taken_out">Taken out</string>
+
+    <string name="colon">:</string>
     <string name="dec_5">-5</string>
     <string name="dec_1">-1</string>
     <string name="inc_1">+1</string>

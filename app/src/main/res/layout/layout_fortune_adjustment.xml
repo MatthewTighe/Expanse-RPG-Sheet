@@ -24,8 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/placeholder"
-                android:textAlignment="center"/>
+                android:text="@string/number_placeholder"
+                android:inputType="number"
+                android:textAlignment="center" />
 
         <TextView
                 android:layout_width="wrap_content"
