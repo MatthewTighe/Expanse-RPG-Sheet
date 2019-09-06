@@ -5,18 +5,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import tighe.matthew.expanserpgsheet.model.AppDatabase
 import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterDao
 
-class EncounterRepository(context: Context) {
-    private val characterEncounterDetailDao = AppDatabase.getInstance(context)
-        .characterEncounterDetailDao()
-
-    private val characterDao = AppDatabase.getInstance(context).characterDao()
-
+class EncounterRepository(
+    private val characterDao: CharacterDao,
+    private val characterEncounterDetailDao: CharacterEncounterDetailDao
+) {
     private val encounterCharacters = mutableListOf<EncounterCharacter>()
 
     private var testInit = 0
 
-    @ExperimentalCoroutinesApi
     fun getEncounter(): Flow<Encounter> {
         return characterEncounterDetailDao.flowAll().map { list ->
             val sorted = list.sortedByDescending { detail -> detail.position }
@@ -24,26 +22,6 @@ class EncounterRepository(context: Context) {
             encounterCharacters.addAll(sorted.toEncounterCharacters())
             Encounter(encounterCharacters)
         }
-//        return flow {
-//            encounterCharacters.clear()
-
-//            val characterEncounterDetails: List<CharacterEncounterDetail> = characterEncounterDetailDao.observeAll()
-//                .single()
-//                .sortedByDescending { it.position }
-//            encounterCharacters.addAll(
-//                characterEncounterDetails.toEncounterCharacters()
-//            )
-//            emit(
-//                Encounter(encounterCharacters)
-//            )
-//            characterEncounterDetailDao.observeAll()
-//                .onEach {
-//                    encounterCharacters.clear()
-//                    val sorted = it.sortedByDescending { it.position }
-//                    encounterCharacters.addAll(
-//                        sorted.toEncounterCharacters()
-//                    )
-//                }
     }
 
     suspend fun addCharacter(character: Character, initiative: Int) {

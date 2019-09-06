@@ -15,6 +15,7 @@ import kotlin.coroutines.CoroutineContext
 class EncounterViewModel(
     private val encounterRepository: EncounterRepository
 ) : ViewModel(), BaseViewModel<EncounterViewState, EncounterAction>, CoroutineScope {
+
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job

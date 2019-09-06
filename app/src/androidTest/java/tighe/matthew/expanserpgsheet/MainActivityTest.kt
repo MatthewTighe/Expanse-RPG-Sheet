@@ -44,4 +44,27 @@ class MainActivityTest {
         R.id.text_decrement_five.click()
         expectedInitialFortune.toString().isDisplayed()
     }
+
+    @Test
+    fun characterCanBeAddedAndThenAddedToEncounter() {
+        val expectedName = "name"
+        val expectedInitialFortune = 25
+        // Start fragment is character list
+        R.id.layout_fragment_character_list.isDisplayed()
+
+        // Nav and create new character
+        R.id.btn_create_new.click()
+        R.id.input_name.writeText(expectedName)
+        R.id.input_max_fortune.writeText(expectedInitialFortune.toString())
+        R.id.btn_save.click()
+
+        // Character has been added to list. Click options and add it to an encounter.
+        R.id.layout_fragment_character_list.isDisplayed()
+        expectedName.isDisplayed()
+        R.id.btn_options.click()
+        R.string.add_encounter.click()
+        R.id.encounter_fragment.click()
+
+        R.id.layout_encounter_fortune_adjustment.isDisplayed()
+    }
 }

@@ -4,8 +4,7 @@ import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import tighe.matthew.expanserpgsheet.model.AppDatabase
 
-class CharacterRepository(context: Context) {
-    private val characterDao = AppDatabase.getInstance(context).characterDao()
+class CharacterRepository(private val characterDao: CharacterDao) {
 
     suspend fun persist(model: Character) {
         characterDao.insert(model)

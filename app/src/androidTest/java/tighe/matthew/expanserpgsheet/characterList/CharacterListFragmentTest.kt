@@ -7,22 +7,23 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.startKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
 import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 @RunWith(AndroidJUnit4::class)
-class CharacterListFragmentTest {
+class CharacterListFragmentTest : KoinTest {
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
-    private lateinit var characterRepository: CharacterRepository
+    private val characterRepository by inject<CharacterRepository>()
     private val modelName = "name"
     private val model = Character(0, "name", 10)
 
     @Before
     fun setup() {
-        characterRepository =
-            CharacterRepository(activityRule.activity)
         runBlocking {
             characterRepository.persist(model)
         }

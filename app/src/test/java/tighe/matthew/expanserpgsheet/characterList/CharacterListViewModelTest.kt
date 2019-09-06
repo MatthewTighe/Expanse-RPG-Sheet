@@ -8,6 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
@@ -21,7 +22,6 @@ import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 class CharacterListViewModelTest {
 
     @get:Rule val rule = InstantTaskExecutorRule()
-    @ExperimentalCoroutinesApi
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockCharacterRepo = mockk<CharacterRepository>(relaxUnitFun = true)
@@ -37,12 +37,11 @@ class CharacterListViewModelTest {
         Dispatchers.setMain(mainThreadSurrogate)
 
         viewModel = CharacterListViewModel(mockCharacterRepo, mockEncounterRepo)
-        viewModel.observeViewState().observeForever(mockViewStateObserver)
         viewModel.observeEvent().observeForever(mockEventObserver)
     }
 
     @Test
-    fun `Refresh action updates view and loads from the repository`() {
+    fun `Refresh action updates view and loads from the repository`() = runBlockingTest {
         val char1 = Character(0, "name1", 10)
         val char2 = Character(0, "name2", 15)
         val expectedList = listOf(char1, char2)
@@ -51,13 +50,11 @@ class CharacterListViewModelTest {
             emit(expectedList)
         }
 
-        viewModel.submitAction(CharacterListAction.Refresh)
+        viewModel.observeViewState().observeForever(mockViewStateObserver)
 
         coVerify {
             mockCharacterRepo.observeAll()
-            mockViewStateObserver.onChanged(CharacterListViewState(loading = true, characterList = listOf()))
-            delay(100) // TODO find a cleaner solution to this
-            mockViewStateObserver.onChanged(CharacterListViewState(loading = false, characterList = expectedList))
+            mockViewStateObserver.onChanged(CharacterListViewState(expectedList))
         }
 
         confirmVerified(mockCharacterRepo, mockViewStateObserver)

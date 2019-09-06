@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
@@ -28,18 +30,16 @@ internal class CharacterListViewModel(
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
     private val viewState = MutableLiveData<CharacterListViewState>()
-    override fun observeViewState(): LiveData<CharacterListViewState> { return viewState }
+    @ExperimentalCoroutinesApi
+    override fun observeViewState(): LiveData<CharacterListViewState> {
+        characterRepository.observeAll().onEach { characters ->
+            viewState.postValue(CharacterListViewState(characterList = characters))
+        }.launchIn(this)
+        return viewState
+    }
 
     override fun submitAction(action: CharacterListAction) {
         when (action) {
-            is CharacterListAction.Refresh -> {
-                viewState.postValue(CharacterListViewState(loading = true))
-                this.launch {
-                    characterRepository.observeAll().collect { characters ->
-                        viewState.postValue(CharacterListViewState(characterList = characters))
-                    }
-                }
-            }
             is CharacterListAction.Add -> {
                 event.postValue(Event.Navigate(R.id.character_creation_fragment))
             }
