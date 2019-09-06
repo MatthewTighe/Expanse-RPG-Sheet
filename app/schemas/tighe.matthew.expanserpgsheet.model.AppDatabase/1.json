@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0b2407b1aa6efbad3e73530e98c0fdf2",
+    "identityHash": "0f84a0a2ab0da51da618c070db0cbb5b",
     "entities": [
       {
         "tableName": "Character",
@@ -38,7 +38,7 @@
       },
       {
         "tableName": "character_encounter_detail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `initiative` INTEGER NOT NULL, `characterId` INTEGER NOT NULL, PRIMARY KEY(`position`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`position` INTEGER NOT NULL, `initiative` INTEGER NOT NULL, `characterId` INTEGER NOT NULL, PRIMARY KEY(`position`), FOREIGN KEY(`characterId`) REFERENCES `Character`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "position",
@@ -66,13 +66,25 @@
           "autoGenerate": false
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Character",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "characterId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0b2407b1aa6efbad3e73530e98c0fdf2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0f84a0a2ab0da51da618c070db0cbb5b')"
     ]
   }
 }
