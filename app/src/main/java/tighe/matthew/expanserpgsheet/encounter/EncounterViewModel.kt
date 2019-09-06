@@ -32,6 +32,5 @@ class EncounterViewModel(
     }
 
     override fun submitAction(action: EncounterAction) {
-
     }
 }

@@ -65,9 +65,9 @@ class EncounterRepository(context: Context) {
     }
 
     private fun getNewPositionByInitiative(initiative: Int): Int {
-       val index = encounterCharacters.indexOfFirst { encounterCharacter ->
-               encounterCharacter.detail.initiative <=initiative
-       }
-       return if (index == -1) 0 else index
+        val index = encounterCharacters.indexOfFirst { encounterCharacter ->
+            encounterCharacter.detail.initiative <= initiative
+        }
+        return if (index == -1) 0 else index
     }
 }

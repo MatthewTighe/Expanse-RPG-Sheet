@@ -1,11 +1,12 @@
 package tighe.matthew.expanserpgsheet.characterList
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -15,6 +16,7 @@ import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 
 class CharacterListViewModelTest {
 
@@ -22,11 +24,10 @@ class CharacterListViewModelTest {
     @ExperimentalCoroutinesApi
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
-    private val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
+    private val mockCharacterRepo = mockk<CharacterRepository>(relaxUnitFun = true)
+    private val mockEncounterRepo = mockk<EncounterRepository>(relaxUnitFun = true)
     private val mockViewStateObserver = mockk<Observer<CharacterListViewState>>(relaxUnitFun = true)
     private val mockEventObserver = mockk<Observer<Event>>(relaxUnitFun = true)
-
-    private val charactersLiveData = MutableLiveData<List<Character>>()
 
     private lateinit var viewModel: CharacterListViewModel
 
@@ -35,7 +36,7 @@ class CharacterListViewModelTest {
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
 
-        viewModel = CharacterListViewModel(mockRepo)
+        viewModel = CharacterListViewModel(mockCharacterRepo, mockEncounterRepo)
         viewModel.observeViewState().observeForever(mockViewStateObserver)
         viewModel.observeEvent().observeForever(mockEventObserver)
     }
@@ -46,18 +47,20 @@ class CharacterListViewModelTest {
         val char2 = Character(0, "name2", 15)
         val expectedList = listOf(char1, char2)
 
-        coEvery { mockRepo.observeAll() } returns charactersLiveData
+        coEvery { mockCharacterRepo.observeAll() } returns flow {
+            emit(expectedList)
+        }
 
-        charactersLiveData.postValue(expectedList)
         viewModel.submitAction(CharacterListAction.Refresh)
 
         coVerify {
-            mockRepo.observeAll()
+            mockCharacterRepo.observeAll()
             mockViewStateObserver.onChanged(CharacterListViewState(loading = true, characterList = listOf()))
+            delay(100) // TODO find a cleaner solution to this
             mockViewStateObserver.onChanged(CharacterListViewState(loading = false, characterList = expectedList))
         }
 
-        confirmVerified(mockRepo, mockViewStateObserver)
+        confirmVerified(mockCharacterRepo, mockViewStateObserver)
     }
 
     @Test
@@ -72,7 +75,7 @@ class CharacterListViewModelTest {
         val characterModel = Character(0, "test1", 15)
         viewModel.submitAction(CharacterListAction.Delete(characterModel))
 
-        coVerify { mockRepo.delete(characterModel) }
+        coVerify { mockCharacterRepo.delete(characterModel) }
     }
 
     @Test

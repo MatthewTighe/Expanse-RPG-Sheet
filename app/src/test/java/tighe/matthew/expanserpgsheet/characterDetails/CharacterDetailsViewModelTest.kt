@@ -13,8 +13,8 @@ import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 class CharacterDetailsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
-    val mockViewStateObserver = mockk<Observer<CharacterDetailsViewState>>(relaxUnitFun = true)
-    val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
+    private val mockViewStateObserver = mockk<Observer<CharacterDetailsViewState>>(relaxUnitFun = true)
+    private val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
 
     private val testInitialFortune = 10
     private val testInitialCharacterModel =

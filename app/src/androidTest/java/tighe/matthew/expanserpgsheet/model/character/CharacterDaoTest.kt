@@ -5,13 +5,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import tighe.matthew.expanserpgsheet.blockingObserve
 import tighe.matthew.expanserpgsheet.model.AppDatabase
 
 @RunWith(AndroidJUnit4::class)
@@ -54,7 +54,7 @@ class CharacterDaoTest {
     fun characterListCanBeObserved() = runBlocking {
         val id = characterDao.insert(character)
 
-        val data = characterDao.observeAll().blockingObserve()!!
+        val data = characterDao.observeAll().first()
 
         val expected = listOf(character.copy(id = id))
         assertEquals(expected, data)

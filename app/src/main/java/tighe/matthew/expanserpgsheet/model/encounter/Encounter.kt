@@ -1,5 +1,5 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
-data class Encounter (
+data class Encounter(
     val characters: List<EncounterCharacter>
 )

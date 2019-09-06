@@ -18,7 +18,7 @@ class EncounterAdapter(private val listeners: ClickListeners) :
         fun onIncClick(character: EncounterCharacter)
     }
 
-    class ViewHolder(row: View): RecyclerView.ViewHolder(row) {
+    class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var name = row.findViewById<TextView>(R.id.text_encounter_character_name)
         var initiative = row.findViewById<TextView>(R.id.text_encounter_initiative)
         var maxFortune = row.findViewById<TextView>(R.id.text_encounter_max_fortune)
