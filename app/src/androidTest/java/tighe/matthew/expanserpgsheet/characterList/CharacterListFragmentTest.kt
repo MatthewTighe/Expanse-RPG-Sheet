@@ -57,4 +57,13 @@ class CharacterListFragmentTest : KoinTest {
 
         R.id.layout_fragment_character_details.isDisplayed()
     }
+
+    @Test
+    fun clickingAddToEncounterDisplaysDialog() {
+        R.id.btn_options.click()
+
+        R.string.add_encounter.click()
+
+        R.string.entry_initiative.isContained()
+    }
 }

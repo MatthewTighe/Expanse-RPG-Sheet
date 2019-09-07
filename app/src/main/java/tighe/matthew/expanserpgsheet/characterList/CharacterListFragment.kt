@@ -1,9 +1,12 @@
 package tighe.matthew.expanserpgsheet.characterList
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,10 +19,15 @@ import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.navTo
 
-class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
+class CharacterListFragment :
+    Fragment(),
+    CharacterListAdapter.ClickListeners {
     private val viewModel: CharacterListViewModel by viewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_character_list, container, false)
     }
 
@@ -38,6 +46,8 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         recyclerView.adapter = adapter
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             adapter.updateCharacters(viewState.characterList)
+            handleInitiativeDialog(viewState)
+
         } })
 
         val createBtn = activity?.findViewById<FloatingActionButton>(R.id.btn_create_new)!!
@@ -59,11 +69,33 @@ class CharacterListFragment : Fragment(), CharacterListAdapter.ClickListeners {
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.item_add_to_encounter -> {
-                    viewModel.submitAction(CharacterListAction.AddToEncounter(character, 0))
+                    viewModel.submitAction(CharacterListAction.AddToEncounterClicked(character))
                 }
                 R.id.item_delete -> viewModel.submitAction(CharacterListAction.Delete(character))
             }
             true
         }
+    }
+
+    private fun handleInitiativeDialog(viewState: CharacterListViewState) {
+        if (!viewState.initiativeDialogShouldBeDisplayed) return
+        val editText = EditText(activity!!)
+        editText.inputType = InputType.TYPE_CLASS_NUMBER
+        AlertDialog.Builder(activity)
+            .setView(editText)
+            .setMessage(R.string.entry_initiative)
+            .setPositiveButton(R.string.add) { dialog, _ ->
+                val initiative = editText.text.toString().toInt()
+                val action = CharacterListAction.InitiativeEntered(
+                    initiative,
+                    viewState.characterBeingManipulated
+                )
+                viewModel.submitAction(action)
+                dialog.dismiss()
+            }
+            .setNeutralButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create().show()
     }
 }

@@ -10,6 +10,7 @@ import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 import kotlin.coroutines.CoroutineContext
@@ -28,11 +29,15 @@ internal class CharacterListViewModel(
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
-    private val viewState = MutableLiveData<CharacterListViewState>()
+    private val viewState = MutableLiveData<CharacterListViewState>().apply {
+        postValue(CharacterListViewState())
+    }
     @ExperimentalCoroutinesApi
     override fun observeViewState(): LiveData<CharacterListViewState> {
         characterRepository.observeAll().onEach { characters ->
-            viewState.postValue(CharacterListViewState(characterList = characters))
+            val update = viewState.value?.copy(characterList = characters) ?:
+            CharacterListViewState(characterList = characters)
+            viewState.postValue(update)
         }.launchIn(this)
         return viewState
     }
@@ -42,9 +47,23 @@ internal class CharacterListViewModel(
             is CharacterListAction.Add -> {
                 event.postValue(Event.Navigate(R.id.character_creation_fragment))
             }
-            is CharacterListAction.AddToEncounter -> {
+            is CharacterListAction.AddToEncounterClicked -> {
                 this.launch {
-                    encounterRepository.addCharacter(action.character, action.initiative)
+                    val character = action.character
+                    if (encounterRepository.characterIsInEncounter(character)) {
+                        // TODO event.postValue(Snackbar)
+                    } else {
+                        val update = viewState.value!!.copy(
+                            initiativeDialogShouldBeDisplayed = true,
+                            characterBeingManipulated = action.character
+                        )
+                        viewState.postValue(update)
+                    }
+                }
+            }
+            is CharacterListAction.InitiativeEntered -> {
+                this.launch {
+                    encounterRepository.addCharacter(action.character!!, action.initiative)
                     // TODO event.postValue(Snackbar)
                 }
             }

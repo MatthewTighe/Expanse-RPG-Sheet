@@ -11,6 +11,7 @@
     <string name="hint_current_fortune">Current fortune</string>
     <string name="label_max_fortune">Max Fortune:</string>
     <string name="label_initiative">Initiative:</string>
+    <string name="entry_initiative">Set character\'s initiative:</string>
 
     <string name="status">Status</string>
     <string name="injured">Injured</string>
@@ -25,6 +26,8 @@
 
     <string name="characters">Characters</string>
     <string name="encounter">Encounter</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
     <string name="add_encounter">Add to encounter</string>
     <string name="delete">Delete</string>
 

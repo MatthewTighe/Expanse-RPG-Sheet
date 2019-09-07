@@ -3,10 +3,8 @@ package tighe.matthew.expanserpgsheet.characterList
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import io.mockk.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
@@ -82,5 +80,31 @@ class CharacterListViewModelTest {
 
         val expectedArgs = listOf(model.buildNavArg())
         verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_details_fragment, expectedArgs)) }
+    }
+
+    @Test
+    fun `Snackbar event is posted if a character is already in an encounter`() {
+        // TODO
+    }
+
+    @Test
+    fun `Clicking add to encounter posts viewstate that dialog should be displayed`() {
+        val model = Character(0, "name", 15)
+
+        coEvery { mockEncounterRepo.characterIsInEncounter(model) } returns false
+        coEvery { mockCharacterRepo.observeAll() } returns flow {
+            emit(listOf(model))
+        }
+        viewModel.observeViewState().observeForever(mockViewStateObserver)
+
+        viewModel.submitAction(CharacterListAction.AddToEncounterClicked(model))
+
+        val expected = CharacterListViewState(listOf(model), true, model)
+        verify { mockViewStateObserver.onChanged(expected) }
+    }
+
+    @Test
+    fun `Snackbar event is posted once character is added to encounter`() {
+        // TODO
     }
 }

@@ -63,8 +63,18 @@ class MainActivityTest {
         expectedName.isDisplayed()
         R.id.btn_options.click()
         R.string.add_encounter.click()
+
+        // Enter initiative
+        val expectedInitiative = 10
+        R.id.edit_initiative_entry.isDisplayed()
+        R.id.edit_initiative_entry.writeText(expectedInitiative.toString())
+        R.string.add.click()
+
         R.id.encounter_fragment.click()
 
         R.id.layout_encounter_fortune_adjustment.isDisplayed()
+        expectedName.isDisplayed()
+        expectedInitialFortune.isDisplayed()
+        expectedInitiative.isDisplayed()
     }
 }

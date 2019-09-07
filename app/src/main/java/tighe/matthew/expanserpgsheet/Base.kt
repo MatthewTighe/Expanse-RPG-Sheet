@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -53,7 +54,13 @@ fun navArgsToBundle(args: List<NavigationArgument>): Bundle {
 }
 
 sealed class Event {
-    data class Navigate(@IdRes val fragment: Int, val navigationArgs: List<NavigationArgument> = listOf()) : Event()
+    data class Navigate(
+        @IdRes val fragment: Int,
+        val navigationArgs: List<NavigationArgument> = listOf()
+    ) : Event()
+    data class Snackbar(
+        @StringRes val message: Int
+    )
 }
 
 class SingleLiveEvent<E : Event> : MutableLiveData<E>() {
