@@ -58,9 +58,7 @@ sealed class Event {
         @IdRes val fragment: Int,
         val navigationArgs: List<NavigationArgument> = listOf()
     ) : Event()
-    data class Snackbar(
-        @StringRes val message: Int
-    )
+    data class Snackbar(@StringRes val message: Int) : Event()
 }
 
 class SingleLiveEvent<E : Event> : MutableLiveData<E>() {

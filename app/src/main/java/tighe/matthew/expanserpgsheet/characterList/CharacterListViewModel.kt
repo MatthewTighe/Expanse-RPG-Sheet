@@ -51,7 +51,7 @@ internal class CharacterListViewModel(
                 this.launch {
                     val character = action.character
                     if (encounterRepository.characterIsInEncounter(character)) {
-                        // TODO event.postValue(Snackbar)
+                        event.postValue(Event.Snackbar(R.string.character_already_in_encounter))
                     } else {
                         val update = viewState.value!!.copy(
                             initiativeDialogShouldBeDisplayed = true,
@@ -64,7 +64,7 @@ internal class CharacterListViewModel(
             is CharacterListAction.InitiativeEntered -> {
                 this.launch {
                     encounterRepository.addCharacter(action.character!!, action.initiative)
-                    // TODO event.postValue(Snackbar)
+                    event.postValue(Event.Snackbar(R.string.character_added_encounter))
                 }
             }
             is CharacterListAction.Delete -> {

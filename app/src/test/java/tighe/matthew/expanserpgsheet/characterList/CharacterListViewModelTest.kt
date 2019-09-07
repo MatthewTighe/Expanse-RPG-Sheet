@@ -84,7 +84,13 @@ class CharacterListViewModelTest {
 
     @Test
     fun `Snackbar event is posted if a character is already in an encounter`() {
-        // TODO
+        val model = Character(0, "name", 15)
+
+        coEvery { mockEncounterRepo.characterIsInEncounter(model) } returns true
+
+        viewModel.submitAction(CharacterListAction.AddToEncounterClicked(model))
+
+        mockEventObserver.onChanged(Event.Snackbar(R.string.character_already_in_encounter))
     }
 
     @Test
@@ -105,6 +111,10 @@ class CharacterListViewModelTest {
 
     @Test
     fun `Snackbar event is posted once character is added to encounter`() {
-        // TODO
+        val model = Character(0, "name", 15)
+
+        viewModel.submitAction(CharacterListAction.InitiativeEntered(0, model))
+
+        mockEventObserver.onChanged(Event.Snackbar(R.string.character_already_in_encounter))
     }
 }

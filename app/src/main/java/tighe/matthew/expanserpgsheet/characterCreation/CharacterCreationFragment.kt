@@ -24,7 +24,8 @@ class CharacterCreationFragment : Fragment() {
 
         viewModel.observeEvent().observe(this, Observer { it?.let { event ->
             return@let when (event) {
-                is Event.Navigate -> navTo(event)
+                is Event.Navigate -> { navTo(event) }
+                is Event.Snackbar -> { activity?.shortSnack(event.message) }
             }
         } })
 

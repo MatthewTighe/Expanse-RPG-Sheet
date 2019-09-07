@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.navTo
+import tighe.matthew.expanserpgsheet.shortSnack
 
 class CharacterListFragment :
     Fragment(),
@@ -37,6 +39,7 @@ class CharacterListFragment :
         viewModel.observeEvent().observe(this, Observer { it?.let { event ->
             return@let when (event) {
                 is Event.Navigate -> { navTo(event) }
+                is Event.Snackbar -> { activity?.shortSnack(event.message) }
             }
         } })
 

@@ -30,6 +30,8 @@
     <string name="cancel">Cancel</string>
     <string name="add_encounter">Add to encounter</string>
     <string name="delete">Delete</string>
+    <string name="character_already_in_encounter">Character has already been added to encounter.</string>
+    <string name="character_added_encounter">Character added to encounter!</string>
 
     <string name="error_name_required">Name must be entered</string>
 
