@@ -18,6 +18,7 @@ class EncounterRepository(
     }
 
     suspend fun addCharacter(character: Character, initiative: Int) {
+        if (character.isInEncounter()) return
         val position = getNewPositionByInitiative(initiative)
         testInit += 1
         val encounterCharacterDetail = CharacterEncounterDetail(
@@ -38,6 +39,11 @@ class EncounterRepository(
             val character = characterDao.getById(encounterCharacterDetail.characterId)
             EncounterCharacter(character, encounterCharacterDetail)
         }
+    }
+
+    private suspend fun Character.isInEncounter(): Boolean {
+        val allDetails = characterEncounterDetailDao.getAll()
+        return allDetails.any { it.characterId == this.id }
     }
 
     private suspend fun getNewPositionByInitiative(initiative: Int): Int {

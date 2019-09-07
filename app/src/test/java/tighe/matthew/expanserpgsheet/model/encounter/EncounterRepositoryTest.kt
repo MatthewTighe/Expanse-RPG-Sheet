@@ -56,4 +56,22 @@ class EncounterRepositoryTest {
         coVerify { mockCharacterDao.update(testEncounterCharacter.character) }
         coVerify { mockCharacterEncounterDetailDao.update(testEncounterCharacter.detail) }
     }
+
+    @Test
+    fun `Characters cannot be added twice to the same encounter`() = runBlockingTest {
+        val character = Character(0, "name", 10)
+        val details = CharacterEncounterDetail(1, 0, 0)
+
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns listOf(details)
+        coEvery { mockCharacterEncounterDetailDao.flowAll() } returns flow {
+            emit(listOf(details))
+        }
+        coEvery { mockCharacterDao.getById(0) } returns character
+
+        repo.addCharacter(character, 0)
+        repo.addCharacter(character, 0)
+
+        val result = repo.getEncounter().first()
+        assertEquals(1, result.characters.size)
+    }
 }
