@@ -48,6 +48,17 @@ class CharacterEncounterDetailDaoTest {
     }
 
     @Test
+    fun detailCanBeUpdated() = runBlocking {
+        detailDao.insert(detail)
+
+        val updated = detail.copy(initiative = detail.initiative + 1)
+        detailDao.update(updated)
+
+        val result = detailDao.getAll()
+        assertEquals(listOf(updated), result)
+    }
+
+    @Test
     fun detailsCanBeObserved() = runBlocking {
         detailDao.insert(detail)
 

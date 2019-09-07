@@ -8,6 +8,9 @@ interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(character: Character): Long
 
+    @Update
+    suspend fun update(character: Character)
+
     @Delete
     suspend fun delete(character: Character)
 

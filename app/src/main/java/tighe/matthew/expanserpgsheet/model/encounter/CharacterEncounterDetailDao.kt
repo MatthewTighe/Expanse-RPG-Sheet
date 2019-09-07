@@ -1,14 +1,15 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterEncounterDetailDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(encounterCharacterDetails: CharacterEncounterDetail)
+
+    @Update
+    suspend fun update(encounterCharacterDetails: CharacterEncounterDetail)
 
     @Query("SELECT * FROM character_encounter_detail")
     fun getAll(): List<CharacterEncounterDetail>

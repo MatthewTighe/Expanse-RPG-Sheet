@@ -46,12 +46,12 @@ class EncounterAdapter(private val listeners: ClickListeners) :
                 .inflate(R.layout.list_item_encounter_character, parent, false))
     }
 
-    override fun onBindViewHolder(holder: EncounterAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = characters[position]
         holder.name.text = character.character.name
         holder.initiative.text = character.detail.initiative.toString()
         holder.maxFortune.text = character.character.maxFortune.toString()
-        holder.currentFortune.text = character.character.maxFortune.toString() // TODO current
+        holder.currentFortune.text = character.character.currentFortune.toString()
 
         holder.decBtn.setOnClickListener { listeners.onDecClick(character) }
         holder.incBtn.setOnClickListener { listeners.onIncClick(character) }

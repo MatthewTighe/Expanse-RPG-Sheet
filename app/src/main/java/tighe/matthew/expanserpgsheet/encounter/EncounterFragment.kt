@@ -39,10 +39,10 @@ class EncounterFragment : Fragment(), EncounterAdapter.ClickListeners {
     }
 
     override fun onDecClick(character: EncounterCharacter) {
-        // TODO
+        viewModel.submitAction(EncounterAction.DecrementFortune(character))
     }
 
     override fun onIncClick(character: EncounterCharacter) {
-        // TODO
+        viewModel.submitAction(EncounterAction.IncrementFortune(character))
     }
 }

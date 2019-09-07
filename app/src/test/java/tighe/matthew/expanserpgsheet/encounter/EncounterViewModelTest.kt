@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -52,5 +51,31 @@ class EncounterViewModelTest {
         viewModel.observeViewState().observeForever(mockViewStateObserver)
 
         coVerify { mockViewStateObserver.onChanged(EncounterViewState(testEncounter)) }
+    }
+
+    @Test
+    fun `Increment action increases current fortune`() {
+        coEvery { mockEncounterRepo.getEncounter() } returns flow {
+            emit(testEncounter)
+        }
+
+        viewModel.submitAction(EncounterAction.IncrementFortune(testEncounterCharacter))
+
+        val expectedCharacter = testCharacter.copy(currentFortune = testCharacter.currentFortune + 1)
+        val expected = testEncounterCharacter.copy(character = expectedCharacter)
+        coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
+    fun `Decrement action decreases current fortune`() {
+        coEvery { mockEncounterRepo.getEncounter() } returns flow {
+            emit(testEncounter)
+        }
+
+        viewModel.submitAction(EncounterAction.DecrementFortune(testEncounterCharacter))
+
+        val expectedCharacter = testCharacter.copy(currentFortune = testCharacter.currentFortune - 1)
+        val expected = testEncounterCharacter.copy(character = expectedCharacter)
+        coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
     }
 }

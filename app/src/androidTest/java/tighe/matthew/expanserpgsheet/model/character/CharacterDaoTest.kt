@@ -40,6 +40,17 @@ class CharacterDaoTest {
     }
 
     @Test
+    fun characterCanBeUpdated() = runBlocking {
+        val id = characterDao.insert(character)
+
+        val updated = character.copy(id = id, name = "update")
+        characterDao.update(updated)
+
+        val result = characterDao.getById(id)
+        assertEquals(updated, result)
+    }
+
+    @Test
     fun characterCanBeDeleted() = runBlocking {
         val id = characterDao.insert(character)
 

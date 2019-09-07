@@ -2,7 +2,6 @@ package tighe.matthew.expanserpgsheet
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,7 +13,6 @@ import tighe.matthew.expanserpgsheet.characterDetails.CharacterDetailsViewModel
 import tighe.matthew.expanserpgsheet.characterList.CharacterListViewModel
 import tighe.matthew.expanserpgsheet.encounter.EncounterViewModel
 import tighe.matthew.expanserpgsheet.model.AppDatabase
-import tighe.matthew.expanserpgsheet.model.character.CharacterDao
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 

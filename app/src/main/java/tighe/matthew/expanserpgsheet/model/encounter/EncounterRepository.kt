@@ -1,9 +1,6 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
-import android.content.Context
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
-import tighe.matthew.expanserpgsheet.model.AppDatabase
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterDao
 
@@ -27,12 +24,17 @@ class EncounterRepository(
     suspend fun addCharacter(character: Character, initiative: Int) {
         val position = getNewPositionByInitiative(initiative)
         testInit += 1
-        val encounterCharacter = CharacterEncounterDetail(
+        val encounterCharacterDetail = CharacterEncounterDetail(
             characterId = character.id,
             initiative = initiative,
             position = testInit
         )
-        characterEncounterDetailDao.insert(encounterCharacter)
+        characterEncounterDetailDao.insert(encounterCharacterDetail)
+    }
+
+    suspend fun updateEncounterCharacter(character: EncounterCharacter) {
+        characterDao.update(character.character)
+        characterEncounterDetailDao.update(character.detail)
     }
 
     private suspend fun List<CharacterEncounterDetail>.toEncounterCharacters(): List<EncounterCharacter> {

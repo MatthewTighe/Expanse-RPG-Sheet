@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.onEach
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 import kotlin.coroutines.CoroutineContext
 
@@ -33,5 +34,24 @@ class EncounterViewModel(
     }
 
     override fun submitAction(action: EncounterAction) {
+        when (action) {
+            is EncounterAction.IncrementFortune -> {
+                handleFortuneChange(action.encounterCharacter, 1)
+            }
+            is EncounterAction.DecrementFortune -> {
+                handleFortuneChange(action.encounterCharacter, -1)
+            }
+        }
+    }
+
+    private fun handleFortuneChange(encounterCharacter: EncounterCharacter, changeAmount: Int) {
+        val character = encounterCharacter.character
+
+        val updatedCharacter = character.copy(currentFortune = character.currentFortune + changeAmount)
+        val updatedEncounterCharacter = encounterCharacter.copy(character = updatedCharacter)
+
+        this.launch {
+            encounterRepository.updateEncounterCharacter(updatedEncounterCharacter)
+        }
     }
 }

@@ -1,8 +1,6 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -22,6 +20,7 @@ class EncounterRepositoryTest {
     private val testId = 1L
     private val testDetail = CharacterEncounterDetail(0, 1, testId)
     private val testCharacter = Character(testId, "name", 10)
+    private val testEncounterCharacter = EncounterCharacter(testCharacter, testDetail)
 
     private lateinit var repo: EncounterRepository
 
@@ -41,13 +40,20 @@ class EncounterRepositoryTest {
 
         val result = repo.getEncounter().first()
 
-        val expectedCharacter = EncounterCharacter(testCharacter, testDetail)
-        val expectedEncounter = Encounter(listOf(expectedCharacter))
+        val expectedEncounter = Encounter(listOf(testEncounterCharacter))
         assertEquals(expectedEncounter, result)
     }
 
     @Test
     fun `Position is generated based on initiative`() {
         // TODO
+    }
+
+    @Test
+    fun `updateEncounterCharacter calls character and detail Daos separately`() = runBlockingTest {
+        repo.updateEncounterCharacter(testEncounterCharacter)
+
+        coVerify { mockCharacterDao.update(testEncounterCharacter.character) }
+        coVerify { mockCharacterEncounterDetailDao.update(testEncounterCharacter.detail) }
     }
 }
