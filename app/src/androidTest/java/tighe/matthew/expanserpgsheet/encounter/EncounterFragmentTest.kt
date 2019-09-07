@@ -2,9 +2,7 @@ package tighe.matthew.expanserpgsheet.encounter
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import kotlinx.android.synthetic.main.layout_fortune_adjustment.view.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

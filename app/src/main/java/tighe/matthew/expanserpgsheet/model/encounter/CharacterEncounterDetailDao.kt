@@ -12,7 +12,7 @@ interface CharacterEncounterDetailDao {
     suspend fun update(encounterCharacterDetails: CharacterEncounterDetail)
 
     @Query("SELECT * FROM character_encounter_detail")
-    fun getAll(): List<CharacterEncounterDetail>
+    suspend fun getAll(): List<CharacterEncounterDetail>
 
     @Query("SELECT * FROM character_encounter_detail")
     fun flowAll(): Flow<List<CharacterEncounterDetail>>

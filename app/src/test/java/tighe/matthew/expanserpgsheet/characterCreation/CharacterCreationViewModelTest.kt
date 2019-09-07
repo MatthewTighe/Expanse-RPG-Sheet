@@ -58,6 +58,19 @@ class CharacterCreationViewModelTest {
     }
 
     @Test
+    fun `Current fortune will match max on save action`() {
+        val model = Character(0, "name", 10)
+        val modifiedFortune = 15
+
+        viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(modifiedFortune))
+        viewModel.submitAction(CharacterCreationAction.Save)
+
+        coVerify { mockRepo.persist(model.copy(currentFortune = 15, maxFortune = 15)) }
+    }
+
+    @Test
     fun `Updating name input with a blank name triggers error`() {
         viewModel.submitAction(CharacterCreationAction.NameInput(""))
 

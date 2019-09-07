@@ -8,16 +8,12 @@ class EncounterRepository(
     private val characterDao: CharacterDao,
     private val characterEncounterDetailDao: CharacterEncounterDetailDao
 ) {
-    private val encounterCharacters = mutableListOf<EncounterCharacter>()
-
     private var testInit = 0
 
     fun getEncounter(): Flow<Encounter> {
         return characterEncounterDetailDao.flowAll().map { list ->
             val sorted = list.sortedByDescending { detail -> detail.position }
-            encounterCharacters.clear()
-            encounterCharacters.addAll(sorted.toEncounterCharacters())
-            Encounter(encounterCharacters)
+            Encounter(sorted.toEncounterCharacters())
         }
     }
 
@@ -44,9 +40,10 @@ class EncounterRepository(
         }
     }
 
-    private fun getNewPositionByInitiative(initiative: Int): Int {
-        val index = encounterCharacters.indexOfFirst { encounterCharacter ->
-            encounterCharacter.detail.initiative <= initiative
+    private suspend fun getNewPositionByInitiative(initiative: Int): Int {
+        val details = characterEncounterDetailDao.getAll()
+        val index = details.indexOfFirst { encounterCharacter ->
+            encounterCharacter.initiative <= initiative
         }
         return if (index == -1) 0 else index
     }
