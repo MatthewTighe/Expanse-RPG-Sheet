@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,7 @@ fun Fragment.navTo(event: Event.Navigate) {
 fun Activity.shortSnack(@StringRes message: Int) {
     val view = this.findViewById<BottomNavigationView>(R.id.bottom_nav_main)
     val snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-    snack.anchorView =view
+    snack.anchorView = view
     snack.show()
 }
 

@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.Event
@@ -29,7 +28,8 @@ class CharacterListFragment :
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_character_list, container, false)
     }
 
@@ -50,7 +50,6 @@ class CharacterListFragment :
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             adapter.updateCharacters(viewState.characterList)
             handleInitiativeDialog(viewState)
-
         } })
 
         val createBtn = activity?.findViewById<FloatingActionButton>(R.id.btn_create_new)!!

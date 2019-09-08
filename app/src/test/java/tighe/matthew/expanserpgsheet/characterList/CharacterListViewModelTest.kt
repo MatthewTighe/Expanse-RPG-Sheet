@@ -51,6 +51,7 @@ class CharacterListViewModelTest {
 
         coVerify {
             mockCharacterRepo.observeAll()
+            mockViewStateObserver.onChanged(CharacterListViewState(listOf()))
             mockViewStateObserver.onChanged(CharacterListViewState(expectedList))
         }
 

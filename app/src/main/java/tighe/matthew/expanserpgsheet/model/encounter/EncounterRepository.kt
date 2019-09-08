@@ -51,7 +51,6 @@ class EncounterRepository(
         val index = details.indexOfFirst { encounterCharacter ->
             initiative <= encounterCharacter.initiative
         }
-        val test = "hello"
         return if (index == -1) 0 else index + 1
     }
 

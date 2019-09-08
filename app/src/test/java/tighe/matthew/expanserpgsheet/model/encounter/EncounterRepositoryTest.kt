@@ -45,10 +45,10 @@ class EncounterRepositoryTest {
     }
 
     @Test
-    fun `Position is generated based on initiative`() = runBlockingTest {
+    fun `Position is generated based on higher initiative`() = runBlockingTest {
         val character = Character(2, "two")
-        val originalDetail = CharacterEncounterDetail(0, 2, 1)
-        val addedDetail = CharacterEncounterDetail(0, 1, 2)
+        val originalDetail = CharacterEncounterDetail(0, 1, 1)
+        val addedDetail = CharacterEncounterDetail(0, 2, 2)
 
         coEvery { mockCharacterEncounterDetailDao.getAll() } returns listOf(originalDetail)
 

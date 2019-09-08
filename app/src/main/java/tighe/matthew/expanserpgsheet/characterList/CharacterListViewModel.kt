@@ -10,7 +10,6 @@ import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
-import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 import kotlin.coroutines.CoroutineContext
@@ -35,8 +34,8 @@ internal class CharacterListViewModel(
     @ExperimentalCoroutinesApi
     override fun observeViewState(): LiveData<CharacterListViewState> {
         characterRepository.observeAll().onEach { characters ->
-            val update = viewState.value?.copy(characterList = characters) ?:
-            CharacterListViewState(characterList = characters)
+            val update = viewState.value?.copy(characterList = characters)
+            ?: CharacterListViewState(characterList = characters)
             viewState.postValue(update)
         }.launchIn(this)
         return viewState
