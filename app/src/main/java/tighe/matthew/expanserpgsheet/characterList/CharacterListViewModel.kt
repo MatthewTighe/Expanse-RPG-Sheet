@@ -65,6 +65,11 @@ internal class CharacterListViewModel(
                 this.launch {
                     encounterRepository.addCharacter(action.character!!, action.initiative)
                     event.postValue(Event.Snackbar(R.string.character_added_encounter))
+                    val update = viewState.value!!.copy(
+                        initiativeDialogShouldBeDisplayed = false,
+                        characterBeingManipulated = null
+                    )
+                    viewState.postValue(update)
                 }
             }
             is CharacterListAction.Delete -> {

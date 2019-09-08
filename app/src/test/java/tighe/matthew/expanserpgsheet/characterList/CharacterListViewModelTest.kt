@@ -117,4 +117,25 @@ class CharacterListViewModelTest {
 
         mockEventObserver.onChanged(Event.Snackbar(R.string.character_already_in_encounter))
     }
+
+    @Test
+    fun `Submitting initiative should clear dialog display flag`() {
+        val model = Character(0, "name", 15)
+
+        coEvery { mockEncounterRepo.characterIsInEncounter(model) } returns false
+        coEvery { mockCharacterRepo.observeAll() } returns flow {
+            emit(listOf(model))
+        }
+        viewModel.observeViewState().observeForever(mockViewStateObserver)
+
+        viewModel.submitAction(CharacterListAction.AddToEncounterClicked(model))
+        viewModel.submitAction(CharacterListAction.InitiativeEntered(0, model))
+
+        val first = CharacterListViewState(listOf(model), true, model)
+        val final = CharacterListViewState(listOf(model), false, null)
+        verify {
+            mockViewStateObserver.onChanged(first)
+            mockViewStateObserver.onChanged(final)
+        }
+    }
 }

@@ -45,8 +45,38 @@ class EncounterRepositoryTest {
     }
 
     @Test
-    fun `Position is generated based on initiative`() {
-        // TODO
+    fun `Position is generated based on initiative`() = runBlockingTest {
+        val character = Character(2, "two")
+        val originalDetail = CharacterEncounterDetail(0, 2, 1)
+        val addedDetail = CharacterEncounterDetail(0, 1, 2)
+
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns listOf(originalDetail)
+
+        repo.addCharacter(character, addedDetail.initiative)
+
+        coVerify { mockCharacterEncounterDetailDao.insert(addedDetail) }
+    }
+
+    @Test
+    fun `Details are shifted when a character with higher initiative is added`() = runBlockingTest {
+        val lowInitiativeDetail = CharacterEncounterDetail(1, 2, 0)
+        val middleInitiativeDetail = CharacterEncounterDetail(0, 4, 0)
+        val initialDetails = listOf(lowInitiativeDetail, middleInitiativeDetail)
+
+        val addedDetail = CharacterEncounterDetail(0, 10, 1)
+        val character = Character(1, "name")
+
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns initialDetails
+
+        repo.addCharacter(character, addedDetail.initiative)
+
+        val updatedLow = lowInitiativeDetail.copy(position = lowInitiativeDetail.position + 1)
+        val updatedMiddle = middleInitiativeDetail.copy(position = middleInitiativeDetail.position + 1)
+        coVerify {
+            mockCharacterEncounterDetailDao.insert(updatedLow)
+            mockCharacterEncounterDetailDao.insert(updatedMiddle)
+            mockCharacterEncounterDetailDao.insert(addedDetail)
+        }
     }
 
     @Test

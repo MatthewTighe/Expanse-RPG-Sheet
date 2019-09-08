@@ -8,11 +8,10 @@ class EncounterRepository(
     private val characterDao: CharacterDao,
     private val characterEncounterDetailDao: CharacterEncounterDetailDao
 ) {
-    private var testInit = 0
 
     fun getEncounter(): Flow<Encounter> {
         return characterEncounterDetailDao.flowAll().map { list ->
-            val sorted = list.sortedByDescending { detail -> detail.position }
+            val sorted = list.sortedBy { detail -> detail.position }
             Encounter(sorted.toEncounterCharacters())
         }
     }
@@ -20,11 +19,11 @@ class EncounterRepository(
     suspend fun addCharacter(character: Character, initiative: Int) {
         if (characterIsInEncounter(character)) return
         val position = getNewPositionByInitiative(initiative)
-        testInit += 1
+        updateCurrentPositions(position)
         val encounterCharacterDetail = CharacterEncounterDetail(
             characterId = character.id,
             initiative = initiative,
-            position = testInit
+            position = position
         )
         characterEncounterDetailDao.insert(encounterCharacterDetail)
     }
@@ -48,9 +47,21 @@ class EncounterRepository(
 
     private suspend fun getNewPositionByInitiative(initiative: Int): Int {
         val details = characterEncounterDetailDao.getAll()
+        // Position is reversed ordering of initiative
         val index = details.indexOfFirst { encounterCharacter ->
-            encounterCharacter.initiative <= initiative
+            initiative <= encounterCharacter.initiative
         }
-        return if (index == -1) 0 else index
+        val test = "hello"
+        return if (index == -1) 0 else index + 1
+    }
+
+    private suspend fun updateCurrentPositions(changedPosition: Int) {
+        val details = characterEncounterDetailDao.getAll()
+        for (detail in details) {
+            if (detail.position >= changedPosition) {
+                val updatedDetail = detail.copy(position = detail.position + 1)
+                characterEncounterDetailDao.insert(updatedDetail)
+            }
+        }
     }
 }
