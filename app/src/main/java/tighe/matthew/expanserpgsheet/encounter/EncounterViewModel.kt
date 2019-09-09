@@ -41,6 +41,16 @@ class EncounterViewModel(
             is EncounterAction.DecrementFortune -> {
                 handleFortuneChange(action.encounterCharacter, -1)
             }
+            is EncounterAction.CharacterMoved -> {
+                handleMovedAction(action)
+            }
+            is EncounterAction.CharacterRemoved -> {
+                this.launch {
+                    encounterRepository.removeEncounterCharacter(
+                        action.removedCharacter, action.position
+                    )
+                }
+            }
         }
     }
 
@@ -52,6 +62,23 @@ class EncounterViewModel(
 
         this.launch {
             encounterRepository.updateEncounterCharacter(updatedEncounterCharacter)
+        }
+    }
+
+    private fun handleMovedAction(action: EncounterAction.CharacterMoved) {
+        val movedCharacter = action.movedCharacter
+        val displacedCharacter = action.displacedCharacter
+        val updatedMovedDetails =
+            movedCharacter.detail.copy(position = action.toPosition)
+        val updatedDisplacedDetails =
+            displacedCharacter.detail.copy(position = action.fromPosition)
+
+        val updatedMoved = movedCharacter.copy(detail = updatedMovedDetails)
+        val updatedDisplaced = movedCharacter.copy(detail = updatedDisplacedDetails)
+
+        this.launch {
+            encounterRepository.updateEncounterCharacter(updatedMoved)
+            encounterRepository.updateEncounterCharacter(updatedDisplaced)
         }
     }
 }

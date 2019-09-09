@@ -10,12 +10,20 @@ import com.google.android.material.button.MaterialButton
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 
-class EncounterAdapter(private val listeners: ClickListeners) :
-    RecyclerView.Adapter<EncounterAdapter.ViewHolder>() {
+class EncounterAdapter(private val listeners: AdapterListeners) :
+    RecyclerView.Adapter<EncounterAdapter.ViewHolder>(), EncounterAdapterTouchHelper.HelperAdapter {
 
-    interface ClickListeners {
+    interface AdapterListeners {
         fun onDecClick(character: EncounterCharacter)
         fun onIncClick(character: EncounterCharacter)
+
+        fun onItemMoved(
+            movedCharacter: EncounterCharacter,
+            fromPosition: Int,
+            displacedCharacter: EncounterCharacter,
+            toPosition: Int
+        )
+        fun onItemDismissed(character: EncounterCharacter, position: Int)
     }
 
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
@@ -71,5 +79,20 @@ class EncounterAdapter(private val listeners: ClickListeners) :
 
     override fun getItemCount(): Int {
         return characters.size
+    }
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
+        val movedCharacter = characters[fromPosition]
+        val displacedCharacter = characters[toPosition]
+        listeners.onItemMoved(movedCharacter, fromPosition, displacedCharacter, toPosition)
+        characters[toPosition] = movedCharacter
+        characters[fromPosition] = displacedCharacter
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemDismiss(position: Int) {
+        val character = characters.removeAt(position)
+        listeners.onItemDismissed(character, position)
+        notifyItemRemoved(position)
     }
 }

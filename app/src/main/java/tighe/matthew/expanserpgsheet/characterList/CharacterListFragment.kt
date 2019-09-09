@@ -83,6 +83,7 @@ class CharacterListFragment :
         if (!viewState.initiativeDialogShouldBeDisplayed) return
         val editText = EditText(activity!!)
         editText.inputType = InputType.TYPE_CLASS_NUMBER
+        editText.id = R.id.initiative_entry_edit_text
         AlertDialog.Builder(activity)
             .setView(editText)
             .setMessage(R.string.entry_initiative)

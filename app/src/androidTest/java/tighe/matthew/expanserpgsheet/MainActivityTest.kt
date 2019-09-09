@@ -66,15 +66,15 @@ class MainActivityTest {
 
         // Enter initiative
         val expectedInitiative = 10
-        R.id.edit_initiative_entry.isDisplayed()
-        R.id.edit_initiative_entry.writeText(expectedInitiative.toString())
+        R.id.initiative_entry_edit_text.isDisplayed()
+        R.id.initiative_entry_edit_text.writeText(expectedInitiative.toString())
         R.string.add.click()
 
         R.id.encounter_fragment.click()
 
         R.id.layout_encounter_fortune_adjustment.isDisplayed()
         expectedName.isDisplayed()
-        expectedInitialFortune.isDisplayed()
-        expectedInitiative.isDisplayed()
+        expectedInitialFortune.toString().isDisplayed()
+        expectedInitiative.toString().isDisplayed()
     }
 }

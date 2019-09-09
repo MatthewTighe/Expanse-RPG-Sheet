@@ -19,4 +19,7 @@ interface CharacterEncounterDetailDao {
 
     @Query("DELETE FROM character_encounter_detail")
     suspend fun deleteAll()
+
+    @Delete
+    suspend fun delete(detail: CharacterEncounterDetail)
 }
