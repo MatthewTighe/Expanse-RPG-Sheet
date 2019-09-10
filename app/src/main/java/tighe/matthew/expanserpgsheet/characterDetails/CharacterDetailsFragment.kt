@@ -29,22 +29,23 @@ class CharacterDetailsFragment : Fragment() {
         val textName = activity?.findViewById<TextView>(R.id.text_character_name_details)
         textName?.text = character.name
 
-        val textFortune = activity?.findViewById<TextView>(R.id.text_fortune)
+        val labelFortune = activity?.findViewById<TextView>(R.id.label_fortune_adjustment)
+        labelFortune?.text = getString(R.string.hint_max_fortune)
+
+        val textFortune = activity?.findViewById<TextView>(R.id.edit_text_fortune)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            textFortune?.text = viewState.fortune.toString()
+            textFortune?.text = viewState.maxFortune.toString()
         } })
 
-        val inc1 = activity?.findViewById<TextView>(R.id.text_increment_one)!!
-        inc1.setOnClickListener { viewModel.submitAction(CharacterDetailsAction.IncrementFortune(1)) }
+        val incBtn = activity?.findViewById<TextView>(R.id.btn_inc_fortune)!!
+        incBtn.setOnClickListener {
+            viewModel.submitAction(CharacterDetailsAction.IncrementFortune(1))
+        }
 
-        val inc5 = activity?.findViewById<TextView>(R.id.text_increment_five)!!
-        inc5.setOnClickListener { viewModel.submitAction(CharacterDetailsAction.IncrementFortune(5)) }
-
-        val dec1 = activity?.findViewById<TextView>(R.id.text_decrement_one)!!
-        dec1.setOnClickListener { viewModel.submitAction(CharacterDetailsAction.DecrementFortune(1)) }
-
-        val dec5 = activity?.findViewById<TextView>(R.id.text_decrement_five)!!
-        dec5.setOnClickListener { viewModel.submitAction(CharacterDetailsAction.DecrementFortune(5)) }
+        val decBtn = activity?.findViewById<TextView>(R.id.btn_dec_fortune)!!
+        decBtn.setOnClickListener {
+            viewModel.submitAction(CharacterDetailsAction.DecrementFortune(1))
+        }
 
         viewModel.submitAction(CharacterDetailsAction.CharacterReceived(character))
     }

@@ -9,65 +9,21 @@
     <TextView
             android:id="@+id/text_character_name_details"
             android:text="@string/placeholder"
+            android:textSize="@dimen/textSizeH4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_fortune"/>
+            app:layout_constraintBottom_toTopOf="@id/details_fortune_adjustment"/>
 
-    <TextView
-            android:id="@+id/text_decrement_five"
-            android:text="@string/dec_5"
-            android:layout_width="wrap_content"
+    <include
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/details_fortune_adjustment"
+            layout="@layout/layout_fortune_adjustment"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/text_decrement_one"/>
-
-    <TextView
-            android:id="@+id/text_decrement_one"
-            android:text="@string/dec_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_decrement_five"
-            app:layout_constraintEnd_toStartOf="@id/text_fortune"/>
-
-    <TextView
-            android:id="@+id/text_fortune"
-            android:text="@string/placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_decrement_one"
-            app:layout_constraintEnd_toStartOf="@id/text_increment_one"/>
-
-    <TextView
-            android:id="@+id/text_increment_one"
-            android:text="@string/inc_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_fortune"
-            app:layout_constraintEnd_toStartOf="@id/text_increment_five"/>
-
-    <TextView
-            android:id="@+id/text_increment_five"
-            android:text="@string/inc_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_increment_one"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/text_character_name_details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

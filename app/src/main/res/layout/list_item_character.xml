@@ -8,6 +8,7 @@
     <TextView
             android:id="@+id/text_character_name"
             android:text="@string/placeholder"
+            android:textSize="@dimen/textSizeH4"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,23 +17,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-            android:id="@+id/text_max_fortune"
-            android:text="@string/placeholder"
-            style="@style/Base.TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_character_name"/>
-
-    <ImageView
+    <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_options"
-            app:srcCompat="@drawable/ic_vertical_dots_24dp"
+            app:icon="@drawable/ic_vertical_dots_24dp"
+            style="@style/IconButton"
             android:contentDescription="@string/desc_btn_options"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

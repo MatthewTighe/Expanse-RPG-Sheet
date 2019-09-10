@@ -37,11 +37,11 @@ class MainActivityTest {
         // Character fortune can be modified
         R.id.layout_fragment_character_details.isDisplayed()
         expectedInitialFortune.toString().isDisplayed()
-        R.id.text_increment_five.click()
-        val incrementedFortune = expectedInitialFortune + 5
+        R.id.btn_inc_fortune.click()
+        val incrementedFortune = expectedInitialFortune + 1
         incrementedFortune.toString().isDisplayed()
 
-        R.id.text_decrement_five.click()
+        R.id.btn_dec_fortune.click()
         expectedInitialFortune.toString().isDisplayed()
     }
 

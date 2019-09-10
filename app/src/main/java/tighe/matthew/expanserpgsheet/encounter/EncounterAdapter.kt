@@ -31,10 +31,11 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         var initiative = row.findViewById<TextView>(R.id.text_encounter_initiative)
         var maxFortune = row.findViewById<TextView>(R.id.text_encounter_max_fortune)
         var currentFortune = row.findViewById<TextView>(R.id.edit_text_fortune)
+        var fortuneLabel = row.findViewById<TextView>(R.id.label_fortune_adjustment)
 
         var decBtn = row.findViewById<MaterialButton>(R.id.btn_dec_fortune)
         var incBtn = row.findViewById<MaterialButton>(R.id.btn_inc_fortune)
-        var statusBtn = row.findViewById<MaterialButton>(R.id.btn_status_collapsible)
+        var statusBtn = row.findViewById<MaterialButton>(R.id.btn_conditions_collapsible)
         var expanded = true
 
         var collapsibleStatusLayout = row.findViewById<LinearLayout>(R.id.layout_collapsible_status)
@@ -60,6 +61,8 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         holder.initiative.text = character.detail.initiative.toString()
         holder.maxFortune.text = character.character.maxFortune.toString()
         holder.currentFortune.text = character.character.currentFortune.toString()
+        holder.fortuneLabel.text =
+            holder.fortuneLabel.resources.getString(R.string.hint_current_fortune)
 
         holder.decBtn.setOnClickListener { listeners.onDecClick(character) }
         holder.incBtn.setOnClickListener { listeners.onIncClick(character) }

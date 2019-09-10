@@ -24,13 +24,10 @@ class CharacterDetailsFragmentTest {
         R.id.layout_fragment_character_details.isDisplayed()
         initialFortune.toString().isDisplayed()
 
-        R.id.text_increment_five.click()
-        val expectedIncrement1 = initialFortune + 5
-        (expectedIncrement1).toString().isDisplayed()
+        R.id.btn_inc_fortune.click()
+        val expectedIncrement = initialFortune + 1
+        (expectedIncrement).toString().isDisplayed()
 
-        R.id.text_increment_one.click()
-        val expectedIncrement2 = expectedIncrement1 + 1
-        (expectedIncrement2).toString().isDisplayed()
     }
 
     @Test
@@ -41,12 +38,8 @@ class CharacterDetailsFragmentTest {
         R.id.layout_fragment_character_details.isDisplayed()
         initialFortune.toString().isDisplayed()
 
-        R.id.text_decrement_five.click()
-        val expectedDecrement1 = initialFortune - 5
-        (expectedDecrement1).toString().isDisplayed()
-
-        R.id.text_decrement_one.click()
-        val expectedDecrement2 = expectedDecrement1 - 1
-        (expectedDecrement2).toString().isDisplayed()
+        R.id.btn_dec_fortune.click()
+        val expectedDecrement = initialFortune - 1
+        expectedDecrement.toString().isDisplayed()
     }
 }

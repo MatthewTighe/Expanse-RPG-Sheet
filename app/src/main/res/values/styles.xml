@@ -11,4 +11,10 @@
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
         <item name="colorSurface">@color/colorPrimary</item>
     </style>
+
+    <style name="IconButton" parent="Widget.MaterialComponents.Button" >
+        <item name="iconTint">@color/colorIcon</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+    </style>
 </resources>

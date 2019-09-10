@@ -13,16 +13,12 @@
     <string name="label_initiative">Initiative:</string>
     <string name="entry_initiative">Set character\'s initiative:</string>
 
-    <string name="status">Status</string>
+    <string name="conditions">Conditions</string>
     <string name="injured">Injured</string>
     <string name="wounded">Wounded</string>
     <string name="taken_out">Taken out</string>
 
     <string name="colon">:</string>
-    <string name="dec_5">-5</string>
-    <string name="dec_1">-1</string>
-    <string name="inc_1">+1</string>
-    <string name="inc_5">+5</string>
 
     <string name="characters">Characters</string>
     <string name="encounter">Encounter</string>
