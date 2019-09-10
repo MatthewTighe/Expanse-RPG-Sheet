@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import tighe.matthew.expanserpgsheet.BaseViewModel
-import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 import kotlin.coroutines.CoroutineContext
@@ -77,8 +74,8 @@ internal class CharacterListViewModel(
                 }
             }
             is CharacterListAction.CharacterClicked -> {
-                val navArgs = listOf(action.character.buildNavArg())
-                event.postValue(Event.Navigate(R.id.character_details_fragment, navArgs))
+                val navArg = NavigationArgument("characterId", action.character.id)
+                event.postValue(Event.Navigate(R.id.character_details_fragment, listOf(navArg)))
             }
         }
     }

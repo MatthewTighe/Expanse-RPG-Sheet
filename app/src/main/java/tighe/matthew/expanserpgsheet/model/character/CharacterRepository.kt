@@ -12,6 +12,10 @@ class CharacterRepository(private val characterDao: CharacterDao) {
         return characterDao.getById(id)
     }
 
+    suspend fun update(character: Character) {
+        characterDao.update(character)
+    }
+
     fun observeAll(): Flow<List<Character>> {
         return characterDao.observeAll()
     }

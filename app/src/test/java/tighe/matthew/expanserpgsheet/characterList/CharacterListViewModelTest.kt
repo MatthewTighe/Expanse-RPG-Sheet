@@ -11,6 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.Event
+import tighe.matthew.expanserpgsheet.NavigationArgument
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
@@ -79,8 +80,12 @@ class CharacterListViewModelTest {
 
         viewModel.submitAction(CharacterListAction.CharacterClicked(model))
 
-        val expectedArgs = listOf(model.buildNavArg())
-        verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_details_fragment, expectedArgs)) }
+        val navArg = NavigationArgument("characterId", model.id)
+        verify {
+            mockEventObserver.onChanged(
+                Event.Navigate(R.id.character_details_fragment, listOf(navArg))
+            )
+        }
     }
 
     @Test

@@ -40,18 +40,8 @@ interface Action
 
 data class NavigationArgument(
     val key: String = "",
-    val parcelable: Parcelable
+    val value: Any
 )
-
-fun navArgsToBundle(args: List<NavigationArgument>): Bundle {
-    val bundle = bundleOf()
-    with(bundle) {
-        for (navArg in args) {
-            putParcelable(navArg.key, navArg.parcelable)
-        }
-    }
-    return bundle
-}
 
 sealed class Event {
     data class Navigate(

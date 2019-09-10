@@ -2,9 +2,11 @@ package tighe.matthew.expanserpgsheet
 
 import android.app.Activity
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,8 +14,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
 fun Fragment.navTo(event: Event.Navigate) {
-    val bundle = navArgsToBundle(event.navigationArgs)
+    val bundle = event.navigationArgs.toBundle()
     this.findNavController().navigate(event.fragment, bundle)
+}
+
+fun List<NavigationArgument>.toBundle(): Bundle {
+    val navArgs = this
+    val bundle = bundleOf()
+    with(bundle) {
+        for (navArg in navArgs) {
+            when (navArg.value) {
+                is Long -> putLong(navArg.key, navArg.value)
+            }
+        }
+    }
+    return bundle
 }
 
 fun Activity.shortSnack(@StringRes message: Int) {

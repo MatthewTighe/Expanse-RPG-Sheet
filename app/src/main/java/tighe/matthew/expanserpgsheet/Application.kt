@@ -27,7 +27,7 @@ val appModule = module {
     single { EncounterRepository(get(), get()) }
     viewModel { CharacterListViewModel(get(), get()) }
     viewModel { CharacterCreationViewModel(get()) }
-    viewModel { CharacterDetailsViewModel(get()) }
+    viewModel { (characterId: Long) -> CharacterDetailsViewModel(characterId, get()) }
     viewModel { EncounterViewModel(get()) }
 }
 
