@@ -58,7 +58,7 @@ class EncounterRepositoryTest {
     }
 
     @Test
-    fun `Details are shifted when a character with higher initiative is added`() = runBlockingTest {
+    fun `Positions are shifted down when a character with higher initiative is added`() = runBlockingTest {
         val lowInitiativeDetail = CharacterEncounterDetail(1, 2, 0)
         val middleInitiativeDetail = CharacterEncounterDetail(0, 4, 0)
         val initialDetails = listOf(lowInitiativeDetail, middleInitiativeDetail)
@@ -76,6 +76,28 @@ class EncounterRepositoryTest {
             mockCharacterEncounterDetailDao.insert(updatedLow)
             mockCharacterEncounterDetailDao.insert(updatedMiddle)
             mockCharacterEncounterDetailDao.insert(addedDetail)
+        }
+    }
+
+    @Test
+    fun `Positions are shifted up when a character is removed`() = runBlockingTest {
+        val bottomCharacter = CharacterEncounterDetail(2, 2, 1)
+        val middleCharacter = CharacterEncounterDetail(1, 3, 1)
+        val topCharacter = CharacterEncounterDetail(0, 5, 1)
+
+        val characterToRemove = Character(1, "name")
+        val middleEncounterCharacter = EncounterCharacter(characterToRemove, middleCharacter)
+
+        val allCharacterDetails = listOf(bottomCharacter, middleCharacter, topCharacter)
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns allCharacterDetails
+
+        repo.removeEncounterCharacter(middleEncounterCharacter, 1)
+
+        val updatedBottom = bottomCharacter.copy(position = bottomCharacter.position - 1)
+        coVerify {
+            mockCharacterEncounterDetailDao.delete(middleCharacter)
+            mockCharacterEncounterDetailDao.insert(updatedBottom)
+            mockCharacterEncounterDetailDao.delete(bottomCharacter)
         }
     }
 

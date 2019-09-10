@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import tighe.matthew.expanserpgsheet.generateEncounterCharacter
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.encounter.CharacterEncounterDetail
 import tighe.matthew.expanserpgsheet.model.encounter.Encounter
@@ -77,5 +78,42 @@ class EncounterViewModelTest {
         val expectedCharacter = testCharacter.copy(currentFortune = testCharacter.currentFortune - 1)
         val expected = testEncounterCharacter.copy(character = expectedCharacter)
         coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
+    fun `Moved action finds correct positions and delegates them to repository`() {
+        val fromPosition = 0
+        val toPosition = 1
+        val movedCharacter = generateEncounterCharacter(position = fromPosition)
+        val displacedCharacter = generateEncounterCharacter(position = toPosition)
+
+        val action = EncounterAction.CharacterMoved(
+            movedCharacter,
+            fromPosition,
+            displacedCharacter,
+            toPosition
+        )
+        viewModel.submitAction(action)
+
+        val updatedMovedDetails =
+            movedCharacter.detail.copy(position = action.toPosition)
+        val updatedDisplacedDetails =
+            displacedCharacter.detail.copy(position = action.fromPosition)
+
+        val expectedMoved = movedCharacter.copy(detail = updatedMovedDetails)
+        val expectedDisplaced = movedCharacter.copy(detail = updatedDisplacedDetails)
+        coVerify {
+            mockEncounterRepo.updateEncounterCharacter(expectedMoved)
+            mockEncounterRepo.updateEncounterCharacter(expectedDisplaced)
+        }
+    }
+
+    @Test
+    fun `Remove action delegates to repository`() {
+        val character = generateEncounterCharacter(0)
+
+        viewModel.submitAction(EncounterAction.CharacterRemoved(character, 0))
+
+        coVerify { mockEncounterRepo.removeEncounterCharacter(character, 0) }
     }
 }

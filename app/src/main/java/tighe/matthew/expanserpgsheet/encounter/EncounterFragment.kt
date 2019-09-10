@@ -31,8 +31,8 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
 
         val adapter = EncounterAdapter(this)
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_encounter_characters)!!
-        val touchHelpercCallback = EncounterAdapterTouchHelper(adapter)
-        val touchHelper = ItemTouchHelper(touchHelpercCallback)
+        val touchHelperCallback = EncounterAdapterTouchHelper(adapter)
+        val touchHelper = ItemTouchHelper(touchHelperCallback)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         touchHelper.attachToRecyclerView(recyclerView)

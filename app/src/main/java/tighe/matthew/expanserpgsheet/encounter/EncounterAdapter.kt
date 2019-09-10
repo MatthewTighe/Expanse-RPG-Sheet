@@ -85,14 +85,10 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         val movedCharacter = characters[fromPosition]
         val displacedCharacter = characters[toPosition]
         listeners.onItemMoved(movedCharacter, fromPosition, displacedCharacter, toPosition)
-        characters[toPosition] = movedCharacter
-        characters[fromPosition] = displacedCharacter
-        notifyItemMoved(fromPosition, toPosition)
     }
 
     override fun onItemDismiss(position: Int) {
         val character = characters.removeAt(position)
         listeners.onItemDismissed(character, position)
-        notifyItemRemoved(position)
     }
 }

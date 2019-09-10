@@ -1,6 +1,5 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
-import android.telecom.Call
 import kotlinx.coroutines.flow.*
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterDao
@@ -75,8 +74,8 @@ class EncounterRepository(
 
     private suspend fun updateCurrentPositions(
         changedPosition: Int,
-        modificationAction: suspend (detail: CharacterEncounterDetail) -> Unit)
-    {
+        modificationAction: suspend (detail: CharacterEncounterDetail) -> Unit
+    ) {
         val details = characterEncounterDetailDao.getAll()
         for (detail in details) {
             if (detail.position >= changedPosition) {
