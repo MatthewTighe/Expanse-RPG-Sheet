@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.chip.ChipGroup
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 
@@ -35,10 +36,10 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
 
         var decBtn = row.findViewById<MaterialButton>(R.id.btn_dec_fortune)
         var incBtn = row.findViewById<MaterialButton>(R.id.btn_inc_fortune)
-        var statusBtn = row.findViewById<MaterialButton>(R.id.btn_conditions_collapsible)
+        var conditionsBtn = row.findViewById<MaterialButton>(R.id.btn_conditions_collapsible)
         var expanded = true
 
-        var collapsibleStatusLayout = row.findViewById<LinearLayout>(R.id.layout_collapsible_status)
+        var collapsibleConditions = row.findViewById<ChipGroup>(R.id.chip_group_conditions)
     }
 
     private val characters = mutableListOf<EncounterCharacter>()
@@ -67,14 +68,14 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         holder.decBtn.setOnClickListener { listeners.onDecClick(character) }
         holder.incBtn.setOnClickListener { listeners.onIncClick(character) }
 
-        holder.statusBtn.setOnClickListener {
+        holder.conditionsBtn.setOnClickListener {
             if (holder.expanded) {
-                holder.collapsibleStatusLayout.visibility = View.GONE
-                holder.statusBtn.setIconResource(R.drawable.ic_expand_more_24dp)
+                holder.collapsibleConditions.visibility = View.GONE
+                holder.conditionsBtn.setIconResource(R.drawable.ic_expand_more_24dp)
                 holder.expanded = false
             } else {
-                holder.collapsibleStatusLayout.visibility = View.VISIBLE
-                holder.statusBtn.setIconResource(R.drawable.ic_expand_less_24dp)
+                holder.collapsibleConditions.visibility = View.VISIBLE
+                holder.conditionsBtn.setIconResource(R.drawable.ic_expand_less_24dp)
                 holder.expanded = true
             }
         }

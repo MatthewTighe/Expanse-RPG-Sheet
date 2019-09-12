@@ -4,26 +4,66 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="8dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-            android:id="@+id/text_character_name_details"
+            android:id="@+id/details_text_character_name"
             android:text="@string/placeholder"
             android:textSize="@dimen/textSizeH4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/details_fortune_adjustment"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/details_layout_max_fortune"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:hint="@string/hint_max_fortune"
+            style="@style/TextField"
+            app:layout_constraintTop_toBottomOf="@id/details_text_character_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/details_layout_current_fortune">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/details_input_max_fortune"
+                android:text="@string/placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/details_layout_current_fortune"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="4dp"
+            android:hint="@string/hint_current_fortune"
+            style="@style/TextField"
+            app:layout_constraintTop_toBottomOf="@id/details_text_character_name"
+            app:layout_constraintStart_toEndOf="@id/details_layout_max_fortune"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/details_input_current_fortune"
+                android:text="@string/placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <include
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:id="@+id/details_fortune_adjustment"
-            layout="@layout/layout_fortune_adjustment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_character_name_details" />
+            android:id="@+id/details_layout_conditions"
+            layout="@layout/layout_collapsible_conditions"
+            app:layout_constraintTop_toBottomOf="@id/details_layout_max_fortune"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

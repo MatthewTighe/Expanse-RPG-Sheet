@@ -16,5 +16,11 @@
         <item name="iconTint">@color/colorIcon</item>
         <item name="iconGravity">textStart</item>
         <item name="iconPadding">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
     </style>
+
+    <style name="TextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
 </resources>
