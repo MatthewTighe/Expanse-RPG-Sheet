@@ -12,7 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.model.AfterTextWatcher
+import tighe.matthew.expanserpgsheet.AfterTextWatcher
 import tighe.matthew.expanserpgsheet.setTextWithoutWatcher
 
 class CharacterDetailsFragment : Fragment() {

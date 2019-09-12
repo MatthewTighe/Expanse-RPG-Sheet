@@ -1,4 +1,4 @@
-package tighe.matthew.expanserpgsheet.model
+package tighe.matthew.expanserpgsheet
 
 import android.text.Editable
 import android.text.TextWatcher
