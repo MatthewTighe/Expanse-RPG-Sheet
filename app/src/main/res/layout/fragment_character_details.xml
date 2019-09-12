@@ -32,6 +32,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/details_input_max_fortune"
                 android:text="@string/placeholder"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -52,6 +53,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/details_input_current_fortune"
                 android:text="@string/placeholder"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

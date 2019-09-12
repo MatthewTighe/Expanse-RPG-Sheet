@@ -37,12 +37,15 @@ class MainActivityTest {
         // Character fortune can be modified
         R.id.layout_fragment_character_details.isDisplayed()
         expectedInitialFortune.toString().isDisplayed()
-        R.id.btn_inc_fortune.click()
-        val incrementedFortune = expectedInitialFortune + 1
-        incrementedFortune.toString().isDisplayed()
+        val updatedFortune = 35
+        R.id.details_input_max_fortune.writeText(updatedFortune.toString())
+        updatedFortune.toString().isDisplayed()
 
-        R.id.btn_dec_fortune.click()
-        expectedInitialFortune.toString().isDisplayed()
+        // Leave details page
+        R.id.character_list_fragment.click()
+        expectedName.isDisplayed()
+        expectedName.click()
+        updatedFortune.toString().isDisplayed()
     }
 
     @Test

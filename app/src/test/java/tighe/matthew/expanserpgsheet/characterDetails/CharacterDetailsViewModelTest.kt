@@ -43,19 +43,21 @@ class CharacterDetailsViewModelTest {
     }
 
     @Test
-    fun `Incrementing delegates to model with incremented fortune`() {
-        viewModel.submitAction(CharacterDetailsAction.IncrementFortune)
+    fun `Changes to max fortune are delegated to the model`() {
+        val newFortune = 20
+        viewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(newFortune))
 
-        val expectedFortune = testInitialFortune + 1
-        coVerify { mockRepo.update(testInitialCharacterModel.copy(maxFortune = expectedFortune))}
+        val expected = testInitialCharacterModel.copy(maxFortune = newFortune)
+        coVerify { mockRepo.update(expected) }
     }
 
     @Test
-    fun `Decrementing delegates to model with decremented fortune`() {
-        viewModel.submitAction(CharacterDetailsAction.DecrementFortune)
+    fun `Changes to current fortune are delegated to the model`() {
+        val newFortune = 20
+        viewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(20))
 
-        val expectedFortune = testInitialFortune - 1
-        coVerify { mockRepo.update(testInitialCharacterModel.copy(maxFortune = expectedFortune)) }
+        val expected = testInitialCharacterModel.copy(currentFortune = newFortune)
+        coVerify { mockRepo.update(expected) }
     }
 
     @Test

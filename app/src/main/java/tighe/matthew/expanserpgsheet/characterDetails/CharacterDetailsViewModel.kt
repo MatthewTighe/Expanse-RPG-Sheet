@@ -50,18 +50,16 @@ internal class CharacterDetailsViewModel(
 
     override fun submitAction(action: CharacterDetailsAction) {
         when (action) {
-            is CharacterDetailsAction.IncrementFortune -> {
+            is CharacterDetailsAction.ChangeMaxFortune -> {
                 val currentCharacter = viewState.value!!.character
-                val currentFortune = currentCharacter.maxFortune + 1
-                val updatedCharacter = currentCharacter.copy(maxFortune = currentFortune)
+                val updatedCharacter = currentCharacter.copy(maxFortune = action.newFortune)
                 this.launch {
                     repository.update(updatedCharacter)
                 }
             }
-            is CharacterDetailsAction.DecrementFortune -> {
+            is CharacterDetailsAction.ChangeCurrentFortune -> {
                 val currentCharacter = viewState.value!!.character
-                val currentFortune = currentCharacter.maxFortune - 1
-                val updatedCharacter = currentCharacter.copy(maxFortune = currentFortune)
+                val updatedCharacter = currentCharacter.copy(currentFortune = action.newFortune)
                 this.launch {
                     repository.update(updatedCharacter)
                 }

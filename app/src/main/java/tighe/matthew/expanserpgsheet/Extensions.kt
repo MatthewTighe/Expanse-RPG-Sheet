@@ -38,6 +38,13 @@ fun Activity.shortSnack(@StringRes message: Int) {
     snack.show()
 }
 
+fun TextInputEditText.setTextWithoutWatcher(watcher: TextWatcher, text: String) {
+    this.removeTextChangedListener(watcher)
+    this.setText(text)
+    this.setSelection(this.text!!.length)
+    this.addTextChangedListener(watcher)
+}
+
 fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
