@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "da6664dd97fbe8bd66d43c51f8cce4eb",
+    "identityHash": "f15b73c4f4bc4f6e01d5d9ddb9fa4869",
     "entities": [
       {
         "tableName": "Character",
@@ -94,12 +94,60 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "character_condition",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`condition` TEXT NOT NULL, `characterId` INTEGER NOT NULL, PRIMARY KEY(`condition`, `characterId`), FOREIGN KEY(`characterId`) REFERENCES `Character`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "condition",
+            "columnName": "condition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "characterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "condition",
+            "characterId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_character_condition_characterId",
+            "unique": false,
+            "columnNames": [
+              "characterId"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_character_condition_characterId` ON `${TABLE_NAME}` (`characterId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Character",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "characterId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da6664dd97fbe8bd66d43c51f8cce4eb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f15b73c4f4bc4f6e01d5d9ddb9fa4869')"
     ]
   }
 }
