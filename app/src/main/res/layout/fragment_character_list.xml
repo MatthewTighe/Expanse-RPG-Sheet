@@ -4,7 +4,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_characters"
@@ -21,6 +22,6 @@
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_person_add_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

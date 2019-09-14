@@ -10,7 +10,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="fill_vertical"
-            app:icon="@drawable/ic_decrement"
+            app:icon="@drawable/ic_decrement_24dp"
             style="@style/IconButton" />
 
     <LinearLayout
@@ -43,7 +43,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="fill_vertical"
-            app:icon="@drawable/ic_increment"
+            app:icon="@drawable/ic_increment_24dp"
             style="@style/IconButton" />
 
 </LinearLayout>
