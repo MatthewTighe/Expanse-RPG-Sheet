@@ -53,4 +53,17 @@ class EncounterFragmentTest : KoinTest {
 
         (originalFortune - 1).toString().isDisplayed()
     }
+
+    @Test
+    fun characterFortuneCanBeDirectlyAlteredAndIsPersisted() {
+        originalFortune.toString().isDisplayed()
+
+        val updatedFortune = originalFortune + 10
+        R.id.edit_text_fortune.writeText(updatedFortune.toString())
+
+        R.id.character_list_fragment.click()
+        R.id.encounter_fragment.click()
+
+        updatedFortune.toString().isDisplayed()
+    }
 }

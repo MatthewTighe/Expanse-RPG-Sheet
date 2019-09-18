@@ -41,6 +41,9 @@ class EncounterViewModel(
             is EncounterAction.DecrementFortune -> {
                 handleFortuneChange(action.encounterCharacter, -1)
             }
+            is EncounterAction.SetFortune -> {
+                handleSetFortune(action)
+            }
             is EncounterAction.CharacterMoved -> {
                 handleMovedAction(action)
             }
@@ -55,9 +58,23 @@ class EncounterViewModel(
     }
 
     private fun handleFortuneChange(encounterCharacter: EncounterCharacter, changeAmount: Int) {
+        val newFortune = encounterCharacter.character.currentFortune + changeAmount
+        persistFortuneChange(encounterCharacter, newFortune)
+    }
+
+    private fun handleSetFortune(action: EncounterAction.SetFortune) {
+        val newFortune = try {
+            action.fortuneEntered.toInt()
+        } catch (err: RuntimeException) {
+            0
+        }
+        persistFortuneChange(action.encounterCharacter, newFortune)
+    }
+
+    private fun persistFortuneChange(encounterCharacter: EncounterCharacter, newFortune: Int) {
         val character = encounterCharacter.character
 
-        val updatedCharacter = character.copy(currentFortune = character.currentFortune + changeAmount)
+        val updatedCharacter = character.copy(currentFortune = newFortune)
         val updatedEncounterCharacter = encounterCharacter.copy(character = updatedCharacter)
 
         this.launch {

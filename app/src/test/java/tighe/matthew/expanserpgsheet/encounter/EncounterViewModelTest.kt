@@ -81,6 +81,46 @@ class EncounterViewModelTest {
     }
 
     @Test
+    fun `Set fortune action parses well-formed strings and delegates to model`() {
+        coEvery { mockEncounterRepo.getEncounter() } returns flow {
+            emit(testEncounter)
+        }
+
+        val updatedFortune = testCharacter.currentFortune + 10
+        viewModel.submitAction(EncounterAction.SetFortune(updatedFortune.toString(), testEncounterCharacter))
+
+        val expectedCharacter = testCharacter.copy(currentFortune = updatedFortune)
+        val expected = testEncounterCharacter.copy(character = expectedCharacter)
+        coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
+    fun `Set fortune action defaults to 0 with empty strings`() {
+        coEvery { mockEncounterRepo.getEncounter() } returns flow {
+            emit(testEncounter)
+        }
+
+        viewModel.submitAction(EncounterAction.SetFortune("", testEncounterCharacter))
+
+        val expectedCharacter = testCharacter.copy(currentFortune = 0)
+        val expected = testEncounterCharacter.copy(character = expectedCharacter)
+        coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
+    fun `Set fortune action defaults to 0 with malformed strings`() {
+        coEvery { mockEncounterRepo.getEncounter() } returns flow {
+            emit(testEncounter)
+        }
+
+        viewModel.submitAction(EncounterAction.SetFortune("@+%1", testEncounterCharacter))
+
+        val expectedCharacter = testCharacter.copy(currentFortune = 0)
+        val expected = testEncounterCharacter.copy(character = expectedCharacter)
+        coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
     fun `Moved action finds correct positions and delegates them to repository`() {
         val fromPosition = 0
         val toPosition = 1

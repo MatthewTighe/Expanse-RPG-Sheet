@@ -1,7 +1,6 @@
 package tighe.matthew.expanserpgsheet
 
 import android.app.Activity
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,13 +37,6 @@ fun Activity.shortSnack(@StringRes message: Int) {
     snack.show()
 }
 
-fun TextInputEditText.setTextWithoutWatcher(watcher: TextWatcher, text: String) {
-    this.removeTextChangedListener(watcher)
-    this.setText(text)
-    this.setSelection(this.text!!.length)
-    this.addTextChangedListener(watcher)
-}
-
 fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
@@ -54,34 +46,4 @@ fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
     })
-}
-
-fun SharedPreferences.putInt(key: String, value: Int) {
-    with(this.edit()) {
-        putInt(key, value)
-        apply()
-    }
-}
-
-fun SharedPreferences.appendStringSet(key: String, value: String) {
-    val set = this.getStringSet(key, setOf()) ?: setOf()
-    with(this.edit()) {
-        putStringSet(key, set.plus(value))
-        apply()
-    }
-}
-
-fun SharedPreferences.removeFromStringSet(key: String, value: String) {
-    val set = this.getStringSet(key, setOf()) ?: setOf()
-    with(this.edit()) {
-        putStringSet(key, set.minus(value))
-        apply()
-    }
-}
-
-fun SharedPreferences.delete(key: String) {
-    with(this.edit()) {
-        remove(key)
-        apply()
-    }
 }

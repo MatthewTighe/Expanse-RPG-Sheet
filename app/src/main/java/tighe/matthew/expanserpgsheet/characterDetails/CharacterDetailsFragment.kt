@@ -12,8 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.AfterTextWatcher
-import tighe.matthew.expanserpgsheet.setTextWithoutWatcher
+import tighe.matthew.expanserpgsheet.UserInputTextWatcher
+import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 
 class CharacterDetailsFragment : Fragment() {
 
@@ -21,12 +21,22 @@ class CharacterDetailsFragment : Fragment() {
 
     private val viewModel: CharacterDetailsViewModel by viewModel { parametersOf(characterId) }
 
-    private val maxFortuneWatcher = AfterTextWatcher { text ->
-        viewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(text.toInt()))
+    private val maxFortuneEditText by lazy {
+        activity?.findViewById<TextInputEditText>(R.id.details_input_max_fortune)
+    }
+    private val maxFortuneWatcher by lazy {
+        UserInputTextWatcher(maxFortuneEditText!!) { text ->
+            viewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(text.toInt()))
+        }
     }
 
-    private val currentFortuneWatcher = AfterTextWatcher { text ->
-        viewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(text.toInt()))
+    private val currentFortuneEditText by lazy {
+        activity?.findViewById<TextInputEditText>(R.id.details_input_current_fortune)
+    }
+    private val currentFortuneWatcher by lazy {
+        UserInputTextWatcher(currentFortuneEditText!!) { text ->
+            viewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(text.toInt()))
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,8 +60,8 @@ class CharacterDetailsFragment : Fragment() {
         val maxFortuneInput = activity?.findViewById<TextInputEditText>(R.id.details_input_max_fortune)
         val currentFortuneInput = activity?.findViewById<TextInputEditText>(R.id.details_input_current_fortune)
 
-        maxFortuneInput?.setTextWithoutWatcher(maxFortuneWatcher, viewState.character.maxFortune.toString())
-        currentFortuneInput?.setTextWithoutWatcher(currentFortuneWatcher, viewState.character.currentFortune.toString())
+        maxFortuneInput?.setTextBeforeWatching(maxFortuneWatcher, viewState.character.maxFortune.toString())
+        currentFortuneInput?.setTextBeforeWatching(currentFortuneWatcher, viewState.character.currentFortune.toString())
     }
 
     private fun setupFortuneListeners() {

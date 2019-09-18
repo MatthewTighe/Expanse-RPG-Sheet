@@ -39,9 +39,6 @@ android {
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
-    sourceSets {
-        androidTest.setRoot("src/androidTest")
-    }
 }
 
 androidExtensions {
@@ -88,6 +85,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$androidx_test_version"
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

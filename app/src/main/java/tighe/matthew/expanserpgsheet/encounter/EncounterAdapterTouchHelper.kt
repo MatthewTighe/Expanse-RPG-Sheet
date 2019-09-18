@@ -7,7 +7,7 @@ class EncounterAdapterTouchHelper(private val adapter: HelperAdapter) :
     ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.END) {
 
     interface HelperAdapter {
-        fun onItemMoved(fromPosition: Int, toPosition: Int)
+        fun onItemMove(fromPosition: Int, toPosition: Int)
         fun onItemDismiss(position: Int)
     }
 
@@ -18,7 +18,7 @@ class EncounterAdapterTouchHelper(private val adapter: HelperAdapter) :
     ): Boolean {
         val fromPosition = viewHolder.adapterPosition
         val toPosition = target.adapterPosition
-        adapter.onItemMoved(fromPosition, toPosition)
+        adapter.onItemMove(fromPosition, toPosition)
         return true
     }
 

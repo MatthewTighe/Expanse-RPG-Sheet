@@ -49,6 +49,10 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
         viewModel.submitAction(EncounterAction.IncrementFortune(character))
     }
 
+    override fun onFortuneChanged(updatedFortune: String, character: EncounterCharacter) {
+        viewModel.submitAction(EncounterAction.SetFortune(updatedFortune, character))
+    }
+
     override fun onItemMoved(
         movedCharacter: EncounterCharacter,
         fromPosition: Int,
