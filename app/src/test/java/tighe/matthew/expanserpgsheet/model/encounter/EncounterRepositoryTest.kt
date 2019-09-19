@@ -57,11 +57,14 @@ class EncounterRepositoryTest {
         coVerify { mockCharacterEncounterDetailDao.insert(addedDetail) }
     }
 
+    // Order of the initial lists matters for tests of initiative ordering. In real scenarios,
+    // the lists should be ordered automatically during insertion into the database.
+
     @Test
-    fun `Positions are shifted down when a character with higher initiative is added`() = runBlockingTest {
+    fun `High initiative entries shift every other entry down`() = runBlockingTest {
         val lowInitiativeDetail = CharacterEncounterDetail(1, 2, 0)
         val middleInitiativeDetail = CharacterEncounterDetail(0, 4, 0)
-        val initialDetails = listOf(lowInitiativeDetail, middleInitiativeDetail)
+        val initialDetails = listOf(middleInitiativeDetail, lowInitiativeDetail)
 
         val addedDetail = CharacterEncounterDetail(0, 10, 1)
         val character = Character(1, "name")
@@ -76,6 +79,52 @@ class EncounterRepositoryTest {
             mockCharacterEncounterDetailDao.insert(updatedLow)
             mockCharacterEncounterDetailDao.insert(updatedMiddle)
             mockCharacterEncounterDetailDao.insert(addedDetail)
+        }
+    }
+
+    @Test
+    fun `Adding a character with middle initiative shifts only lower initiatives down`() = runBlockingTest {
+        val lowInitiativeDetail = CharacterEncounterDetail(1, 2, 0)
+        val highInitiativeDetail = CharacterEncounterDetail(0, 10, 0)
+        val initialDetails = listOf(highInitiativeDetail, lowInitiativeDetail)
+
+        val addedDetail = CharacterEncounterDetail(1, 5, 1)
+        val character = Character(1, "name")
+
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns initialDetails
+
+        repo.addCharacter(character, addedDetail.initiative)
+
+        val updatedLow = lowInitiativeDetail.copy(position = lowInitiativeDetail.position + 1)
+        coVerify {
+            mockCharacterEncounterDetailDao.insert(updatedLow)
+            mockCharacterEncounterDetailDao.insert(addedDetail)
+        }
+        val incorrectlyShiftedFirstEntry = highInitiativeDetail.copy(position = highInitiativeDetail.position + 1)
+        coVerify(exactly = 0) { mockCharacterEncounterDetailDao.insert(incorrectlyShiftedFirstEntry) }
+    }
+
+    @Test
+    fun `Adding a character with low initiative does not shift any other characters down`() = runBlockingTest {
+        val middleInitiativeDetail = CharacterEncounterDetail(1, 5, 0)
+        val highInitiativeDetail = CharacterEncounterDetail(0, 10, 0)
+        val initialDetails = listOf(highInitiativeDetail, middleInitiativeDetail)
+
+        val addedDetail = CharacterEncounterDetail(2, 2, 1)
+        val character = Character(1, "name")
+
+        coEvery { mockCharacterEncounterDetailDao.getAll() } returns initialDetails
+
+        repo.addCharacter(character, addedDetail.initiative)
+
+        coVerify {
+            mockCharacterEncounterDetailDao.insert(addedDetail)
+        }
+        val incorrectlyShiftedMidEntry = middleInitiativeDetail.copy(position = middleInitiativeDetail.position + 1)
+        val incorrectlyShiftedFirstEntry = highInitiativeDetail.copy(position = highInitiativeDetail.position + 1)
+        coVerify(exactly = 0) {
+            mockCharacterEncounterDetailDao.insert(incorrectlyShiftedMidEntry)
+            mockCharacterEncounterDetailDao.insert(incorrectlyShiftedFirstEntry)
         }
     }
 

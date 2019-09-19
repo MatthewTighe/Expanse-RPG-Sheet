@@ -65,11 +65,11 @@ class EncounterRepository(
 
     private suspend fun getNewPositionByInitiative(initiative: Int): Int {
         val details = characterEncounterDetailDao.getAll()
-        // Position is reversed ordering of initiative
+        // New position should be the first where initiative is greater than an existing.
         val index = details.indexOfFirst { encounterCharacter ->
-            initiative <= encounterCharacter.initiative
+            initiative >= encounterCharacter.initiative
         }
-        return if (index == -1) 0 else index + 1
+        return if (index == -1) details.size else index
     }
 
     private suspend fun updateCurrentPositions(
