@@ -31,8 +31,7 @@ internal class CharacterCreationViewModel(
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
-    var model: Character =
-        Character(0, "name")
+    var model: Character = Character(0)
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {

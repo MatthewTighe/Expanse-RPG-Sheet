@@ -3,6 +3,7 @@ package tighe.matthew.expanserpgsheet.characterDetails
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,32 +36,30 @@ class CharacterDetailsFragmentTest : KoinTest {
     }
 
     @Test
-    fun maxFortuneCanBeAlteredAndIsPersisted() {
+    fun maxFortuneCanBeAlteredAndIsPersisted() = runBlocking {
         initialMaxFortune.toString().isDisplayed()
 
-        val updatedFortune = initialMaxFortune + 10
+        val updatedFortune = initialMaxFortune + 20
         R.id.details_input_max_fortune.writeText(updatedFortune.toString())
         updatedFortune.toString().isDisplayed()
 
-        activityRule.navTo(R.id.character_list_fragment)
-        initialModel.name.click()
+        val result = characterRepository.load(initialModel.id)
 
-        R.id.layout_fragment_character_details.isDisplayed()
-        updatedFortune.toString().isDisplayed()
+        val expected = initialModel.copy(maxFortune = updatedFortune)
+        assertEquals(expected, result)
     }
 
     @Test
-    fun currentFortuneCanBeAlteredAndIsPersisted() {
+    fun currentFortuneCanBeAlteredAndIsPersisted() = runBlocking {
         initialCurrentFortune.toString().isDisplayed()
 
         val updatedFortune = initialCurrentFortune + 10
         R.id.details_input_current_fortune.writeText(updatedFortune.toString())
         updatedFortune.toString().isDisplayed()
 
-        activityRule.navTo(R.id.character_list_fragment)
-        initialModel.name.click()
+        val result = characterRepository.load(initialModel.id)
 
-        R.id.layout_fragment_character_details.isDisplayed()
-        updatedFortune.toString().isDisplayed()
+        val expected = initialModel.copy(currentFortune = updatedFortune)
+        assertEquals(expected, result)
     }
 }
