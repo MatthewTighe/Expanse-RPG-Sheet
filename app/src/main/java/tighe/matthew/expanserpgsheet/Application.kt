@@ -23,7 +23,8 @@ val appModule = module {
     }
     single { get<AppDatabase>().characterDao() }
     single { get<AppDatabase>().characterEncounterDetailDao() }
-    single { CharacterRepository(get()) }
+    single { get<AppDatabase>().characterConditionDao() }
+    single { CharacterRepository(get(), get()) }
     single { EncounterRepository(get(), get()) }
     viewModel { CharacterListViewModel(get(), get()) }
     viewModel { CharacterCreationViewModel(get()) }

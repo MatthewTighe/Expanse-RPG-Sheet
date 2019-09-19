@@ -18,6 +18,7 @@ import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 class CharacterDetailsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
+    @UseExperimental
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockViewStateObserver = mockk<Observer<CharacterDetailsViewState>>(relaxUnitFun = true)

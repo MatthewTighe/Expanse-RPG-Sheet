@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d45f4ff9be3f79ec9d9755947d4a2879",
+    "identityHash": "f15b73c4f4bc4f6e01d5d9ddb9fa4869",
     "entities": [
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL, `currentFortune` INTEGER NOT NULL, `conditions` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL, `currentFortune` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -30,12 +30,6 @@
             "fieldPath": "currentFortune",
             "columnName": "currentFortune",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "conditions",
-            "columnName": "conditions",
-            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -153,7 +147,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd45f4ff9be3f79ec9d9755947d4a2879')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f15b73c4f4bc4f6e01d5d9ddb9fa4869')"
     ]
   }
 }

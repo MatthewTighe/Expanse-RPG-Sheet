@@ -19,6 +19,7 @@ import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 class CharacterCreationViewModelTest {
 
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @UseExperimental
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockEventObserver = mockk<Observer<Event?>>(relaxUnitFun = true)

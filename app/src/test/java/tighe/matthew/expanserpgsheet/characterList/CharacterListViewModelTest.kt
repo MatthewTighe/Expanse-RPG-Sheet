@@ -20,6 +20,7 @@ import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 class CharacterListViewModelTest {
 
     @get:Rule val rule = InstantTaskExecutorRule()
+    @UseExperimental
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockCharacterRepo = mockk<CharacterRepository>(relaxUnitFun = true)
