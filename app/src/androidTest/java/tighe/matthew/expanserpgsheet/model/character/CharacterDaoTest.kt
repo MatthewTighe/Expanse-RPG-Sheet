@@ -31,6 +31,20 @@ class CharacterDaoTest {
     }
 
     @Test
+    fun primaryKeyIsRespected() = runBlocking {
+        val char1 = character.copy(id = 1, name = "1")
+        val char2 = character.copy(id = 1, name = "2")
+
+        characterDao.insert(char1)
+        characterDao.insert(char2)
+
+        val result = characterDao.observeAll().first()
+
+        assertEquals(1, result.size)
+        assertEquals(char2, result[0])
+    }
+
+    @Test
     fun characterCanBeInserted() = runBlocking {
         val id = characterDao.insert(character)
 

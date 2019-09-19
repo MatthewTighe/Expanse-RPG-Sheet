@@ -32,7 +32,7 @@ internal class CharacterCreationViewModel(
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
     var model: Character =
-        Character(0)
+        Character(0, "name")
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {
