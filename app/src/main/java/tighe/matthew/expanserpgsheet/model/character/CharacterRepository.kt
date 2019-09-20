@@ -13,7 +13,7 @@ class CharacterRepository(private val characterDao: CharacterDao, private val co
 
     suspend fun load(id: Long): Character {
         val character = characterDao.getById(id)
-        return character.copy(conditions = getConditionsForId(id))
+        return character.copy(conditions = getConditionsForId(id).toSet())
     }
 
     suspend fun update(character: Character) {
@@ -21,10 +21,9 @@ class CharacterRepository(private val characterDao: CharacterDao, private val co
     }
 
     fun observeAll(): Flow<List<Character>> {
-//        return characterDao.observeAll()
         return characterDao.observeAll().map { list -> list.map { character ->
             val conditions = getConditionsForId(character.id)
-            character.copy(conditions = conditions)
+            character.copy(conditions = conditions.toSet())
         } }
     }
 

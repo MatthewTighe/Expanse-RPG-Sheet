@@ -8,14 +8,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface BaseViewModel<V : ViewState, A : Action> {
-    fun observeViewState(): LiveData<V>
+    fun submitAction(action: A)
+}
 
+interface LiveDataViewModel<V : ViewState, A : Action> : BaseViewModel<V, A> {
     fun observeEvent(): SingleLiveEvent<Event>
 
-    fun submitAction(action: A)
+    fun observeViewState(): LiveData<V>
+}
+
+interface FlowViewModel<V : ViewState, A : Action> : BaseViewModel<V, A> {
+    fun observeViewState(): Flow<V>
 }
 
 interface ViewState

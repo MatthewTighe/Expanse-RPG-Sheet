@@ -3,23 +3,19 @@ package tighe.matthew.expanserpgsheet.encounter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
+import tighe.matthew.expanserpgsheet.LiveDataViewModel
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
-import kotlin.coroutines.CoroutineContext
 
 class EncounterViewModel(
     private val encounterRepository: EncounterRepository
-) : ViewModel(), BaseViewModel<EncounterViewState, EncounterAction>, CoroutineScope {
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+) : ViewModel(), LiveDataViewModel<EncounterViewState, EncounterAction> {
 
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
@@ -29,7 +25,7 @@ class EncounterViewModel(
     override fun observeViewState(): LiveData<EncounterViewState> {
         encounterRepository.getEncounter().onEach { encounter ->
             viewState.postValue(EncounterViewState(encounter))
-        }.launchIn(this)
+        }.launchIn(viewModelScope)
         return viewState
     }
 
@@ -48,7 +44,7 @@ class EncounterViewModel(
                 handleMovedAction(action)
             }
             is EncounterAction.CharacterRemoved -> {
-                this.launch {
+                viewModelScope.launch {
                     encounterRepository.removeEncounterCharacter(
                         action.removedCharacter, action.position
                     )
@@ -77,7 +73,7 @@ class EncounterViewModel(
         val updatedCharacter = character.copy(currentFortune = newFortune)
         val updatedEncounterCharacter = encounterCharacter.copy(character = updatedCharacter)
 
-        this.launch {
+        viewModelScope.launch {
             encounterRepository.updateEncounterCharacter(updatedEncounterCharacter)
         }
     }
@@ -93,7 +89,7 @@ class EncounterViewModel(
         val updatedMoved = movedCharacter.copy(detail = updatedMovedDetails)
         val updatedDisplaced = movedCharacter.copy(detail = updatedDisplacedDetails)
 
-        this.launch {
+        viewModelScope.launch {
             encounterRepository.updateEncounterCharacter(updatedMoved)
             encounterRepository.updateEncounterCharacter(updatedDisplaced)
         }

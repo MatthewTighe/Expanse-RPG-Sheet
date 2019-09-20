@@ -3,24 +3,19 @@ package tighe.matthew.expanserpgsheet.characterList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
-import kotlin.coroutines.CoroutineContext
 
 internal class CharacterListViewModel(
     private val characterRepository: CharacterRepository,
     private val encounterRepository: EncounterRepository
 ) : ViewModel(),
-    BaseViewModel<CharacterListViewState, CharacterListAction>,
-    CoroutineScope {
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+    LiveDataViewModel<CharacterListViewState, CharacterListAction> {
 
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
@@ -34,7 +29,7 @@ internal class CharacterListViewModel(
             val update = viewState.value?.copy(characterList = characters)
             ?: CharacterListViewState(characterList = characters)
             viewState.postValue(update)
-        }.launchIn(this)
+        }.launchIn(viewModelScope)
         return viewState
     }
 
@@ -44,7 +39,7 @@ internal class CharacterListViewModel(
                 event.postValue(Event.Navigate(R.id.character_creation_fragment))
             }
             is CharacterListAction.AddToEncounterClicked -> {
-                this.launch {
+                viewModelScope.launch {
                     val character = action.character
                     if (encounterRepository.characterIsInEncounter(character)) {
                         event.postValue(Event.Snackbar(R.string.character_already_in_encounter))
@@ -58,7 +53,7 @@ internal class CharacterListViewModel(
                 }
             }
             is CharacterListAction.InitiativeEntered -> {
-                this.launch {
+                viewModelScope.launch {
                     encounterRepository.addCharacter(action.character!!, action.initiative)
                     event.postValue(Event.Snackbar(R.string.character_added_encounter))
                     val update = viewState.value!!.copy(
@@ -69,7 +64,7 @@ internal class CharacterListViewModel(
                 }
             }
             is CharacterListAction.Delete -> {
-                this.launch {
+                viewModelScope.launch {
                     characterRepository.delete(action.character)
                 }
             }

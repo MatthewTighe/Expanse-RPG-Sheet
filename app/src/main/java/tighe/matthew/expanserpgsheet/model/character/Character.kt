@@ -11,7 +11,8 @@ data class Character @Ignore constructor(
     val name: String = "",
     val maxFortune: Int = 0,
     val currentFortune: Int = maxFortune,
-    @Ignore val conditions: List<Condition> = listOf()
+    @Ignore val conditions: Set<Condition> = setOf()
 ) {
-    constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int) : this(id, name, maxFortune, currentFortune, listOf())
+    constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int) :
+            this(id, name, maxFortune, currentFortune, setOf())
 }
