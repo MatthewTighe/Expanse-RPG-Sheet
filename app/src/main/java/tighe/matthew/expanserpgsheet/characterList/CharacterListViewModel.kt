@@ -15,7 +15,7 @@ internal class CharacterListViewModel(
     private val characterRepository: CharacterRepository,
     private val encounterRepository: EncounterRepository
 ) : ViewModel(),
-    LiveDataViewModel<CharacterListViewState, CharacterListAction> {
+    BaseViewModel<CharacterListViewState, CharacterListAction> {
 
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
@@ -25,7 +25,7 @@ internal class CharacterListViewModel(
     }
     @ExperimentalCoroutinesApi
     override fun observeViewState(): LiveData<CharacterListViewState> {
-        characterRepository.observeAll().onEach { characters ->
+        characterRepository.observeBase().onEach { characters ->
             val update = viewState.value?.copy(characterList = characters)
             ?: CharacterListViewState(characterList = characters)
             viewState.postValue(update)

@@ -4,22 +4,22 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CharacterEncounterDetailDao {
+interface EncounterDetailDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(encounterCharacterDetails: CharacterEncounterDetail)
+    suspend fun insert(encounterDetails: EncounterDetail)
 
     @Update
-    suspend fun update(encounterCharacterDetails: CharacterEncounterDetail)
+    suspend fun update(encounterDetails: EncounterDetail)
 
     @Query("SELECT * FROM character_encounter_detail")
-    suspend fun getAll(): List<CharacterEncounterDetail>
+    suspend fun getAll(): List<EncounterDetail>
 
     @Query("SELECT * FROM character_encounter_detail")
-    fun flowAll(): Flow<List<CharacterEncounterDetail>>
+    fun flowAll(): Flow<List<EncounterDetail>>
 
     @Query("DELETE FROM character_encounter_detail")
     suspend fun deleteAll()
 
     @Delete
-    suspend fun delete(detail: CharacterEncounterDetail)
+    suspend fun delete(detail: EncounterDetail)
 }

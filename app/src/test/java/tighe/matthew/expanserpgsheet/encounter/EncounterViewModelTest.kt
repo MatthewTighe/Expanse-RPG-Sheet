@@ -15,8 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.generateEncounterCharacter
 import tighe.matthew.expanserpgsheet.model.character.Character
-import tighe.matthew.expanserpgsheet.model.encounter.CharacterEncounterDetail
-import tighe.matthew.expanserpgsheet.model.encounter.Encounter
+import tighe.matthew.expanserpgsheet.model.encounter.EncounterDetail
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 
@@ -32,7 +31,7 @@ class EncounterViewModelTest {
     private lateinit var viewModel: EncounterViewModel
 
     private val testCharacter = Character(0, "name", 10)
-    private val testDetail = CharacterEncounterDetail(3, 2, 0)
+    private val testDetail = EncounterDetail(3, 2, 0)
     private val testEncounterCharacter = EncounterCharacter(testCharacter, testDetail)
     private val testEncounter = Encounter(listOf(testEncounterCharacter))
 

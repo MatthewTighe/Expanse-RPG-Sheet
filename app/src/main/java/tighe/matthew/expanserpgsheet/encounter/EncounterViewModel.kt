@@ -7,15 +7,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.LiveDataViewModel
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 
 class EncounterViewModel(
-    private val encounterRepository: EncounterRepository
-) : ViewModel(), LiveDataViewModel<EncounterViewState, EncounterAction> {
+    private val encounterRepository: EncounterRepository,
+    private val characterRepository: CharacterRepository
+) : ViewModel(), BaseViewModel<EncounterViewState, EncounterAction> {
 
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
@@ -39,6 +41,16 @@ class EncounterViewModel(
             }
             is EncounterAction.SetFortune -> {
                 handleSetFortune(action)
+            }
+            is EncounterAction.ConditionChecked -> {
+                viewModelScope.launch {
+                    characterRepository.addCondition(action.condition, action.character)
+                }
+            }
+            is EncounterAction.ConditionUnchecked -> {
+                viewModelScope.launch {
+                    characterRepository.removeCondition(action.condition, action.character)
+                }
             }
             is EncounterAction.CharacterMoved -> {
                 handleMovedAction(action)

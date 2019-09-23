@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 
 class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
@@ -37,7 +39,7 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
         recyclerView.adapter = adapter
         touchHelper.attachToRecyclerView(recyclerView)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            adapter.updateCharacters(viewState.encounter.characters)
+            adapter.updateCharacters(viewState.encounterCharacters)
         } })
     }
 
@@ -51,6 +53,14 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
 
     override fun onFortuneChanged(updatedFortune: String, character: EncounterCharacter) {
         viewModel.submitAction(EncounterAction.SetFortune(updatedFortune, character))
+    }
+
+    override fun onConditionChecked(condition: Condition, character: Character) {
+        viewModel.submitAction(EncounterAction.ConditionChecked(condition, character))
+    }
+
+    override fun onConditionUnchecked(condition: Condition, character: Character) {
+        viewModel.submitAction(EncounterAction.ConditionUnchecked(condition, character))
     }
 
     override fun onItemMoved(

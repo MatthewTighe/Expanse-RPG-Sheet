@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.LiveDataViewModel
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
@@ -16,7 +16,7 @@ import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 internal class CharacterDetailsViewModel(
     private val characterId: Long,
     private val repository: CharacterRepository
-) : ViewModel(), LiveDataViewModel<CharacterDetailsViewState, CharacterDetailsAction> {
+) : ViewModel(), BaseViewModel<CharacterDetailsViewState, CharacterDetailsAction> {
 
     private val character: Character = runBlocking { repository.load(characterId) }
 
@@ -26,7 +26,7 @@ internal class CharacterDetailsViewModel(
     @ExperimentalCoroutinesApi
     override fun observeViewState(): LiveData<CharacterDetailsViewState> {
         viewModelScope.launch {
-            repository.observeAll().onEach { characters ->
+            repository.observeWithConditions().onEach { characters ->
                 val updatedCharacter = characters.find { it.id == characterId }!!
                 val updatedViewState = viewState.value!!.copy(
                     character = updatedCharacter
@@ -54,6 +54,16 @@ internal class CharacterDetailsViewModel(
                 val updatedCharacter = currentCharacter.copy(currentFortune = action.newFortune)
                 viewModelScope.launch {
                     repository.update(updatedCharacter)
+                }
+            }
+            is CharacterDetailsAction.CheckCondition -> {
+                viewModelScope.launch {
+                    repository.addCondition(action.condition, action.character)
+                }
+            }
+            is CharacterDetailsAction.UncheckCondition -> {
+                viewModelScope.launch {
+                    repository.removeCondition(action.condition, action.character)
                 }
             }
         }

@@ -12,7 +12,7 @@ import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 internal class CharacterCreationViewModel(
     private val repository: CharacterRepository
 ) : ViewModel(),
-    LiveDataViewModel<CharacterCreationViewState, CharacterCreationAction> {
+    BaseViewModel<CharacterCreationViewState, CharacterCreationAction> {
 
     private val viewState = MutableLiveData<CharacterCreationViewState>().apply {
         postValue(CharacterCreationViewState())

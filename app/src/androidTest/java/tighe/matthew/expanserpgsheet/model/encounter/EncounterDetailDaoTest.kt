@@ -17,16 +17,16 @@ import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterDao
 
 @RunWith(AndroidJUnit4::class)
-class CharacterEncounterDetailDaoTest {
+class EncounterDetailDaoTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     private lateinit var db: AppDatabase
-    private lateinit var detailDao: CharacterEncounterDetailDao
+    private lateinit var detailDao: EncounterDetailDao
     private lateinit var characterDao: CharacterDao
 
     private val characterId = 1L
-    private val detail = CharacterEncounterDetail(0, 1, characterId)
+    private val detail = EncounterDetail(0, 1, characterId)
     private val character = Character(characterId, "name", 0)
 
     @Before
@@ -74,7 +74,7 @@ class CharacterEncounterDetailDaoTest {
 
         val result = detailDao.getAll()
 
-        assertEquals(listOf<CharacterEncounterDetail>(), result)
+        assertEquals(listOf<EncounterDetail>(), result)
     }
 
     @Test
@@ -84,6 +84,6 @@ class CharacterEncounterDetailDaoTest {
 
         val result = detailDao.getAll()
 
-        assertEquals(listOf<CharacterEncounterDetail>(), result)
+        assertEquals(listOf<EncounterDetail>(), result)
     }
 }

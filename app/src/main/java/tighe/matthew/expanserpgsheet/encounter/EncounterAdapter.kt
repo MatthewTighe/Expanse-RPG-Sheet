@@ -9,13 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import org.koin.core.KoinComponent
-import org.koin.core.get
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.condition.ConditionViewController
+import tighe.matthew.expanserpgsheet.condition.ConditionView
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
-import org.koin.core.parameter.parametersOf
+import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 
 class EncounterAdapter(private val listeners: AdapterListeners) :
     RecyclerView.Adapter<EncounterAdapter.ViewHolder>(), EncounterAdapterTouchHelper.HelperAdapter {
@@ -25,6 +25,9 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         fun onIncClick(character: EncounterCharacter)
 
         fun onFortuneChanged(updatedFortune: String, character: EncounterCharacter)
+
+        fun onConditionChecked(condition: Condition, character: Character)
+        fun onConditionUnchecked(condition: Condition, character: Character)
 
         fun onItemMoved(
             movedCharacter: EncounterCharacter,
@@ -79,9 +82,18 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         val currentFortune = character.character.currentFortune.toString()
         holder.currentFortune.setTextBeforeWatching(userInputWatcher, currentFortune)
 
-        holder.get<ConditionViewController> {
-            parametersOf(holder.conditionLayout, character.character)
+        val onConditionChecked = { condition: Condition ->
+            listeners.onConditionChecked(condition, character.character)
         }
+        val onConditionUnchecked = { condition: Condition ->
+            listeners.onConditionUnchecked(condition, character.character)
+        }
+        ConditionView(
+            holder.conditionLayout,
+            character.character.conditions,
+            onConditionChecked,
+            onConditionUnchecked
+        )
     }
 
     override fun getItemCount(): Int {

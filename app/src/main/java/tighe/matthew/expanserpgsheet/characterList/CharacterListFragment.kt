@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.R
@@ -33,6 +34,7 @@ class CharacterListFragment :
         return inflater.inflate(R.layout.fragment_character_list, container, false)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

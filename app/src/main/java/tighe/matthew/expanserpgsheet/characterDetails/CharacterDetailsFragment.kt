@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +14,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
+import tighe.matthew.expanserpgsheet.condition.ConditionView
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 
 class CharacterDetailsFragment : Fragment() {
@@ -51,6 +54,7 @@ class CharacterDetailsFragment : Fragment() {
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             textName?.text = viewState.character.name
             handleFortuneViews(viewState)
+            setupConditionView(viewState)
         } })
 
         setupFortuneListeners()
@@ -71,5 +75,19 @@ class CharacterDetailsFragment : Fragment() {
         maxFortuneInput?.addTextChangedListener(maxFortuneWatcher)
 
         currentFortuneInput?.addTextChangedListener(currentFortuneWatcher)
+    }
+
+    private fun setupConditionView(viewState: CharacterDetailsViewState) {
+        val conditionLayout = activity?.findViewById<LinearLayout>(R.id.details_layout_conditions)!!
+        val character = viewState.character
+        val conditions = viewState.character.conditions
+        val onConditionChecked = { condition: Condition ->
+            viewModel.submitAction(CharacterDetailsAction.CheckCondition(condition, character))
+        }
+        val onConditionUnchecked = { condition: Condition ->
+            viewModel.submitAction(CharacterDetailsAction.UncheckCondition(condition, character))
+        }
+
+        ConditionView(conditionLayout, conditions, onConditionChecked, onConditionUnchecked)
     }
 }

@@ -15,7 +15,7 @@ import tighe.matthew.expanserpgsheet.model.character.Character
     )],
     indices = [Index(value = ["characterId"])]
 )
-data class CharacterEncounterDetail(
+data class EncounterDetail(
     @PrimaryKey val position: Int,
     val initiative: Int,
     val characterId: Long

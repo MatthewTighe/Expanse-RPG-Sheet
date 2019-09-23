@@ -1,70 +1,82 @@
 package tighe.matthew.expanserpgsheet.model.encounter
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterDao
+import tighe.matthew.expanserpgsheet.model.condition.CharacterConditionDao
 
 class EncounterRepository(
     private val characterDao: CharacterDao,
-    private val characterEncounterDetailDao: CharacterEncounterDetailDao
+    private val conditionDao: CharacterConditionDao,
+    private val encounterDetailDao: EncounterDetailDao
 ) {
 
-    fun getEncounter(): Flow<Encounter> {
-        return characterEncounterDetailDao.flowAll().map { list ->
-            val sorted = list.sortedBy { detail -> detail.position }
-            Encounter(sorted.toEncounterCharacters())
-        }
+    @ExperimentalCoroutinesApi
+    fun getEncounter(): Flow<List<EncounterCharacter>> {
+        val characterFlow = characterDao.observeAll()
+        val conditionFlow = conditionDao.observeAll()
+        val encounterDetailFlow = encounterDetailDao.flowAll()
+
+        return characterFlow
+            .combine(conditionFlow) { characterList, conditionList ->
+                characterList.map { character ->
+                    val conditions = conditionList
+                        .filter { it.characterId == character.id }
+                        .map { it.condition }
+                    character.copy(conditions = conditions.toSet())
+                }
+            }
+            .combine(encounterDetailFlow) { characterList, encounterDetailList ->
+                encounterDetailList.map { encounterDetail ->
+                    val character = characterList.find { it.id == encounterDetail.characterId }!!
+                    EncounterCharacter(character, encounterDetail)
+                }.sortedBy { it.detail.position }
+            }
     }
 
     suspend fun addCharacter(character: Character, initiative: Int) {
         if (characterIsInEncounter(character)) return
         val position = getNewPositionByInitiative(initiative)
 
-        val modificationAction: (suspend (CharacterEncounterDetail) -> Unit) = { detail ->
+        val modificationAction: (suspend (EncounterDetail) -> Unit) = { detail ->
             val updatedDetail = detail.copy(position = detail.position + 1)
-            characterEncounterDetailDao.insert(updatedDetail)
+            encounterDetailDao.insert(updatedDetail)
         }
 
         updateCurrentPositions(position, modificationAction)
-        val encounterCharacterDetail = CharacterEncounterDetail(
+        val encounterCharacterDetail = EncounterDetail(
             characterId = character.id,
             initiative = initiative,
             position = position
         )
-        characterEncounterDetailDao.insert(encounterCharacterDetail)
+        encounterDetailDao.insert(encounterCharacterDetail)
     }
 
     suspend fun characterIsInEncounter(character: Character): Boolean {
-        val allDetails = characterEncounterDetailDao.getAll()
+        val allDetails = encounterDetailDao.getAll()
         return allDetails.any { it.characterId == character.id }
     }
 
     suspend fun updateEncounterCharacter(character: EncounterCharacter) {
         characterDao.update(character.character)
-        characterEncounterDetailDao.update(character.detail)
+        encounterDetailDao.update(character.detail)
     }
 
     suspend fun removeEncounterCharacter(character: EncounterCharacter, position: Int) {
-        characterEncounterDetailDao.delete(character.detail)
+        encounterDetailDao.delete(character.detail)
 
-        val modificationAction: (suspend (CharacterEncounterDetail) -> Unit) = { detail ->
+        val modificationAction: (suspend (EncounterDetail) -> Unit) = { detail ->
             val updatedDetail = detail.copy(position = detail.position - 1)
-            characterEncounterDetailDao.insert(updatedDetail)
-            characterEncounterDetailDao.delete(detail)
+            encounterDetailDao.insert(updatedDetail)
+            encounterDetailDao.delete(detail)
         }
 
         updateCurrentPositions(position, modificationAction)
     }
 
-    private suspend fun List<CharacterEncounterDetail>.toEncounterCharacters(): List<EncounterCharacter> {
-        return this.map { encounterCharacterDetail ->
-            val character = characterDao.getById(encounterCharacterDetail.characterId)
-            EncounterCharacter(character, encounterCharacterDetail)
-        }
-    }
-
     private suspend fun getNewPositionByInitiative(initiative: Int): Int {
-        val details = characterEncounterDetailDao.getAll()
+        val details = encounterDetailDao.getAll()
         // New position should be the first where initiative is greater than an existing.
         val index = details.indexOfFirst { encounterCharacter ->
             initiative >= encounterCharacter.initiative
@@ -74,9 +86,9 @@ class EncounterRepository(
 
     private suspend fun updateCurrentPositions(
         changedPosition: Int,
-        modificationAction: suspend (detail: CharacterEncounterDetail) -> Unit
+        modificationAction: suspend (detail: EncounterDetail) -> Unit
     ) {
-        val details = characterEncounterDetailDao.getAll()
+        val details = encounterDetailDao.getAll()
         for (detail in details) {
             if (detail.position >= changedPosition) {
                 modificationAction(detail)

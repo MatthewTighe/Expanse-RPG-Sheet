@@ -4,5 +4,5 @@ import tighe.matthew.expanserpgsheet.model.character.Character
 
 data class EncounterCharacter(
     val character: Character,
-    val detail: CharacterEncounterDetail
+    val detail: EncounterDetail
 )

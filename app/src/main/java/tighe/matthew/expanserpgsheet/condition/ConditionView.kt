@@ -7,13 +7,15 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.layout_collapsible_conditions.view.*
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 
-class ConditionViewController(
-    private val layout: LinearLayout,
-    private val viewModel: ConditionViewModel
+class ConditionView(
+    layout: LinearLayout,
+    private val currentConditions: Set<Condition>,
+    private val onConditionChecked: (Condition) -> Unit,
+    private val onConditionUnchecked: (Condition) -> Unit
 ) {
+
     private val btnCollapse: MaterialButton = layout.findViewById(R.id.btn_conditions_collapsible)
     private val chipGroup: ChipGroup = layout.findViewById(R.id.chip_group_conditions)
     private val conditionChips = mapOf<Condition, Chip>(
@@ -29,10 +31,10 @@ class ConditionViewController(
             handleBtnClick()
         }
 
-//        for ((condition, chip) in conditionChips) {
-//            setChipState(character, condition, chip)
-//            setChipListener(condition, chip)
-//        }
+        for ((condition, chip) in conditionChips) {
+            setChipState(condition, chip)
+            setChipListener(condition, chip)
+        }
     }
 
     private fun handleBtnClick() {
@@ -47,8 +49,8 @@ class ConditionViewController(
         }
     }
 
-    private fun setChipState(character: Character, condition: Condition, chip: Chip) {
-        chip.isChecked = character.conditions.contains(condition)
+    private fun setChipState(condition: Condition, chip: Chip) {
+        chip.isChecked = currentConditions.contains(condition)
         if (chip.isChecked) {
             chip.setChipBackgroundColorResource(R.color.colorSecondary)
         } else {
@@ -57,14 +59,12 @@ class ConditionViewController(
     }
 
     private fun setChipListener(condition: Condition, chip: Chip) {
-//        chip.setOnClickListener {
-//            val updatedConditions = if (chip.isChecked) {
-//                character.conditions.plus(condition)
-//            } else {
-//                character.conditions.minus(condition)
-//            }
-//            val updatedCharacter = character.copy(conditions = updatedConditions)
-//            GlobalScope.launch { characterRepository.update(updatedCharacter) }
-//        }
+        chip.setOnClickListener {
+            if (chip.isChecked) {
+                onConditionChecked(condition)
+            } else {
+                onConditionUnchecked(condition)
+            }
+        }
     }
 }
