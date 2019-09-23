@@ -15,6 +15,8 @@ import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.generateEncounterCharacter
 import tighe.matthew.expanserpgsheet.model.character.Character
+import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterDetail
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
@@ -26,6 +28,8 @@ class EncounterViewModelTest {
 
     @MockK private lateinit var mockEncounterRepo: EncounterRepository
 
+    @MockK private lateinit var mockCharacterRepo: CharacterRepository
+
     @MockK private lateinit var mockViewStateObserver: Observer<EncounterViewState>
 
     private lateinit var viewModel: EncounterViewModel
@@ -33,31 +37,31 @@ class EncounterViewModelTest {
     private val testCharacter = Character(0, "name", 10)
     private val testDetail = EncounterDetail(3, 2, 0)
     private val testEncounterCharacter = EncounterCharacter(testCharacter, testDetail)
-    private val testEncounter = Encounter(listOf(testEncounterCharacter))
+    private val testList = listOf(testEncounterCharacter)
 
     @Before
     @ExperimentalCoroutinesApi
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = EncounterViewModel(mockEncounterRepo)
+        viewModel = EncounterViewModel(mockEncounterRepo, mockCharacterRepo)
     }
 
     @Test
     fun `ViewState is updated with encounter information`() = runBlockingTest {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         viewModel.observeViewState().observeForever(mockViewStateObserver)
 
-        coVerify { mockViewStateObserver.onChanged(EncounterViewState(testEncounter)) }
+        coVerify { mockViewStateObserver.onChanged(EncounterViewState(testList)) }
     }
 
     @Test
     fun `Increment action increases current fortune`() {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         viewModel.submitAction(EncounterAction.IncrementFortune(testEncounterCharacter))
@@ -70,7 +74,7 @@ class EncounterViewModelTest {
     @Test
     fun `Decrement action decreases current fortune`() {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         viewModel.submitAction(EncounterAction.DecrementFortune(testEncounterCharacter))
@@ -83,7 +87,7 @@ class EncounterViewModelTest {
     @Test
     fun `Set fortune action parses well-formed strings and delegates to model`() {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         val updatedFortune = testCharacter.currentFortune + 10
@@ -97,7 +101,7 @@ class EncounterViewModelTest {
     @Test
     fun `Set fortune action defaults to 0 with empty strings`() {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         viewModel.submitAction(EncounterAction.SetFortune("", testEncounterCharacter))
@@ -110,7 +114,7 @@ class EncounterViewModelTest {
     @Test
     fun `Set fortune action defaults to 0 with malformed strings`() {
         coEvery { mockEncounterRepo.getEncounter() } returns flow {
-            emit(testEncounter)
+            emit(testList)
         }
 
         viewModel.submitAction(EncounterAction.SetFortune("@+%1", testEncounterCharacter))
@@ -118,6 +122,20 @@ class EncounterViewModelTest {
         val expectedCharacter = testCharacter.copy(currentFortune = 0)
         val expected = testEncounterCharacter.copy(character = expectedCharacter)
         coVerify { mockEncounterRepo.updateEncounterCharacter(expected) }
+    }
+
+    @Test
+    fun `ConditionChecked action delegates to the character repository`() {
+        viewModel.submitAction(EncounterAction.ConditionChecked(Condition.Injured, testEncounterCharacter.character))
+
+        coVerify { mockCharacterRepo.addCondition(Condition.Injured, testEncounterCharacter.character) }
+    }
+
+    @Test
+    fun `ConditionUnchecked action delegates to the character repository`() {
+        viewModel.submitAction(EncounterAction.ConditionUnchecked(Condition.Injured, testEncounterCharacter.character))
+
+        coVerify { mockCharacterRepo.removeCondition(Condition.Injured, testEncounterCharacter.character) }
     }
 
     @Test

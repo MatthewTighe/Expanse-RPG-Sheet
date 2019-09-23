@@ -7,6 +7,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.setMain
@@ -15,6 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 
 class CharacterDetailsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
@@ -31,11 +33,12 @@ class CharacterDetailsViewModelTest {
     private lateinit var viewModel: CharacterDetailsViewModel
 
     @Before
+    @ExperimentalCoroutinesApi
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
 
         coEvery { mockRepo.load(0) } returns testInitialCharacterModel
-        coEvery { mockRepo.observeAll() } returns flow {
+        coEvery { mockRepo.observeWithConditions() } returns flow {
             emit(listOf(testInitialCharacterModel))
         }
 
@@ -59,6 +62,20 @@ class CharacterDetailsViewModelTest {
 
         val expected = testInitialCharacterModel.copy(currentFortune = newFortune)
         coVerify { mockRepo.update(expected) }
+    }
+
+    @Test
+    fun `ConditionChecked action delegates to repository for adding new condition`() {
+        viewModel.submitAction(CharacterDetailsAction.ConditionChecked(Condition.Injured, testInitialCharacterModel))
+
+        coVerify { mockRepo.addCondition(Condition.Injured, testInitialCharacterModel) }
+    }
+
+    @Test
+    fun `ConditionUnchecked action delegates to repository for removing condition`() {
+        viewModel.submitAction(CharacterDetailsAction.ConditionUnchecked(Condition.Injured, testInitialCharacterModel))
+
+        coVerify { mockRepo.removeCondition(Condition.Injured, testInitialCharacterModel) }
     }
 
     @Test

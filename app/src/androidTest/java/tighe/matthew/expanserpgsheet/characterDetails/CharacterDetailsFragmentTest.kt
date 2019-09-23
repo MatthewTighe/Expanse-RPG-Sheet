@@ -2,6 +2,7 @@ package tighe.matthew.expanserpgsheet.characterDetails
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -13,6 +14,7 @@ import org.koin.test.inject
 import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 
 @RunWith(AndroidJUnit4::class)
 class CharacterDetailsFragmentTest : KoinTest {
@@ -60,6 +62,17 @@ class CharacterDetailsFragmentTest : KoinTest {
         val result = characterRepository.load(initialModel.id)
 
         val expected = initialModel.copy(currentFortune = updatedFortune)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun conditionsCanBeAlteredAndArePersisted() = runBlocking {
+        R.id.chip_injured.click()
+
+        val result = characterRepository.observeWithConditions().first()
+
+        val expectedConditions = setOf(Condition.Injured)
+        val expected = listOf(initialModel.copy(conditions = expectedConditions))
         assertEquals(expected, result)
     }
 }

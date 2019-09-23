@@ -16,7 +16,7 @@ class EncounterRepository(
     fun getEncounter(): Flow<List<EncounterCharacter>> {
         val characterFlow = characterDao.observeAll()
         val conditionFlow = conditionDao.observeAll()
-        val encounterDetailFlow = encounterDetailDao.flowAll()
+        val encounterDetailFlow = encounterDetailDao.observeAll()
 
         return characterFlow
             .combine(conditionFlow) { characterList, conditionList ->

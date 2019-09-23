@@ -40,19 +40,19 @@ class CharacterListViewModelTest {
     }
 
     @Test
-    fun `Refresh action updates view and loads from the repository`() = runBlockingTest {
+    fun `ViewState is initialized using repository data`() = runBlockingTest {
         val char1 = Character(0, "name1", 10)
         val char2 = Character(0, "name2", 15)
         val expectedList = listOf(char1, char2)
 
-        coEvery { mockCharacterRepo.observeAll() } returns flow {
+        coEvery { mockCharacterRepo.observeBase() } returns flow {
             emit(expectedList)
         }
 
         viewModel.observeViewState().observeForever(mockViewStateObserver)
 
         coVerify {
-            mockCharacterRepo.observeAll()
+            mockCharacterRepo.observeBase()
             mockViewStateObserver.onChanged(CharacterListViewState(listOf()))
             mockViewStateObserver.onChanged(CharacterListViewState(expectedList))
         }
@@ -105,7 +105,7 @@ class CharacterListViewModelTest {
         val model = Character(0, "name", 15)
 
         coEvery { mockEncounterRepo.characterIsInEncounter(model) } returns false
-        coEvery { mockCharacterRepo.observeAll() } returns flow {
+        coEvery { mockCharacterRepo.observeBase() } returns flow {
             emit(listOf(model))
         }
         viewModel.observeViewState().observeForever(mockViewStateObserver)
@@ -130,7 +130,7 @@ class CharacterListViewModelTest {
         val model = Character(0, "name", 15)
 
         coEvery { mockEncounterRepo.characterIsInEncounter(model) } returns false
-        coEvery { mockCharacterRepo.observeAll() } returns flow {
+        coEvery { mockCharacterRepo.observeBase() } returns flow {
             emit(listOf(model))
         }
         viewModel.observeViewState().observeForever(mockViewStateObserver)

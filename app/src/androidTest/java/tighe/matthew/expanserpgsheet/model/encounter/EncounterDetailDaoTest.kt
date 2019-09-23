@@ -62,7 +62,7 @@ class EncounterDetailDaoTest {
     fun detailsCanBeObserved() = runBlocking {
         detailDao.insert(detail)
 
-        val result = detailDao.flowAll().first()
+        val result = detailDao.observeAll().first()
 
         assertEquals(listOf(detail), result)
     }

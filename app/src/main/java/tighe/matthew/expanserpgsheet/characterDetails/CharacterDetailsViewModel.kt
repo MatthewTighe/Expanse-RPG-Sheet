@@ -56,12 +56,12 @@ internal class CharacterDetailsViewModel(
                     repository.update(updatedCharacter)
                 }
             }
-            is CharacterDetailsAction.CheckCondition -> {
+            is CharacterDetailsAction.ConditionChecked -> {
                 viewModelScope.launch {
                     repository.addCondition(action.condition, action.character)
                 }
             }
-            is CharacterDetailsAction.UncheckCondition -> {
+            is CharacterDetailsAction.ConditionUnchecked -> {
                 viewModelScope.launch {
                     repository.removeCondition(action.condition, action.character)
                 }

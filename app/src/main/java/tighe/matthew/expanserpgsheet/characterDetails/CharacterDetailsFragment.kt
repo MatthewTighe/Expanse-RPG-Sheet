@@ -82,10 +82,10 @@ class CharacterDetailsFragment : Fragment() {
         val character = viewState.character
         val conditions = viewState.character.conditions
         val onConditionChecked = { condition: Condition ->
-            viewModel.submitAction(CharacterDetailsAction.CheckCondition(condition, character))
+            viewModel.submitAction(CharacterDetailsAction.ConditionChecked(condition, character))
         }
         val onConditionUnchecked = { condition: Condition ->
-            viewModel.submitAction(CharacterDetailsAction.UncheckCondition(condition, character))
+            viewModel.submitAction(CharacterDetailsAction.ConditionUnchecked(condition, character))
         }
 
         ConditionView(conditionLayout, conditions, onConditionChecked, onConditionUnchecked)

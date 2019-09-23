@@ -10,16 +10,21 @@ import org.junit.Before
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterDao
+import tighe.matthew.expanserpgsheet.model.condition.CharacterCondition
+import tighe.matthew.expanserpgsheet.model.condition.CharacterConditionDao
+import tighe.matthew.expanserpgsheet.model.condition.Condition
 
 class EncounterRepositoryTest {
 
     @MockK lateinit var mockCharacterDao: CharacterDao
 
+    @MockK lateinit var mockConditionDao: CharacterConditionDao
+
     @MockK lateinit var mockEncounterDetailDao: EncounterDetailDao
 
     private val testId = 1L
-    private val testDetail = EncounterDetail(0, 1, testId)
     private val testCharacter = Character(testId, "name", 10)
+    private val testDetail = EncounterDetail(0, 1, testId)
     private val testEncounterCharacter = EncounterCharacter(testCharacter, testDetail)
 
     private lateinit var repo: EncounterRepository
@@ -27,20 +32,33 @@ class EncounterRepositoryTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        repo = EncounterRepository(mockCharacterDao, mockEncounterDetailDao)
+        repo = EncounterRepository(mockCharacterDao, mockConditionDao, mockEncounterDetailDao)
     }
 
     @Test
     fun `Encounter is built from characters and their associated details`() = runBlockingTest {
-        val testFlow = flow {
+        val testCharacterFlow = flow {
+            emit(listOf(testCharacter))
+        }
+
+        val testConditions = listOf(CharacterCondition(Condition.Injured, testId))
+        val testConditionFlow = flow {
+            emit(testConditions)
+        }
+
+        val testDetailFlow = flow {
             emit(listOf(testDetail))
         }
-        every { mockEncounterDetailDao.flowAll() } returns testFlow
+        every { mockCharacterDao.observeAll() } returns testCharacterFlow
+        every { mockConditionDao.observeAll() } returns testConditionFlow
+        every { mockEncounterDetailDao.observeAll() } returns testDetailFlow
         coEvery { mockCharacterDao.getById(testId) } returns testCharacter
 
         val result = repo.getEncounter().first()
 
-        val expectedEncounter = Encounter(listOf(testEncounterCharacter))
+        val expectedCharacter = testCharacter.copy(conditions = setOf(Condition.Injured))
+        val expectedEncounterCharacter = testEncounterCharacter.copy(character = expectedCharacter)
+        val expectedEncounter = listOf(expectedEncounterCharacter)
         assertEquals(expectedEncounter, result)
     }
 
@@ -161,18 +179,15 @@ class EncounterRepositoryTest {
     @Test
     fun `Characters cannot be added twice to the same encounter`() = runBlockingTest {
         val character = Character(0, "name", 10)
-        val details = EncounterDetail(1, 0, 0)
+        val details = EncounterDetail(0, 0, 0)
 
         coEvery { mockEncounterDetailDao.getAll() } returns listOf(details)
-        coEvery { mockEncounterDetailDao.flowAll() } returns flow {
+        coEvery { mockEncounterDetailDao.observeAll() } returns flow {
             emit(listOf(details))
         }
-        coEvery { mockCharacterDao.getById(0) } returns character
 
         repo.addCharacter(character, 0)
-        repo.addCharacter(character, 0)
 
-        val result = repo.getEncounter().first()
-        assertEquals(1, result.characters.size)
+        coVerify(exactly = 0) { mockEncounterDetailDao.insert(details) }
     }
 }

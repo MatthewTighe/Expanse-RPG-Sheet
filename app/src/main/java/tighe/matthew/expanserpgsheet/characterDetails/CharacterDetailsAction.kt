@@ -7,6 +7,6 @@ import tighe.matthew.expanserpgsheet.model.condition.Condition
 internal sealed class CharacterDetailsAction : Action {
     data class ChangeMaxFortune(val newFortune: Int) : CharacterDetailsAction()
     data class ChangeCurrentFortune(val newFortune: Int) : CharacterDetailsAction()
-    data class CheckCondition(val condition: Condition, val character: Character) : CharacterDetailsAction()
-    data class UncheckCondition(val condition: Condition, val character: Character) : CharacterDetailsAction()
+    data class ConditionChecked(val condition: Condition, val character: Character) : CharacterDetailsAction()
+    data class ConditionUnchecked(val condition: Condition, val character: Character) : CharacterDetailsAction()
 }

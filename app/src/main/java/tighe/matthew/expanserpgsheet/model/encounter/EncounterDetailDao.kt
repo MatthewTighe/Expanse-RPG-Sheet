@@ -15,7 +15,7 @@ interface EncounterDetailDao {
     suspend fun getAll(): List<EncounterDetail>
 
     @Query("SELECT * FROM character_encounter_detail")
-    fun flowAll(): Flow<List<EncounterDetail>>
+    fun observeAll(): Flow<List<EncounterDetail>>
 
     @Query("DELETE FROM character_encounter_detail")
     suspend fun deleteAll()
