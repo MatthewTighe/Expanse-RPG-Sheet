@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Row 1 -->
+
+    <TextView android:id="@+id/text_accuracy_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/text_communication_small"
+        android:text="@string/accuracy_abbreviated_interpolated"/>
+
+    <TextView android:id="@+id/text_communication_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_accuracy_small"
+            android:text="@string/communication_abbreviated_interpolated"/>
+
+    <!-- Row 2 -->
+
+    <TextView android:id="@+id/text_constitution_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_accuracy_small"
+            app:layout_constraintEnd_toStartOf="@id/text_communication_small"
+            android:text="@string/constitution_abbreviated_interpolated"/>
+
+    <TextView android:id="@+id/text_dexterity_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_communication_small"
+            app:layout_constraintStart_toEndOf="@id/text_accuracy_small"
+            android:text="@string/dexterity_abbreviated_interpolated"/>
+
+    <!-- Row 3 -->
+
+    <TextView android:id="@+id/text_fighting_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_constitution_small"
+            app:layout_constraintEnd_toStartOf="@id/text_intelligence_small"
+            android:text="@string/fighting_abbreviated_interpolated"/>
+
+    <TextView android:id="@+id/text_intelligence_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_dexterity_small"
+            app:layout_constraintStart_toEndOf="@id/text_fighting_small"
+            android:text="@string/intelligence_abbreviated_interpolated"/>
+
+    <!-- Row 4 -->
+
+    <TextView android:id="@+id/text_perception_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_fighting_small"
+            app:layout_constraintEnd_toStartOf="@id/text_strength_small"
+            android:text="@string/perception_abbreviated_interpolated"/>
+
+    <TextView android:id="@+id/text_strength_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_intelligence_small"
+            app:layout_constraintStart_toEndOf="@id/text_perception_small"
+            android:text="@string/strength_abbreviated_interpolated"/>
+
+    <!-- Row 5 -->
+
+    <TextView android:id="@+id/text_willpower_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_perception_small"
+            app:layout_constraintEnd_toStartOf="@id/text_strength_small"
+            android:text="@string/willpower_abbreviated_interpolated"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

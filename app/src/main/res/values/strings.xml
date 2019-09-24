@@ -13,6 +13,26 @@
     <string name="label_initiative">Initiative:</string>
     <string name="entry_initiative">Set character\'s initiative:</string>
 
+    <string name="accuracy">Accuracy</string>
+    <string name="communication">Communication</string>
+    <string name="constitution">Constitution</string>
+    <string name="dexterity">Dexterity</string>
+    <string name="fighting">Fighting</string>
+    <string name="intelligence">Intelligence</string>
+    <string name="perception">Perception</string>
+    <string name="strength">Strength</string>
+    <string name="willpower">Willpower</string>
+
+    <string name="accuracy_abbreviated_interpolated">ACR: $1%d</string>
+    <string name="communication_abbreviated_interpolated">COM: $1%d</string>
+    <string name="constitution_abbreviated_interpolated">CON: $1%d</string>
+    <string name="dexterity_abbreviated_interpolated">DEX: $1%d</string>
+    <string name="fighting_abbreviated_interpolated">FTN: $1%d</string>
+    <string name="intelligence_abbreviated_interpolated">INT: $1%d</string>
+    <string name="perception_abbreviated_interpolated">PER: $1%d</string>
+    <string name="strength_abbreviated_interpolated">STR: $1%d</string>
+    <string name="willpower_abbreviated_interpolated">WIL: $1%d</string>
+
     <string name="conditions">Conditions</string>
     <string name="injured">Injured</string>
     <string name="wounded">Wounded</string>

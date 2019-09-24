@@ -14,9 +14,9 @@
             android:layout_marginEnd="4dp"
             android:hint="@string/hint_name"
             style="@style/TextField"
-            app:layout_constraintEnd_toStartOf="@id/layout_input_max_fortune"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layout_input_max_fortune">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_name"
@@ -44,6 +44,12 @@
                 android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <include layout="@layout/layout_attributes_editable_large"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_input_name"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_save"

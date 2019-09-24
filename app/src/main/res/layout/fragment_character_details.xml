@@ -31,7 +31,6 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/details_input_max_fortune"
-                android:text="@string/placeholder"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -52,19 +51,22 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/details_input_current_fortune"
-                android:text="@string/placeholder"
                 android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <include
+    <include layout="@layout/layout_attributes_editable_large"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/details_layout_max_fortune"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <include layout="@layout/layout_collapsible_conditions"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/details_layout_conditions"
-            layout="@layout/layout_collapsible_conditions"
-            app:layout_constraintTop_toBottomOf="@id/details_layout_max_fortune"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
