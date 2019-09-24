@@ -67,8 +67,12 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = characters[position]
         holder.name.text = character.character.name
-        holder.initiative.text = character.detail.initiative.toString()
-        holder.maxFortune.text = character.character.maxFortune.toString()
+        holder.initiative.text = holder.itemView.resources.getString(
+            R.string.initiative_interpolated, character.detail.initiative
+        )
+        holder.maxFortune.text = holder.itemView.resources.getString(
+            R.string.max_fortune_interpolated, character.character.maxFortune
+        )
         holder.fortuneLabel.text =
             holder.fortuneLabel.resources.getString(R.string.hint_current_fortune)
 

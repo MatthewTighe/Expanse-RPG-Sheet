@@ -23,22 +23,23 @@
     <string name="strength">Strength</string>
     <string name="willpower">Willpower</string>
 
-    <string name="accuracy_abbreviated_interpolated">ACR: $1%d</string>
-    <string name="communication_abbreviated_interpolated">COM: $1%d</string>
-    <string name="constitution_abbreviated_interpolated">CON: $1%d</string>
-    <string name="dexterity_abbreviated_interpolated">DEX: $1%d</string>
-    <string name="fighting_abbreviated_interpolated">FTN: $1%d</string>
-    <string name="intelligence_abbreviated_interpolated">INT: $1%d</string>
-    <string name="perception_abbreviated_interpolated">PER: $1%d</string>
-    <string name="strength_abbreviated_interpolated">STR: $1%d</string>
-    <string name="willpower_abbreviated_interpolated">WIL: $1%d</string>
+    <string name="accuracy_abbreviated_interpolated">ACR: %d</string>
+    <string name="communication_abbreviated_interpolated">COM: %d</string>
+    <string name="constitution_abbreviated_interpolated">CON: %d</string>
+    <string name="dexterity_abbreviated_interpolated">DEX: %d</string>
+    <string name="fighting_abbreviated_interpolated">FTN: %d</string>
+    <string name="intelligence_abbreviated_interpolated">INT: %d</string>
+    <string name="perception_abbreviated_interpolated">PER: %d</string>
+    <string name="strength_abbreviated_interpolated">STR: %d</string>
+    <string name="willpower_abbreviated_interpolated">WIL: %d</string>
+
+    <string name="initiative_interpolated">Initiative: %d</string>
+    <string name="max_fortune_interpolated">Max Fortune: %d</string>
 
     <string name="conditions">Conditions</string>
     <string name="injured">Injured</string>
     <string name="wounded">Wounded</string>
     <string name="taken_out">Taken out</string>
-
-    <string name="colon">:</string>
 
     <string name="characters">Characters</string>
     <string name="encounter">Encounter</string>
