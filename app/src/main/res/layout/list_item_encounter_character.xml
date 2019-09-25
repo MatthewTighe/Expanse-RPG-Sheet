@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layout_encounter_attributes_small"
+            app:layout_constraintEnd_toEndOf="@id/layout_encounter_fortune_adjustment"
             android:text="@string/placeholder"
             android:textAlignment="center"
             android:textSize="@dimen/textSizeH4"/>

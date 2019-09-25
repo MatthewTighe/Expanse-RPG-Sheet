@@ -1,5 +1,6 @@
 package tighe.matthew.expanserpgsheet.model.character
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -11,8 +12,9 @@ data class Character @Ignore constructor(
     val name: String = "",
     val maxFortune: Int = 0,
     val currentFortune: Int = maxFortune,
+    @Embedded val attributes: Attributes = Attributes(),
     @Ignore val conditions: Set<Condition> = setOf()
 ) {
-    constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int) :
-            this(id, name, maxFortune, currentFortune, setOf())
+    constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int, attributes: Attributes) :
+            this(id, name, maxFortune, currentFortune, attributes, setOf())
 }

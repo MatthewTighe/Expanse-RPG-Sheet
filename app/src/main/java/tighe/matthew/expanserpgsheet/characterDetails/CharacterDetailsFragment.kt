@@ -14,7 +14,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
-import tighe.matthew.expanserpgsheet.condition.ConditionView
+import tighe.matthew.expanserpgsheet.controller.ConditionView
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 

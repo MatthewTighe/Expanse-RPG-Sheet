@@ -40,7 +40,7 @@ class CharacterCreationFragment : Fragment() {
 
         val maxFortuneInput = activity?.findViewById<TextInputEditText>(R.id.input_max_fortune)!!
         maxFortuneInput.onTextFinished { maxFortune ->
-            viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(maxFortune.toInt()))
+            viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(maxFortune))
         }
 
         val saveBtn = activity?.findViewById<FloatingActionButton>(R.id.btn_save)!!

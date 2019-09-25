@@ -1,11 +1,10 @@
-package tighe.matthew.expanserpgsheet.condition
+package tighe.matthew.expanserpgsheet.controller
 
 import android.view.View
 import android.widget.LinearLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.layout_collapsible_conditions.view.*
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 

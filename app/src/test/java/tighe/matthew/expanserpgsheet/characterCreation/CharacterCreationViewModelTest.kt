@@ -13,13 +13,13 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
 class CharacterCreationViewModelTest {
 
     @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
-    @UseExperimental
     private val mainThreadSurrogate = newSingleThreadContext("Main")
 
     private val mockEventObserver = mockk<Observer<Event?>>(relaxUnitFun = true)
@@ -27,6 +27,23 @@ class CharacterCreationViewModelTest {
     private val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
 
     private lateinit var viewModel: CharacterCreationViewModel
+
+    private data class IgnoreFields(
+        val name: Boolean = false,
+        val maxFortune: Boolean = false,
+        val accuracy: Boolean = false,
+        val communication: Boolean = false,
+        val constitution: Boolean = false,
+        val dexterity: Boolean = false,
+        val fighting: Boolean = false,
+        val intelligence: Boolean = false,
+        val perception: Boolean = false,
+        val strength: Boolean = false,
+        val willpower: Boolean = false
+    )
+
+    val testAttributes = Attributes(1, 2, 3, 4, 5, 6 , 7, 8, 9)
+    val testCharacter = Character(0, "name", 10, attributes = testAttributes)
 
     @Before
     @ExperimentalCoroutinesApi
@@ -40,32 +57,39 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Save action persists model to repository`() {
-        val model = Character(0, "name", 10)
+        submitFields(testCharacter)
 
-        viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
-        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune))
         viewModel.submitAction(CharacterCreationAction.Save)
 
-        coVerify { mockRepo.persist(model) }
+        coVerify { mockRepo.persist(testCharacter) }
         verify { mockEventObserver.onChanged(Event.Navigate(R.id.character_list_fragment)) }
     }
 
     @Test
-    fun `Save action triggers errors in view state if name field is empty`() {
+    fun `Save action triggers errors in view state if fields are empty`() {
         viewModel.submitAction(CharacterCreationAction.Save)
 
-        val expected = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
+        val expected = CharacterCreationViewState(
+            nameError = NameError(errorEnabled = true),
+            accuracyError = AccuracyError(errorEnabled = true),
+            communicationError = CommunicationError(errorEnabled = true),
+            constitutionError = ConstitutionError(errorEnabled = true),
+            dexterityError = DexterityError(errorEnabled = true),
+            fightingError = FightingError(errorEnabled = true),
+            intelligenceError = IntelligenceError(errorEnabled = true),
+            perceptionError = PerceptionError(errorEnabled = true),
+            strengthError = StrengthError(errorEnabled = true),
+            willpowerError = WillpowerError(errorEnabled = true)
+        )
         verify { mockViewStateObserver.onChanged(expected) }
     }
 
     @Test
     fun `Current fortune will match max on save action`() {
-        val model = Character(0, "name", 10)
-        val modifiedFortune = 15
+        val model = Character(0, "name", 15)
 
         viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
-        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune))
-        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(modifiedFortune))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune.toString()))
         viewModel.submitAction(CharacterCreationAction.Save)
 
         coVerify { mockRepo.persist(model.copy(currentFortune = 15, maxFortune = 15)) }
@@ -81,14 +105,50 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Updating name while error is present removes error`() {
-        viewModel.submitAction(CharacterCreationAction.NameInput(""))
-        viewModel.submitAction(CharacterCreationAction.NameInput("name"))
+        submitFields(testCharacter, IgnoreFields(name = true))
+        viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
 
         val expectedError = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
         val expected = CharacterCreationViewState(nameError = NameError(errorEnabled = false))
         verify {
             mockViewStateObserver.onChanged(expectedError)
             mockViewStateObserver.onChanged(expected)
+        }
+    }
+
+    private fun submitFields(character: Character, ignoreFields: IgnoreFields = IgnoreFields()) {
+        if (!ignoreFields.name) {
+            viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
+        }
+        if (!ignoreFields.maxFortune) {
+            viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
+        }
+        if (!ignoreFields.accuracy) {
+            viewModel.submitAction(CharacterCreationAction.AccuracyInput(character.attributes.accuracy.toString()))
+        }
+        if (!ignoreFields.communication) {
+            viewModel.submitAction(CharacterCreationAction.CommunicationInput(character.attributes.communication.toString()))
+        }
+        if (!ignoreFields.constitution) {
+            viewModel.submitAction(CharacterCreationAction.ConstitutionInput(character.attributes.constitution.toString()))
+        }
+        if (!ignoreFields.dexterity) {
+            viewModel.submitAction(CharacterCreationAction.DexterityInput(character.attributes.dexterity.toString()))
+        }
+        if (!ignoreFields.fighting) {
+            viewModel.submitAction(CharacterCreationAction.FightingInput(character.attributes.fighting.toString()))
+        }
+        if (!ignoreFields.intelligence) {
+            viewModel.submitAction(CharacterCreationAction.IntelligenceInput(character.attributes.intelligence.toString()))
+        }
+        if (!ignoreFields.perception) {
+            viewModel.submitAction(CharacterCreationAction.PerceptionInput(character.attributes.perception.toString()))
+        }
+        if (!ignoreFields.strength) {
+            viewModel.submitAction(CharacterCreationAction.StrengthInput(character.attributes.strength.toString()))
+        }
+        if (!ignoreFields.willpower) {
+            viewModel.submitAction(CharacterCreationAction.WillpowerInput(character.attributes.willpower.toString()))
         }
     }
 }

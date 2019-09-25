@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface BaseViewModel<V : ViewState, A : Action> {
@@ -18,15 +19,22 @@ interface BaseViewModel<V : ViewState, A : Action> {
     fun submitAction(action: A)
 }
 
+interface FlowableViewModel<V: ViewState, A : Action> {
+    fun flowViewState(): Flow<V>
+
+    fun submitAction(Action: A)
+}
+
 interface ViewState
 
 interface TextInputFieldError {
     val errorEnabled: Boolean
-    val errorMessage: Int
+    val fieldName: Int
     fun handleDisplay(view: TextInputLayout?) {
         if (errorEnabled) {
+            val field = view?.resources?.getString(fieldName)
             view?.isErrorEnabled = true
-            view?.error = view?.context?.getString(errorMessage)
+            view?.error = view?.context?.getString(R.string.text_input_error, field)
         } else {
             view?.isErrorEnabled = false
         }

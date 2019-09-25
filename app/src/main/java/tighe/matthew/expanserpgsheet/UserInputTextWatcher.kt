@@ -3,6 +3,7 @@ package tighe.matthew.expanserpgsheet
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputEditText
 
 class UserInputTextWatcher(
     private val editText: EditText,
@@ -20,6 +21,10 @@ class UserInputTextWatcher(
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+}
+
+fun TextInputEditText.getWatcher(action: (String) -> Unit) : UserInputTextWatcher {
+    return UserInputTextWatcher(this, action)
 }
 
 @Synchronized fun EditText.setTextBeforeWatching(watcher: TextWatcher, text: String) {

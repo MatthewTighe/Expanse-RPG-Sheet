@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
@@ -27,15 +28,36 @@ class CharacterCreationFragmentTest : KoinTest {
 
     @Test
     fun characterValuesCanBeEnteredAndSaved() {
-        R.id.layout_fragment_character_creation.isDisplayed()
-
         val name = "TestCharacter"
         val fortune = 20
+        val accuracy = 1
+        val communication = 2
+        val constitution = 3
+        val dexterity = 4
+        val fighting = 5
+        val intelligence = 6
+        val perception = 7
+        val strength = 8
+        val willpower = 9
+        val attributes = Attributes(accuracy, communication, constitution, dexterity, fighting, intelligence, perception, strength, willpower)
+        val expectedModel = Character(1, name, fortune, attributes = attributes)
+
+        R.id.layout_fragment_character_creation.isDisplayed()
+
         R.id.input_name.writeText(name)
         R.id.input_max_fortune.writeText(fortune.toString())
+        R.id.input_accuracy.writeText(accuracy.toString())
+        R.id.input_communication.writeText(communication.toString())
+        R.id.input_constitution.writeText(constitution.toString())
+        R.id.input_dexterity.writeText(dexterity.toString())
+        R.id.input_fighting.writeText(fighting.toString())
+        R.id.input_intelligence.writeText(intelligence.toString())
+        R.id.input_perception.writeText(perception.toString())
+        R.id.input_strength.writeText(strength.toString())
+        R.id.input_willpower.writeText(willpower.toString())
+
         R.id.btn_save.click()
 
-        val expectedModel = Character(1, name, fortune)
         val result = runBlocking { characterRepository.load(1) }
         assertEquals(expectedModel, result)
     }
@@ -48,4 +70,5 @@ class CharacterCreationFragmentTest : KoinTest {
 
         R.string.error_name_required.isDisplayed()
     }
+
 }

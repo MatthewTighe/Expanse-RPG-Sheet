@@ -47,3 +47,11 @@ fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
     })
 }
+
+fun String.toIntOrZero(): Int {
+    return try {
+        this.toInt()
+    } catch (err: NullPointerException) {
+        0
+    }
+}

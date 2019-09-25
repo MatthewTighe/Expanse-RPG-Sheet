@@ -13,6 +13,8 @@
     <string name="label_initiative">Initiative:</string>
     <string name="entry_initiative">Set character\'s initiative:</string>
 
+    <string name="name">Name</string>
+
     <string name="accuracy">Accuracy</string>
     <string name="communication">Communication</string>
     <string name="constitution">Constitution</string>
@@ -50,7 +52,7 @@
     <string name="character_already_in_encounter">Character has already been added to encounter.</string>
     <string name="character_added_encounter">Character added to encounter!</string>
 
-    <string name="error_name_required">Name must be entered</string>
+    <string name="text_input_error">%s is required!</string>
 
     <string name="desc_btn_options">Options buttons</string>
 </resources>
