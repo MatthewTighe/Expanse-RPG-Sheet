@@ -68,6 +68,6 @@ class CharacterCreationFragmentTest : KoinTest {
 
         R.id.btn_save.click()
 
-        R.string.text_input_error.isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Name").isDisplayed()
     }
 }

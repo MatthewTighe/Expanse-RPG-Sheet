@@ -9,24 +9,9 @@ import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 
 class AttributesView(
     private val layout: ConstraintLayout,
-    private val current: Attributes = UNFILLED_ATTRIBUTES,
+    private val current: Attributes = Attributes(),
     private val viewModel: AttributesViewModel
 ) {
-
-    companion object {
-        const val UNFILLED_ATTRIBUTE = Int.MIN_VALUE
-        val UNFILLED_ATTRIBUTES = Attributes(
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE,
-            UNFILLED_ATTRIBUTE
-        )
-    }
 
     init {
         setupAccuracyField()
@@ -46,11 +31,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.AccuracyInput(it))
         }
 
-        if (current.accuracy == UNFILLED_ATTRIBUTE) {
-            accuracyInput.addTextChangedListener(watcher)
-        } else {
-            accuracyInput.setTextBeforeWatching(watcher, current.communication.toString())
-        }
+        accuracyInput.setTextBeforeWatching(watcher, current.accuracy.toString())
     }
 
     private fun setupCommunicationField() {
@@ -59,11 +40,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.CommunicationInput(it))
         }
 
-        if (current.communication == UNFILLED_ATTRIBUTE) {
-            communicationInput.addTextChangedListener(watcher)
-        } else {
-            communicationInput.setTextBeforeWatching(watcher, current.communication.toString())
-        }
+        communicationInput.setTextBeforeWatching(watcher, current.communication.toString())
     }
 
     private fun setupConstitutionField() {
@@ -72,11 +49,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.ConstitutionInput(it))
         }
 
-        if (current.constitution == UNFILLED_ATTRIBUTE) {
-            constitutionInput.addTextChangedListener(watcher)
-        } else {
-            constitutionInput.setTextBeforeWatching(watcher, current.constitution.toString())
-        }
+        constitutionInput.setTextBeforeWatching(watcher, current.constitution.toString())
     }
 
     private fun setupDexterityField() {
@@ -85,11 +58,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.DexterityInput(it))
         }
 
-        if (current.dexterity == UNFILLED_ATTRIBUTE) {
-            dexterityInput.addTextChangedListener(watcher)
-        } else {
-            dexterityInput.setTextBeforeWatching(watcher, current.dexterity.toString())
-        }
+        dexterityInput.setTextBeforeWatching(watcher, current.dexterity.toString())
     }
 
     private fun setupFightingField() {
@@ -98,11 +67,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.FightingInput(it))
         }
 
-        if (current.fighting == UNFILLED_ATTRIBUTE) {
-            fightingInput.addTextChangedListener(watcher)
-        } else {
-            fightingInput.setTextBeforeWatching(watcher, current.fighting.toString())
-        }
+        fightingInput.setTextBeforeWatching(watcher, current.fighting.toString())
     }
 
     private fun setupIntelligenceField() {
@@ -111,11 +76,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.IntelligenceInput(it))
         }
 
-        if (current.intelligence == UNFILLED_ATTRIBUTE) {
-            intelligenceInput.addTextChangedListener(watcher)
-        } else {
-            intelligenceInput.setTextBeforeWatching(watcher, current.intelligence.toString())
-        }
+        intelligenceInput.setTextBeforeWatching(watcher, current.intelligence.toString())
     }
 
     private fun setupPerceptionField() {
@@ -124,11 +85,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.PerceptionInput(it))
         }
 
-        if (current.perception == UNFILLED_ATTRIBUTE) {
-            perceptionInput.addTextChangedListener(watcher)
-        } else {
-            perceptionInput.setTextBeforeWatching(watcher, current.perception.toString())
-        }
+        perceptionInput.setTextBeforeWatching(watcher, current.perception.toString())
     }
 
     private fun setupStrengthField() {
@@ -137,11 +94,7 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.StrengthInput(it))
         }
 
-        if (current.strength == UNFILLED_ATTRIBUTE) {
-            strengthInput.addTextChangedListener(watcher)
-        } else {
-            strengthInput.setTextBeforeWatching(watcher, current.strength.toString())
-        }
+        strengthInput.setTextBeforeWatching(watcher, current.strength.toString())
     }
 
     private fun setupWillpowerField() {
@@ -150,10 +103,6 @@ class AttributesView(
             viewModel.submitAction(AttributesAction.WillpowerInput(it))
         }
 
-        if (current.willpower == UNFILLED_ATTRIBUTE) {
-            willpowerInput.addTextChangedListener(watcher)
-        } else {
-            willpowerInput.setTextBeforeWatching(watcher, current.willpower.toString())
-        }
+        willpowerInput.setTextBeforeWatching(watcher, current.willpower.toString())
     }
 }

@@ -35,7 +35,7 @@ internal class CharacterCreationViewModel(
                 val updatedFortune = action.fortune.toIntOrZero()
                 model = model.copy(maxFortune = updatedFortune, currentFortune = updatedFortune)
             }
-            is CharacterCreationAction.AttributesUpdate -> {
+            is CharacterCreationAction.UpdateAttributes -> {
                 model = model.copy(attributes = action.attributes)
             }
             is CharacterCreationAction.Save -> {

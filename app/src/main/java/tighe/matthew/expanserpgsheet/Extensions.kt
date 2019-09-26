@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import java.lang.NumberFormatException
 
 fun Fragment.navTo(event: Event.Navigate) {
     val bundle = event.navigationArgs.toBundle()
@@ -51,7 +52,7 @@ fun TextInputEditText.onTextFinished(action: (String) -> Unit) {
 fun String.toIntOrZero(): Int {
     return try {
         this.toInt()
-    } catch (err: NullPointerException) {
+    } catch (err: NumberFormatException) {
         0
     }
 }

@@ -37,12 +37,12 @@ class CharacterCreationFragment : Fragment() {
             handleViewStateErrors(viewState)
         } })
 
+        attributesViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
+          baseViewModel.submitAction(CharacterCreationAction.UpdateAttributes(viewState.attributes))
+        } })
+
         val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_creation_attributes)!!
         AttributesView(attributesLayout, viewModel = attributesViewModel)
-
-        attributesViewModel.observeViewState().observe(this, Observer { it?.let {
-          baseViewModel.submitAction(CharacterCreationAction.AttributesUpdate(it.attributes))
-        } })
 
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputEditText
@@ -14,6 +15,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
+import tighe.matthew.expanserpgsheet.attributes.AttributesView
+import tighe.matthew.expanserpgsheet.attributes.AttributesViewModel
 import tighe.matthew.expanserpgsheet.controller.ConditionView
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
@@ -22,14 +25,15 @@ class CharacterDetailsFragment : Fragment() {
 
     private val characterId: Long by lazy { arguments!!.getLong("characterId") }
 
-    private val viewModel: CharacterDetailsViewModel by viewModel { parametersOf(characterId) }
+    private val baseViewModel: CharacterDetailsViewModel by viewModel { parametersOf(characterId) }
+    private val attributesViewModel: AttributesViewModel by viewModel()
 
     private val maxFortuneEditText by lazy {
         activity?.findViewById<TextInputEditText>(R.id.details_input_max_fortune)
     }
     private val maxFortuneWatcher by lazy {
         UserInputTextWatcher(maxFortuneEditText!!) { text ->
-            viewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(text.toInt()))
+            baseViewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(text.toInt()))
         }
     }
 
@@ -38,7 +42,7 @@ class CharacterDetailsFragment : Fragment() {
     }
     private val currentFortuneWatcher by lazy {
         UserInputTextWatcher(currentFortuneEditText!!) { text ->
-            viewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(text.toInt()))
+            baseViewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(text.toInt()))
         }
     }
 
@@ -50,12 +54,19 @@ class CharacterDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
         val textName = activity?.findViewById<TextView>(R.id.details_text_character_name)
-        viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
+        baseViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             textName?.text = viewState.character.name
             handleFortuneViews(viewState)
             setupConditionView(viewState)
+            AttributesView(attributesLayout, viewState.character.attributes, attributesViewModel)
         } })
+
+        attributesViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
+            baseViewModel.submitAction(CharacterDetailsAction.UpdateAttributes(viewState.attributes))
+        } })
+
 
         setupFortuneListeners()
     }
@@ -82,10 +93,10 @@ class CharacterDetailsFragment : Fragment() {
         val character = viewState.character
         val conditions = viewState.character.conditions
         val onConditionChecked = { condition: Condition ->
-            viewModel.submitAction(CharacterDetailsAction.ConditionChecked(condition, character))
+            baseViewModel.submitAction(CharacterDetailsAction.ConditionChecked(condition, character))
         }
         val onConditionUnchecked = { condition: Condition ->
-            viewModel.submitAction(CharacterDetailsAction.ConditionUnchecked(condition, character))
+            baseViewModel.submitAction(CharacterDetailsAction.ConditionUnchecked(condition, character))
         }
 
         ConditionView(conditionLayout, conditions, onConditionChecked, onConditionUnchecked)

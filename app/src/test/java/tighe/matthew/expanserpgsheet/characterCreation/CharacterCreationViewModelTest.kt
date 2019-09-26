@@ -45,7 +45,7 @@ class CharacterCreationViewModelTest {
     fun `Save action persists model to repository`() {
         viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(testCharacter.maxFortune.toString()))
-        viewModel.submitAction(CharacterCreationAction.AttributesUpdate(testAttributes))
+        viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
 
         viewModel.submitAction(CharacterCreationAction.Save)
 
