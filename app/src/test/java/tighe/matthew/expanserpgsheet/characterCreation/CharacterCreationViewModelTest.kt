@@ -28,22 +28,8 @@ class CharacterCreationViewModelTest {
 
     private lateinit var viewModel: CharacterCreationViewModel
 
-    private data class IgnoreFields(
-        val name: Boolean = false,
-        val maxFortune: Boolean = false,
-        val accuracy: Boolean = false,
-        val communication: Boolean = false,
-        val constitution: Boolean = false,
-        val dexterity: Boolean = false,
-        val fighting: Boolean = false,
-        val intelligence: Boolean = false,
-        val perception: Boolean = false,
-        val strength: Boolean = false,
-        val willpower: Boolean = false
-    )
-
-    val testAttributes = Attributes(1, 2, 3, 4, 5, 6 , 7, 8, 9)
-    val testCharacter = Character(0, "name", 10, attributes = testAttributes)
+    private val testAttributes = Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    private val testCharacter = Character(0, "name", 10, attributes = testAttributes)
 
     @Before
     @ExperimentalCoroutinesApi
@@ -57,7 +43,9 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Save action persists model to repository`() {
-        submitFields(testCharacter)
+        viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(testCharacter.maxFortune.toString()))
+        viewModel.submitAction(CharacterCreationAction.AttributesUpdate(testAttributes))
 
         viewModel.submitAction(CharacterCreationAction.Save)
 
@@ -70,16 +58,7 @@ class CharacterCreationViewModelTest {
         viewModel.submitAction(CharacterCreationAction.Save)
 
         val expected = CharacterCreationViewState(
-            nameError = NameError(errorEnabled = true),
-            accuracyError = AccuracyError(errorEnabled = true),
-            communicationError = CommunicationError(errorEnabled = true),
-            constitutionError = ConstitutionError(errorEnabled = true),
-            dexterityError = DexterityError(errorEnabled = true),
-            fightingError = FightingError(errorEnabled = true),
-            intelligenceError = IntelligenceError(errorEnabled = true),
-            perceptionError = PerceptionError(errorEnabled = true),
-            strengthError = StrengthError(errorEnabled = true),
-            willpowerError = WillpowerError(errorEnabled = true)
+            nameError = NameError(errorEnabled = true)
         )
         verify { mockViewStateObserver.onChanged(expected) }
     }
@@ -105,7 +84,7 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Updating name while error is present removes error`() {
-        submitFields(testCharacter, IgnoreFields(name = true))
+        submitFields(testCharacter)
         viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
 
         val expectedError = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
@@ -116,39 +95,7 @@ class CharacterCreationViewModelTest {
         }
     }
 
-    private fun submitFields(character: Character, ignoreFields: IgnoreFields = IgnoreFields()) {
-        if (!ignoreFields.name) {
-            viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
-        }
-        if (!ignoreFields.maxFortune) {
-            viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
-        }
-        if (!ignoreFields.accuracy) {
-            viewModel.submitAction(CharacterCreationAction.AccuracyInput(character.attributes.accuracy.toString()))
-        }
-        if (!ignoreFields.communication) {
-            viewModel.submitAction(CharacterCreationAction.CommunicationInput(character.attributes.communication.toString()))
-        }
-        if (!ignoreFields.constitution) {
-            viewModel.submitAction(CharacterCreationAction.ConstitutionInput(character.attributes.constitution.toString()))
-        }
-        if (!ignoreFields.dexterity) {
-            viewModel.submitAction(CharacterCreationAction.DexterityInput(character.attributes.dexterity.toString()))
-        }
-        if (!ignoreFields.fighting) {
-            viewModel.submitAction(CharacterCreationAction.FightingInput(character.attributes.fighting.toString()))
-        }
-        if (!ignoreFields.intelligence) {
-            viewModel.submitAction(CharacterCreationAction.IntelligenceInput(character.attributes.intelligence.toString()))
-        }
-        if (!ignoreFields.perception) {
-            viewModel.submitAction(CharacterCreationAction.PerceptionInput(character.attributes.perception.toString()))
-        }
-        if (!ignoreFields.strength) {
-            viewModel.submitAction(CharacterCreationAction.StrengthInput(character.attributes.strength.toString()))
-        }
-        if (!ignoreFields.willpower) {
-            viewModel.submitAction(CharacterCreationAction.WillpowerInput(character.attributes.willpower.toString()))
-        }
+    private fun submitFields(character: Character) {
+        viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
     }
 }

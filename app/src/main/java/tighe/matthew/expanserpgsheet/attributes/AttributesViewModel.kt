@@ -12,16 +12,16 @@ import tighe.matthew.expanserpgsheet.toIntOrZero
 class AttributesViewModel : ViewModel(), BaseViewModel<AttributesViewState, AttributesAction> {
     override fun observeEvent(): SingleLiveEvent<Event> { return SingleLiveEvent() }
 
-    private val baseAttributes =  Attributes()
+    private val baseAttributes = Attributes()
     private val viewState = MutableLiveData<AttributesViewState>().apply {
-        AttributesViewState(baseAttributes)
+        postValue(AttributesViewState(baseAttributes))
     }
     override fun observeViewState(): LiveData<AttributesViewState> {
         return viewState
     }
 
     override fun submitAction(action: AttributesAction) {
-        val newAttributes = when(action) {
+        val newAttributes = when (action) {
             is AttributesAction.AccuracyInput -> {
                 viewState.value!!.attributes.copy(accuracy = action.accuracy.toIntOrZero())
             }

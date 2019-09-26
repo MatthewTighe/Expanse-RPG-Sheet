@@ -8,6 +8,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import tighe.matthew.expanserpgsheet.attributes.AttributesViewModel
 import tighe.matthew.expanserpgsheet.characterCreation.CharacterCreationViewModel
 import tighe.matthew.expanserpgsheet.characterDetails.CharacterDetailsViewModel
 import tighe.matthew.expanserpgsheet.characterList.CharacterListViewModel
@@ -31,6 +32,7 @@ val appModule = module {
     viewModel { CharacterCreationViewModel(get()) }
     viewModel { (characterId: Long) -> CharacterDetailsViewModel(characterId, get()) }
     viewModel { EncounterViewModel(get(), get()) }
+    viewModel { AttributesViewModel() }
 }
 
 class Application : Application() {

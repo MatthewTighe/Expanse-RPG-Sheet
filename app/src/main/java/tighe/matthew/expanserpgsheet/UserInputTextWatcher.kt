@@ -23,7 +23,7 @@ class UserInputTextWatcher(
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 }
 
-fun TextInputEditText.getWatcher(action: (String) -> Unit) : UserInputTextWatcher {
+fun TextInputEditText.getWatcher(action: (String) -> Unit): UserInputTextWatcher {
     return UserInputTextWatcher(this, action)
 }
 

@@ -68,7 +68,6 @@ class CharacterCreationFragmentTest : KoinTest {
 
         R.id.btn_save.click()
 
-        R.string.error_name_required.isDisplayed()
+        R.string.text_input_error.isDisplayed()
     }
-
 }

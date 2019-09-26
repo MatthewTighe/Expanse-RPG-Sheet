@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.model.character.Accuracy
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
@@ -27,7 +26,7 @@ internal class CharacterCreationViewModel(
     var model: Character = Character(0)
 
     override fun submitAction(action: CharacterCreationAction) {
-        when (action) {
+        return when (action) {
             is CharacterCreationAction.NameInput -> {
                 val updatedViewState = reduceNameUpdate(action)
                 viewState.postValue(updatedViewState)
@@ -35,6 +34,9 @@ internal class CharacterCreationViewModel(
             is CharacterCreationAction.MaxFortuneInput -> {
                 val updatedFortune = action.fortune.toIntOrZero()
                 model = model.copy(maxFortune = updatedFortune, currentFortune = updatedFortune)
+            }
+            is CharacterCreationAction.AttributesUpdate -> {
+                model = model.copy(attributes = action.attributes)
             }
             is CharacterCreationAction.Save -> {
                 handleSaveAction()
