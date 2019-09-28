@@ -56,6 +56,13 @@ internal class CharacterDetailsViewModel(
                     repository.update(updatedCharacter)
                 }
             }
+            is CharacterDetailsAction.UpdateAttributes -> {
+                val currentCharacter = viewState.value!!.character
+                val updatedCharacter = currentCharacter.copy(attributes = action.attributes)
+                viewModelScope.launch {
+                    repository.update(updatedCharacter)
+                }
+            }
             is CharacterDetailsAction.ConditionChecked -> {
                 viewModelScope.launch {
                     repository.addCondition(action.condition, action.character)
