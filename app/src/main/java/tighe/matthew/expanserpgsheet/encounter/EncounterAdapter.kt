@@ -39,15 +39,25 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
     }
 
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row), KoinComponent {
-        var name = row.findViewById<TextView>(R.id.text_encounter_character_name)
-        var initiative = row.findViewById<TextView>(R.id.text_encounter_initiative)
-        var maxFortune = row.findViewById<TextView>(R.id.text_encounter_max_fortune)
-        var currentFortune = row.findViewById<EditText>(R.id.edit_text_fortune)
-        var fortuneLabel = row.findViewById<TextView>(R.id.label_fortune_adjustment)
+        var name = row.findViewById<TextView>(R.id.text_encounter_character_name)!!
+        var initiative = row.findViewById<TextView>(R.id.text_encounter_initiative)!!
+        var maxFortune = row.findViewById<TextView>(R.id.text_encounter_max_fortune)!!
+        var currentFortune = row.findViewById<EditText>(R.id.edit_text_fortune)!!
+        var fortuneLabel = row.findViewById<TextView>(R.id.label_fortune_adjustment)!!
 
-        var decBtn = row.findViewById<MaterialButton>(R.id.btn_dec_fortune)
-        var incBtn = row.findViewById<MaterialButton>(R.id.btn_inc_fortune)
-        var conditionLayout = row.findViewById<LinearLayout>(R.id.layout_encounter_conditions)
+        var accuracyText = row.findViewById<TextView>(R.id.text_accuracy_small)!!
+        var communicationText = row.findViewById<TextView>(R.id.text_communication_small)!!
+        var constitutionText = row.findViewById<TextView>(R.id.text_constitution_small)!!
+        var dexterityText = row.findViewById<TextView>(R.id.text_dexterity_small)!!
+        var fightingText = row.findViewById<TextView>(R.id.text_fighting_small)!!
+        var intelligenceText = row.findViewById<TextView>(R.id.text_intelligence_small)!!
+        var perceptionText = row.findViewById<TextView>(R.id.text_perception_small)!!
+        var strengthText = row.findViewById<TextView>(R.id.text_strength_small)!!
+        var willpowerText = row.findViewById<TextView>(R.id.text_willpower_small)!!
+
+        var decBtn = row.findViewById<MaterialButton>(R.id.btn_dec_fortune)!!
+        var incBtn = row.findViewById<MaterialButton>(R.id.btn_inc_fortune)!!
+        var conditionLayout = row.findViewById<LinearLayout>(R.id.layout_encounter_conditions)!!
     }
 
     private val characters = mutableListOf<EncounterCharacter>()
@@ -75,6 +85,8 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         )
         holder.fortuneLabel.text =
             holder.fortuneLabel.resources.getString(R.string.hint_current_fortune)
+
+        setupAttributeFields(holder, character.character)
 
         holder.decBtn.setOnClickListener { listeners.onDecClick(character) }
         holder.incBtn.setOnClickListener { listeners.onIncClick(character) }
@@ -113,5 +125,36 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
     override fun onItemDismiss(position: Int) {
         val character = characters.removeAt(position)
         listeners.onItemDismissed(character, position)
+    }
+
+    private fun setupAttributeFields(holder: ViewHolder, character: Character) {
+        val resources = holder.itemView.resources
+        holder.accuracyText.text = resources.getString(
+            R.string.accuracy_abbreviated_interpolated, character.attributes.accuracy
+        )
+        holder.communicationText.text = resources.getString(
+            R.string.communication_abbreviated_interpolated, character.attributes.communication
+        )
+        holder.constitutionText.text = resources.getString(
+            R.string.constitution_abbreviated_interpolated, character.attributes.constitution
+        )
+        holder.dexterityText.text = resources.getString(
+            R.string.dexterity_abbreviated_interpolated, character.attributes.dexterity
+        )
+        holder.fightingText.text = resources.getString(
+            R.string.fighting_abbreviated_interpolated, character.attributes.fighting
+        )
+        holder.intelligenceText.text = resources.getString(
+            R.string.intelligence_abbreviated_interpolated, character.attributes.intelligence
+        )
+        holder.perceptionText.text = resources.getString(
+            R.string.perception_abbreviated_interpolated, character.attributes.perception
+        )
+        holder.strengthText.text = resources.getString(
+            R.string.strength_abbreviated_interpolated, character.attributes.strength
+        )
+        holder.willpowerText.text = resources.getString(
+            R.string.willpower_abbreviated_interpolated, character.attributes.willpower
+        )
     }
 }
