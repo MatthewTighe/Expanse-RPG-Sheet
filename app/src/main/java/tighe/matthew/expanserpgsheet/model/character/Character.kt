@@ -12,7 +12,7 @@ data class Character @Ignore constructor(
     val name: String = "",
     val maxFortune: Int = 0,
     val currentFortune: Int = maxFortune,
-    @Embedded val attributes: Attributes = Attributes(),
+    @Embedded val attributes: Attributes = Attributes.UNFILLED_ATTRIBUTES,
     @Ignore val conditions: Set<Condition> = setOf()
 ) {
     constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int, attributes: Attributes) :

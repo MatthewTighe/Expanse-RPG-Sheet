@@ -24,6 +24,21 @@ data class Attributes(
             AttributeData(AttributeType.WILLPOWER, willpower)
         ).iterator()
     }
+
+    companion object {
+        const val UNFILLED_ATTRIBUTE = Int.MIN_VALUE
+        val UNFILLED_ATTRIBUTES = Attributes(
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE,
+            UNFILLED_ATTRIBUTE
+        )
+    }
 }
 
 data class AttributeData(val type: AttributeType, val value: Int)

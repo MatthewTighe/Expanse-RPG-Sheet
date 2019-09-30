@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
@@ -53,12 +55,14 @@ internal class CharacterCreationViewModel(
 
         val nameError = NameError(errorEnabled = model.name.isBlank())
 
-        val updatedViewState = viewState.value!!.copy(nameError = nameError)
+        val attributeErrors = getAttributeErrors()
+
+        val updatedViewState = CharacterCreationViewState(nameError, attributeErrors)
         viewState.postValue(updatedViewState)
     }
 
     private fun modelIsComplete(): Boolean {
-        return model.name.isNotBlank()
+        return model.name.isNotBlank() && model.attributes.all { it.value != Attributes.UNFILLED_ATTRIBUTE }
     }
 
     private fun reduceNameUpdate(action: CharacterCreationAction.NameInput): CharacterCreationViewState {
@@ -68,6 +72,13 @@ internal class CharacterCreationViewModel(
             currentViewState.copy(nameError = NameError(errorEnabled = true))
         } else {
             currentViewState.copy(nameError = NameError(errorEnabled = false))
+        }
+    }
+
+    private fun getAttributeErrors(): List<AttributeError> {
+        return model.attributes.map { data ->
+            val enabled = data.value == Attributes.UNFILLED_ATTRIBUTE
+            AttributeError(data.type, errorEnabled = enabled)
         }
     }
 }

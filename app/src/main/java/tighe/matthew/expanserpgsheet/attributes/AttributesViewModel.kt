@@ -3,15 +3,15 @@ package tighe.matthew.expanserpgsheet.attributes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import tighe.matthew.expanserpgsheet.BaseViewModel
-import tighe.matthew.expanserpgsheet.Event
-import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
-import tighe.matthew.expanserpgsheet.toIntOrZero
+import java.lang.NumberFormatException
 
 class AttributesViewModel : ViewModel(), BaseViewModel<AttributesViewState, AttributesAction> {
-    override fun observeEvent(): SingleLiveEvent<Event> { return SingleLiveEvent() }
+    override fun observeEvent(): SingleLiveEvent<Event> {
+        return SingleLiveEvent()
+    }
 
     private val viewState = MutableLiveData<AttributesViewState>()
     override fun observeViewState(): LiveData<AttributesViewState> {
@@ -21,29 +21,50 @@ class AttributesViewModel : ViewModel(), BaseViewModel<AttributesViewState, Attr
     override fun submitAction(action: AttributesAction) {
         return when (action) {
             is AttributesAction.AttributeInput -> {
-                val newAttributes = reduceUpdatedAttributes(action)
-                viewState.postValue(AttributesViewState(newAttributes))
+                handleAttributeInput(action)
             }
         }
     }
 
+    private fun handleAttributeInput(action: AttributesAction.AttributeInput) {
+        val attributes = reduceUpdatedAttributes(action.type, action.input)
+        val errors = reduceUpdatedErrors(action.type, action.input)
+        val newViewState = AttributesViewState(attributes, errors)
+        viewState.postValue(newViewState)
+    }
+
     private fun reduceUpdatedAttributes(
-        action: AttributesAction.AttributeInput
+        type: AttributeType,
+        value: String
     ): Attributes {
-        val currentAttributes = viewState.value?.attributes ?: Attributes()
-        val type = action.type
-        // TODO error checking/display
-        val input = action.input.toIntOrZero()
+        val currentAttributes = viewState.value?.attributes ?: Attributes.UNFILLED_ATTRIBUTES
+        val newValue = try {
+            value.toInt()
+        } catch (err: NumberFormatException) {
+            Attributes.UNFILLED_ATTRIBUTE
+        }
         return when (type) {
-            AttributeType.ACCURACY -> currentAttributes.copy(accuracy = input)
-            AttributeType.COMMUNICATION -> currentAttributes.copy(communication = input)
-            AttributeType.CONSTITUTION -> currentAttributes.copy(constitution = input)
-            AttributeType.DEXTERITY -> currentAttributes.copy(dexterity = input)
-            AttributeType.FIGHTING -> currentAttributes.copy(fighting = input)
-            AttributeType.INTELLIGENCE -> currentAttributes.copy(intelligence = input)
-            AttributeType.PERCEPTION -> currentAttributes.copy(perception = input)
-            AttributeType.STRENGTH -> currentAttributes.copy(strength = input)
-            AttributeType.WILLPOWER -> currentAttributes.copy(willpower = input)
+            AttributeType.ACCURACY -> currentAttributes.copy(accuracy = newValue)
+            AttributeType.COMMUNICATION -> currentAttributes.copy(communication = newValue)
+            AttributeType.CONSTITUTION -> currentAttributes.copy(constitution = newValue)
+            AttributeType.DEXTERITY -> currentAttributes.copy(dexterity = newValue)
+            AttributeType.FIGHTING -> currentAttributes.copy(fighting = newValue)
+            AttributeType.INTELLIGENCE -> currentAttributes.copy(intelligence = newValue)
+            AttributeType.PERCEPTION -> currentAttributes.copy(perception = newValue)
+            AttributeType.STRENGTH -> currentAttributes.copy(strength = newValue)
+            AttributeType.WILLPOWER -> currentAttributes.copy(willpower = newValue)
+        }
+    }
+
+    private fun reduceUpdatedErrors(type: AttributeType, input: String): List<AttributeError> {
+        return try {
+            input.toInt()
+            val disabledError = AttributeError(type, errorEnabled = false)
+            val updatedErrorList = viewState.value?.errors?.filter { it.type != type } ?: listOf()
+            updatedErrorList.plus(disabledError)
+        } catch (err: NumberFormatException) {
+            val enabledError = AttributeError(type, errorEnabled = true)
+            viewState.value?.errors?.plus(enabledError) ?: listOf(enabledError)
         }
     }
 }

@@ -19,12 +19,6 @@ interface BaseViewModel<V : ViewState, A : Action> {
     fun submitAction(action: A)
 }
 
-interface FlowableViewModel<V : ViewState, A : Action> {
-    fun flowViewState(): Flow<V>
-
-    fun submitAction(Action: A)
-}
-
 interface ViewState
 
 interface TextInputFieldError {

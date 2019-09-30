@@ -14,10 +14,16 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.*
 import tighe.matthew.expanserpgsheet.attributes.AttributesView
 import tighe.matthew.expanserpgsheet.attributes.AttributesViewModel
+import tighe.matthew.expanserpgsheet.attributes.AttributesViewState
 
 class CharacterCreationFragment : Fragment() {
     private val baseViewModel: CharacterCreationViewModel by viewModel()
     private val attributesViewModel: AttributesViewModel by viewModel()
+
+    private val attributesLayout by lazy {
+        activity?.findViewById<ConstraintLayout>(R.id.layout_creation_attributes)!!
+    }
+    private val attributesView by lazy { AttributesView(attributesLayout, attributesViewModel) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_character_creation, container, false)
@@ -34,15 +40,13 @@ class CharacterCreationFragment : Fragment() {
         } })
 
         baseViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            handleViewStateErrors(viewState)
+            handleBaseViewState(viewState)
         } })
 
         attributesViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-          baseViewModel.submitAction(CharacterCreationAction.UpdateAttributes(viewState.attributes))
+            handleAttributesViewState(viewState)
         } })
 
-        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_creation_attributes)!!
-        AttributesView(attributesLayout, viewModel = attributesViewModel)
 
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->
@@ -58,8 +62,15 @@ class CharacterCreationFragment : Fragment() {
         saveBtn.setOnClickListener { baseViewModel.submitAction(CharacterCreationAction.Save) }
     }
 
-    private fun handleViewStateErrors(viewState: CharacterCreationViewState) {
+    private fun handleBaseViewState(viewState: CharacterCreationViewState) {
         val nameView = activity?.findViewById<TextInputLayout>(R.id.layout_input_name)
         viewState.nameError.handleDisplay(nameView)
+        attributesView.setErrors(viewState.attributeErrors)
+    }
+
+    private fun handleAttributesViewState(viewState: AttributesViewState) {
+        baseViewModel.submitAction(CharacterCreationAction.UpdateAttributes(viewState.attributes))
+        attributesView.setAttributes(viewState.attributes)
+        attributesView.setErrors(viewState.errors)
     }
 }

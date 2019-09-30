@@ -55,16 +55,18 @@ class CharacterDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
+        val attributesView = AttributesView(attributesLayout, attributesViewModel)
         val textName = activity?.findViewById<TextView>(R.id.details_text_character_name)
         baseViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             textName?.text = viewState.character.name
             handleFortuneViews(viewState)
             setupConditionView(viewState)
-            AttributesView(attributesLayout, viewState.character.attributes, attributesViewModel)
+            attributesView.setAttributes(viewState.character.attributes)
         } })
 
         attributesViewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             baseViewModel.submitAction(CharacterDetailsAction.UpdateAttributes(viewState.attributes))
+            attributesView.setErrors(viewState.errors)
         } })
 
 
