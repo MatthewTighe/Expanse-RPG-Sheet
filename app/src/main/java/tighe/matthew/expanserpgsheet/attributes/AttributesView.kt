@@ -42,7 +42,6 @@ class AttributesView(
         }
     }
 
-
     private fun displayErrors(errors: List<AttributeError>) {
         for (error in errors) {
             val view = getTextLayout(error.type)
@@ -64,7 +63,7 @@ class AttributesView(
         }
         return layout.findViewById(id)!!
     }
-    
+
     private fun getTextLayout(type: AttributeType): TextInputLayout {
         val id = when (type) {
             AttributeType.ACCURACY -> R.id.layout_input_accuracy

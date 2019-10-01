@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface BaseViewModel<V : ViewState, A : Action> {

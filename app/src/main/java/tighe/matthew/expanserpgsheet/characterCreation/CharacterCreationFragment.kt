@@ -47,7 +47,6 @@ class CharacterCreationFragment : Fragment() {
             handleAttributesViewState(viewState)
         } })
 
-
         val nameInput = activity?.findViewById<TextInputEditText>(R.id.input_name)!!
         nameInput.onTextFinished { name ->
             baseViewModel.submitAction(CharacterCreationAction.NameInput(name))

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.condition.Condition
@@ -28,7 +29,8 @@ class EncounterFragmentTest : KoinTest {
     private val testInitiative = 10
     private val testCharacterId = 1L
     private val originalFortune = 10
-    private val testCharacter = Character(testCharacterId, "name", originalFortune)
+    private val testAttributes = Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    private val testCharacter = Character(testCharacterId, "name", originalFortune, attributes = testAttributes)
 
     @Before
     fun setup() {
@@ -79,5 +81,18 @@ class EncounterFragmentTest : KoinTest {
         val expectedConditions = setOf(Condition.Injured)
         val expected = listOf(testCharacter.copy(conditions = expectedConditions))
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun attributesAreDisplayed() {
+        "ACR: 1".isDisplayed()
+        "COM: 2".isDisplayed()
+        "CON: 3".isDisplayed()
+        "DEX: 4".isDisplayed()
+        "FTN: 5".isDisplayed()
+        "INT: 6".isDisplayed()
+        "PER: 7".isDisplayed()
+        "STR: 8".isDisplayed()
+        "WIL: 9".isDisplayed()
     }
 }

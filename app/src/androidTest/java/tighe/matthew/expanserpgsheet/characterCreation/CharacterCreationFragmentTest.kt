@@ -63,11 +63,21 @@ class CharacterCreationFragmentTest : KoinTest {
     }
 
     @Test
-    fun errorIsDisplayedIfNameFieldIsEmpty() {
+    fun errorsAreDisplayedIFieldsAreEmpty() {
         R.id.layout_fragment_character_creation.isDisplayed()
 
         R.id.btn_save.click()
 
         activityRule.activity.getString(R.string.text_input_error, "Name").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Accuracy").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Communication").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Constitution").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Dexterity").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Fighting").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Intelligence").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Perception").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Strength").isDisplayed()
+        activityRule.activity.getString(R.string.text_input_error, "Willpower").isDisplayed()
+
     }
 }

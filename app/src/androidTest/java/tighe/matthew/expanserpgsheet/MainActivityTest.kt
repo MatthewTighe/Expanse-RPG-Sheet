@@ -6,27 +6,26 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun testMainActivityHostsNavFragment() {
-        R.id.nav_host_fragment.isDisplayed()
-    }
-
-    @Test
     fun testCharacterCanBeAddedThenModified() {
         val expectedName = "name"
-        val expectedInitialFortune = 25
+        val initialFortune = 25
+        val attributes = Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9)
         // Start fragment is character list
         R.id.layout_fragment_character_list.isDisplayed()
 
         // Nav and create new character
         R.id.btn_create_new.click()
         R.id.input_name.writeText(expectedName)
-        R.id.input_max_fortune.writeText(expectedInitialFortune.toString())
+        R.id.input_max_fortune.writeText(initialFortune.toString())
+        enterAttributes(attributes)
+
         R.id.btn_save.click()
 
         // Character has been added to list. Click it to nav to details.
@@ -34,12 +33,32 @@ class MainActivityTest {
         expectedName.isDisplayed()
         expectedName.click()
 
-        // Character fortune can be modified
+        // Character fortune is displayed and can be modified
         R.id.layout_fragment_character_details.isDisplayed()
-        expectedInitialFortune.toString().isDisplayed()
+        initialFortune.toString().isDisplayed()
         val updatedFortune = 35
         R.id.details_input_max_fortune.writeText(updatedFortune.toString())
+        R.id.character_list_fragment.click()
+        expectedName.click()
         updatedFortune.toString().isDisplayed()
+
+        // Attributes are displayed
+        attributes.accuracy.toString().isDisplayed()
+        attributes.communication.toString().isDisplayed()
+        attributes.constitution.toString().isDisplayed()
+        attributes.dexterity.toString().isDisplayed()
+        attributes.fighting.toString().isDisplayed()
+        attributes.intelligence.toString().isDisplayed()
+        attributes.perception.toString().isDisplayed()
+        attributes.strength.toString().isDisplayed()
+        attributes.willpower.toString().isDisplayed()
+
+        // Attribute can be modified
+        val updatedAccuracy = 11
+        R.id.input_accuracy.writeText(updatedAccuracy.toString())
+        R.id.character_list_fragment.click()
+        expectedName.click()
+        updatedAccuracy.toString().isDisplayed()
 
         // Leave details page
         R.id.character_list_fragment.click()
@@ -59,6 +78,7 @@ class MainActivityTest {
         R.id.btn_create_new.click()
         R.id.input_name.writeText(expectedName)
         R.id.input_max_fortune.writeText(expectedInitialFortune.toString())
+        enterAttributes(Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9))
         R.id.btn_save.click()
 
         // Character has been added to list. Click options and add it to an encounter.
@@ -78,6 +98,18 @@ class MainActivityTest {
         R.id.layout_encounter_fortune_adjustment.isDisplayed()
         expectedName.isDisplayed()
         expectedInitialFortune.toString().isDisplayed()
-        expectedInitiative.toString().isDisplayed()
+        "Initiative: $expectedInitiative".isDisplayed()
+    }
+
+    private fun enterAttributes(attributes: Attributes) {
+        R.id.input_accuracy.writeText(attributes.accuracy.toString())
+        R.id.input_communication.writeText(attributes.communication.toString())
+        R.id.input_constitution.writeText(attributes.constitution.toString())
+        R.id.input_dexterity.writeText(attributes.dexterity.toString())
+        R.id.input_fighting.writeText(attributes.fighting.toString())
+        R.id.input_intelligence.writeText(attributes.intelligence.toString())
+        R.id.input_perception.writeText(attributes.perception.toString())
+        R.id.input_strength.writeText(attributes.strength.toString())
+        R.id.input_willpower.writeText(attributes.willpower.toString())
     }
 }

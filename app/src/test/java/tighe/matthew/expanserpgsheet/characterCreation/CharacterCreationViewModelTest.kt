@@ -13,6 +13,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
@@ -57,18 +59,23 @@ class CharacterCreationViewModelTest {
     fun `Save action triggers errors in view state if fields are empty`() {
         viewModel.submitAction(CharacterCreationAction.Save)
 
+        val attributeErrors = Attributes().map {
+            AttributeError(it.type, errorEnabled = true)
+        }
         val expected = CharacterCreationViewState(
-            nameError = NameError(errorEnabled = true)
+            nameError = NameError(errorEnabled = true),
+            attributeErrors = attributeErrors
         )
         verify { mockViewStateObserver.onChanged(expected) }
     }
 
     @Test
     fun `Current fortune will match max on save action`() {
-        val model = Character(0, "name", 15)
+        val model = Character(0, "name", 15, attributes = testAttributes)
 
         viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune.toString()))
+        viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
         viewModel.submitAction(CharacterCreationAction.Save)
 
         coVerify { mockRepo.persist(model.copy(currentFortune = 15, maxFortune = 15)) }
@@ -84,7 +91,7 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Updating name while error is present removes error`() {
-        submitFields(testCharacter)
+        viewModel.submitAction(CharacterCreationAction.NameInput(""))
         viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
 
         val expectedError = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
@@ -93,9 +100,5 @@ class CharacterCreationViewModelTest {
             mockViewStateObserver.onChanged(expectedError)
             mockViewStateObserver.onChanged(expected)
         }
-    }
-
-    private fun submitFields(character: Character) {
-        viewModel.submitAction(CharacterCreationAction.NameInput(character.name))
     }
 }

@@ -14,7 +14,7 @@ data class AttributesViewState(
 data class AttributeError(
     val type: AttributeType,
     override val errorEnabled: Boolean = false,
-    override val fieldName: Int = when(type) {
+    override val fieldName: Int = when (type) {
         AttributeType.ACCURACY -> R.string.accuracy
         AttributeType.COMMUNICATION -> R.string.communication
         AttributeType.CONSTITUTION -> R.string.constitution
