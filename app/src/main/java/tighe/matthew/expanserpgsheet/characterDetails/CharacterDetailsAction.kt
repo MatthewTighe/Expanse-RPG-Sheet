@@ -1,8 +1,7 @@
 package tighe.matthew.expanserpgsheet.characterDetails
 
 import tighe.matthew.expanserpgsheet.Action
-import tighe.matthew.expanserpgsheet.controller.AttributeInput
-import tighe.matthew.expanserpgsheet.model.character.Attributes
+import tighe.matthew.expanserpgsheet.attributes.AttributeInput
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 

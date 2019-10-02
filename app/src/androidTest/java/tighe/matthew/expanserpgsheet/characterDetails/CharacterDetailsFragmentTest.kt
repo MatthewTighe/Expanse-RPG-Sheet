@@ -82,7 +82,7 @@ class CharacterDetailsFragmentTest : KoinTest {
     fun attributesCanBeAlteredAndArePersisted() = runBlocking {
         R.id.input_accuracy.writeText("10")
 
-        val result = characterRepository.observeBase().first()
+        characterRepository.observeBase().first() // Observe the initial emission
         val realResult = characterRepository.observeBase().first()
 
         val expectedAttributes = initialAttributes.copy(accuracy = 10)

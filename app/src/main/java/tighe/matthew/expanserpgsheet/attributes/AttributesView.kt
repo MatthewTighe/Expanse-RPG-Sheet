@@ -1,4 +1,4 @@
-package tighe.matthew.expanserpgsheet.controller
+package tighe.matthew.expanserpgsheet.attributes
 
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
@@ -91,6 +91,11 @@ class AttributesView(
     }
 
     private fun getAction(type: AttributeType): (String) -> Unit {
-        return { input -> onAttributeInput(AttributeInput(type, input)) }
+        return { input -> onAttributeInput(
+            AttributeInput(
+                type,
+                input
+            )
+        ) }
     }
 }

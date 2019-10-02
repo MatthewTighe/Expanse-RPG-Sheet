@@ -1,4 +1,4 @@
-package tighe.matthew.expanserpgsheet.controller
+package tighe.matthew.expanserpgsheet.condition
 
 import android.view.View
 import android.widget.LinearLayout

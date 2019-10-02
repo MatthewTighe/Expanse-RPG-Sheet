@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
-import tighe.matthew.expanserpgsheet.controller.AttributeReducer
+import tighe.matthew.expanserpgsheet.attributes.AttributeReducer
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 

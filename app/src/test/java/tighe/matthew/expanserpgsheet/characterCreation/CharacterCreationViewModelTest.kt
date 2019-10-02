@@ -12,8 +12,11 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.Event
+import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.ViewState
 import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.attributes.AttributeInput
 import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
@@ -47,7 +50,7 @@ class CharacterCreationViewModelTest {
     fun `Save action persists model to repository`() {
         viewModel.submitAction(CharacterCreationAction.NameChanged(testCharacter.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneChanged(testCharacter.maxFortune.toString()))
-        viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
+        submitAttributes(testAttributes)
 
         viewModel.submitAction(CharacterCreationAction.Save)
 
@@ -75,7 +78,7 @@ class CharacterCreationViewModelTest {
 
         viewModel.submitAction(CharacterCreationAction.NameChanged(model.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneChanged(model.maxFortune.toString()))
-        viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
+        submitAttributes(testAttributes)
         viewModel.submitAction(CharacterCreationAction.Save)
 
         coVerify { mockRepo.persist(model.copy(currentFortune = 15, maxFortune = 15)) }
@@ -99,6 +102,65 @@ class CharacterCreationViewModelTest {
         verify {
             mockViewStateObserver.onChanged(expectedError)
             mockViewStateObserver.onChanged(expected)
+        }
+    }
+
+    @Test
+    fun `Updating attribute with blank input triggers error`() {
+        val initialInput =
+            AttributeInput(AttributeType.ACCURACY, "10")
+        val blankInput =
+            AttributeInput(AttributeType.ACCURACY, "")
+
+        viewModel.submitAction(CharacterCreationAction.AttributeChanged(initialInput))
+        viewModel.submitAction(CharacterCreationAction.AttributeChanged(blankInput))
+
+        val expectedError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = true
+        )
+        val expectedErrorState = CharacterCreationViewState(attributeErrors = listOf(expectedError))
+
+        verify {
+            mockViewStateObserver.onChanged(expectedErrorState)
+        }
+    }
+
+    @Test
+    fun `Updating attribute while error is present disables it`() {
+        val initialInput =
+            AttributeInput(AttributeType.ACCURACY, "")
+        val filledInput =
+            AttributeInput(AttributeType.ACCURACY, "10")
+
+        viewModel.submitAction(CharacterCreationAction.AttributeChanged(initialInput))
+        viewModel.submitAction(CharacterCreationAction.AttributeChanged(filledInput))
+
+        val expectedError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = true
+        )
+        val disabledError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = false
+        )
+        val expectedErrorState = CharacterCreationViewState(attributeErrors = listOf(expectedError))
+        val expectedFixedState = CharacterCreationViewState(attributeErrors = listOf(disabledError))
+
+        verify {
+            mockViewStateObserver.onChanged(expectedErrorState)
+            mockViewStateObserver.onChanged(expectedFixedState)
+        }
+    }
+
+    private fun submitAttributes(attributes: Attributes, exclude: List<AttributeType> = listOf()) {
+        for (attribute in attributes) {
+            if (exclude.contains(attribute.type)) continue
+            val attributeInput = AttributeInput(
+                attribute.type,
+                attribute.value.toString()
+            )
+            viewModel.submitAction(CharacterCreationAction.AttributeChanged(attributeInput))
         }
     }
 }

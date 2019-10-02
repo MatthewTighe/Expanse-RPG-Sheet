@@ -1,8 +1,7 @@
 package tighe.matthew.expanserpgsheet.characterCreation
 
 import tighe.matthew.expanserpgsheet.Action
-import tighe.matthew.expanserpgsheet.controller.AttributeInput
-import tighe.matthew.expanserpgsheet.model.character.Attributes
+import tighe.matthew.expanserpgsheet.attributes.AttributeInput
 
 internal sealed class CharacterCreationAction : Action {
     data class NameChanged(val name: String) : CharacterCreationAction()

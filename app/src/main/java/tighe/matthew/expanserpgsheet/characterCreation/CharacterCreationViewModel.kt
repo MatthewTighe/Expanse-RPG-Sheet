@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.controller.AttributeError
-import tighe.matthew.expanserpgsheet.controller.AttributeReducer
-import tighe.matthew.expanserpgsheet.model.character.AttributeType
+import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.attributes.AttributeReducer
 import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
-import java.lang.NumberFormatException
 
 internal class CharacterCreationViewModel(
     private val repository: CharacterRepository
@@ -92,7 +90,10 @@ internal class CharacterCreationViewModel(
     private fun getAttributeErrors(): List<AttributeError> {
         return model.attributes.map { data ->
             val enabled = data.value == Attributes.UNFILLED_ATTRIBUTE
-            AttributeError(data.type, errorEnabled = enabled)
+            AttributeError(
+                data.type,
+                errorEnabled = enabled
+            )
         }
     }
 }

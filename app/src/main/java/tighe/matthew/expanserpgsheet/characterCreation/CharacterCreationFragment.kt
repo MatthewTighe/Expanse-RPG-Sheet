@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.controller.AttributeInput
-import tighe.matthew.expanserpgsheet.controller.AttributesView
+import tighe.matthew.expanserpgsheet.attributes.AttributeInput
+import tighe.matthew.expanserpgsheet.attributes.AttributesView
 
 class CharacterCreationFragment : Fragment() {
     private val viewModel: CharacterCreationViewModel by viewModel()
@@ -59,6 +59,10 @@ class CharacterCreationFragment : Fragment() {
         viewState.nameError.handleDisplay(nameView)
         
         val attributeLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_creation_attributes)!!
-        AttributesView(attributeLayout, onAttributeInput, errors = viewState.attributeErrors)
+        AttributesView(
+            attributeLayout,
+            onAttributeInput,
+            errors = viewState.attributeErrors
+        )
     }
 }

@@ -1,8 +1,7 @@
-package tighe.matthew.expanserpgsheet.controller
+package tighe.matthew.expanserpgsheet.attributes
 
 import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
-import java.lang.NumberFormatException
 
 object AttributeReducer {
     fun reduceAttributeInput(attributes: Attributes?, attributeInput: AttributeInput): Attributes {
@@ -33,7 +32,10 @@ object AttributeReducer {
         } catch (err: NumberFormatException) {
             true
         }
-        val updatedError = AttributeError(attributeInput.type, errorEnabled = enabled)
+        val updatedError = AttributeError(
+            attributeInput.type,
+            errorEnabled = enabled
+        )
         return errorsUsed.filter {
             it.type != attributeInput.type
         }.plus(updatedError)

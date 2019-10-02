@@ -11,7 +11,7 @@ import com.google.android.material.button.MaterialButton
 import org.koin.core.KoinComponent
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
 import tighe.matthew.expanserpgsheet.R
-import tighe.matthew.expanserpgsheet.controller.ConditionView
+import tighe.matthew.expanserpgsheet.condition.ConditionView
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 import tighe.matthew.expanserpgsheet.model.character.Character

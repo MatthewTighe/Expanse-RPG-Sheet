@@ -14,6 +14,10 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.attributes.AttributeInput
+import tighe.matthew.expanserpgsheet.model.character.AttributeType
+import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.condition.Condition
@@ -27,8 +31,9 @@ class CharacterDetailsViewModelTest {
     private val mockRepo = mockk<CharacterRepository>(relaxUnitFun = true)
 
     private val testInitialFortune = 10
+    private val testInitialAttributes = Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9)
     private val testInitialCharacterModel =
-        Character(0, "name", testInitialFortune)
+        Character(0, "name", testInitialFortune, attributes = testInitialAttributes)
 
     private lateinit var viewModel: CharacterDetailsViewModel
 
@@ -63,6 +68,72 @@ class CharacterDetailsViewModelTest {
         val expected = testInitialCharacterModel.copy(currentFortune = newFortune)
         coVerify { mockRepo.update(expected) }
     }
+
+    @Test
+    fun `Updating attribute with blank input triggers error`() {
+        val initialInput =
+            AttributeInput(AttributeType.ACCURACY, "10")
+        val blankInput =
+            AttributeInput(AttributeType.ACCURACY, "")
+
+        viewModel.submitAction(CharacterDetailsAction.AttributeChanged(initialInput))
+        viewModel.submitAction(CharacterDetailsAction.AttributeChanged(blankInput))
+
+        val expectedAttributes = testInitialAttributes.copy(accuracy = Attributes.UNFILLED_ATTRIBUTE)
+        val expectedCharacter = testInitialCharacterModel.copy(attributes = expectedAttributes)
+        val expectedError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = true
+        )
+        val expectedErrorState = CharacterDetailsViewState(
+            character = expectedCharacter,
+            attributeErrors = listOf(expectedError)
+        )
+
+        verify {
+            mockViewStateObserver.onChanged(expectedErrorState)
+        }
+    }
+
+    @Test
+    fun `Updating attribute while error is present disables it`() {
+        val initialInput =
+            AttributeInput(AttributeType.ACCURACY, "")
+        val filledInput = AttributeInput(
+            AttributeType.ACCURACY,
+            testInitialAttributes.accuracy.toString()
+        )
+
+        viewModel.submitAction(CharacterDetailsAction.AttributeChanged(initialInput))
+        viewModel.submitAction(CharacterDetailsAction.AttributeChanged(filledInput))
+
+        val expectedAttributes = testInitialAttributes.copy(accuracy = Attributes.UNFILLED_ATTRIBUTE)
+        val expectedChangedCharacter = testInitialCharacterModel.copy(attributes = expectedAttributes)
+        val expectedError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = true
+        )
+        val disabledError = AttributeError(
+            AttributeType.ACCURACY,
+            errorEnabled = false
+        )
+
+        val expectedErrorState = CharacterDetailsViewState(
+            character = expectedChangedCharacter,
+            attributeErrors = listOf(expectedError)
+        )
+
+        val expectedFixedState = CharacterDetailsViewState(
+            character = testInitialCharacterModel,
+            attributeErrors = listOf(disabledError)
+        )
+
+        verify {
+            mockViewStateObserver.onChanged(expectedErrorState)
+            mockViewStateObserver.onChanged(expectedFixedState)
+        }
+    }
+
 
     @Test
     fun `ConditionChecked action delegates to repository for adding new condition`() {
