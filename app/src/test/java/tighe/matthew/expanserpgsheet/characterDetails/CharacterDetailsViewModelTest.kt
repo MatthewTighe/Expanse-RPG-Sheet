@@ -49,7 +49,7 @@ class CharacterDetailsViewModelTest {
     @Test
     fun `Changes to max fortune are delegated to the model`() {
         val newFortune = 20
-        viewModel.submitAction(CharacterDetailsAction.ChangeMaxFortune(newFortune))
+        viewModel.submitAction(CharacterDetailsAction.MaxFortuneChanged(newFortune))
 
         val expected = testInitialCharacterModel.copy(maxFortune = newFortune)
         coVerify { mockRepo.update(expected) }
@@ -58,7 +58,7 @@ class CharacterDetailsViewModelTest {
     @Test
     fun `Changes to current fortune are delegated to the model`() {
         val newFortune = 20
-        viewModel.submitAction(CharacterDetailsAction.ChangeCurrentFortune(20))
+        viewModel.submitAction(CharacterDetailsAction.CurrentFortuneChanged(20))
 
         val expected = testInitialCharacterModel.copy(currentFortune = newFortune)
         coVerify { mockRepo.update(expected) }

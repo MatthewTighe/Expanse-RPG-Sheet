@@ -1,31 +1,42 @@
-package tighe.matthew.expanserpgsheet.attributes
+package tighe.matthew.expanserpgsheet.controller
 
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import tighe.matthew.expanserpgsheet.R
+import tighe.matthew.expanserpgsheet.TextInputFieldError
 import tighe.matthew.expanserpgsheet.getWatcher
 import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 
+data class AttributeInput(val type: AttributeType, val value: String)
+
+data class AttributeError(
+    val type: AttributeType,
+    override val errorEnabled: Boolean = false,
+    override val fieldName: Int = when (type) {
+        AttributeType.ACCURACY -> R.string.accuracy
+        AttributeType.COMMUNICATION -> R.string.communication
+        AttributeType.CONSTITUTION -> R.string.constitution
+        AttributeType.DEXTERITY -> R.string.dexterity
+        AttributeType.FIGHTING -> R.string.fighting
+        AttributeType.INTELLIGENCE -> R.string.intelligence
+        AttributeType.PERCEPTION -> R.string.perception
+        AttributeType.STRENGTH -> R.string.strength
+        AttributeType.WILLPOWER -> R.string.willpower
+    }
+) : TextInputFieldError
+
 class AttributesView(
     private val layout: ConstraintLayout,
-    private val viewModel: AttributesViewModel,
-    initialAttributes: Attributes = Attributes.UNFILLED_ATTRIBUTES,
-    initialErrors: List<AttributeError> = listOf()
+    private val onAttributeInput: (AttributeInput) -> Unit,
+    attributes: Attributes = Attributes.UNFILLED_ATTRIBUTES,
+    errors: List<AttributeError> = listOf()
 ) {
 
     init {
-        setupFields(initialAttributes)
-        displayErrors(initialErrors)
-    }
-
-    fun setAttributes(attributes: Attributes) {
         setupFields(attributes)
-    }
-
-    fun setErrors(errors: List<AttributeError>) {
         displayErrors(errors)
     }
 
@@ -80,6 +91,6 @@ class AttributesView(
     }
 
     private fun getAction(type: AttributeType): (String) -> Unit {
-        return { input -> viewModel.submitAction(AttributesAction.AttributeInput(type, input)) }
+        return { input -> onAttributeInput(AttributeInput(type, input)) }
     }
 }

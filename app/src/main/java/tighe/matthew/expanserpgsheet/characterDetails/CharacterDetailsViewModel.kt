@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.onEach
 import tighe.matthew.expanserpgsheet.BaseViewModel
 import tighe.matthew.expanserpgsheet.Event
 import tighe.matthew.expanserpgsheet.SingleLiveEvent
+import tighe.matthew.expanserpgsheet.controller.AttributeReducer
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 
@@ -42,26 +43,22 @@ internal class CharacterDetailsViewModel(
 
     override fun submitAction(action: CharacterDetailsAction) {
         when (action) {
-            is CharacterDetailsAction.ChangeMaxFortune -> {
+            is CharacterDetailsAction.MaxFortuneChanged -> {
                 val currentCharacter = viewState.value!!.character
                 val updatedCharacter = currentCharacter.copy(maxFortune = action.newFortune)
                 viewModelScope.launch {
                     repository.update(updatedCharacter)
                 }
             }
-            is CharacterDetailsAction.ChangeCurrentFortune -> {
+            is CharacterDetailsAction.CurrentFortuneChanged -> {
                 val currentCharacter = viewState.value!!.character
                 val updatedCharacter = currentCharacter.copy(currentFortune = action.newFortune)
                 viewModelScope.launch {
                     repository.update(updatedCharacter)
                 }
             }
-            is CharacterDetailsAction.UpdateAttributes -> {
-                val currentCharacter = viewState.value!!.character
-                val updatedCharacter = currentCharacter.copy(attributes = action.attributes)
-                viewModelScope.launch {
-                    repository.update(updatedCharacter)
-                }
+            is CharacterDetailsAction.AttributeChanged -> {
+                handleAttributeInput(action)
             }
             is CharacterDetailsAction.ConditionChecked -> {
                 viewModelScope.launch {
@@ -74,5 +71,23 @@ internal class CharacterDetailsViewModel(
                 }
             }
         }
+    }
+
+    private fun handleAttributeInput(action: CharacterDetailsAction.AttributeChanged) {
+        val updatedAttributes = AttributeReducer.reduceAttributeInput(
+            viewState.value?.character?.attributes, action.attributeInput
+        )
+        val updatedCharacter = viewState.value!!.character.copy(attributes = updatedAttributes)
+
+        val updatedErrors = AttributeReducer.reduceErrors(viewState.value?.attributeErrors, action.attributeInput)
+
+        val updatedViewState = viewState.value?.copy(
+            character = updatedCharacter,
+            attributeErrors = updatedErrors
+        ) ?: CharacterDetailsViewState(character = character, attributeErrors = updatedErrors)
+
+        viewModelScope.launch { repository.update(updatedCharacter) }
+
+        viewState.postValue(updatedViewState)
     }
 }

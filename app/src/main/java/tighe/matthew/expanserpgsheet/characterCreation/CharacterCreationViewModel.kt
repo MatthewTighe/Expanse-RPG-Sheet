@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import tighe.matthew.expanserpgsheet.*
-import tighe.matthew.expanserpgsheet.attributes.AttributeError
+import tighe.matthew.expanserpgsheet.controller.AttributeError
+import tighe.matthew.expanserpgsheet.controller.AttributeReducer
+import tighe.matthew.expanserpgsheet.model.character.AttributeType
 import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import java.lang.NumberFormatException
 
 internal class CharacterCreationViewModel(
     private val repository: CharacterRepository
@@ -24,21 +27,23 @@ internal class CharacterCreationViewModel(
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
-    // TODO reduce this from view state instead of having mutable state
+    // Mutable state isn't my favorite way to go, but I keep finding that reducing updates from a
+    // nullable livedata is unfun and unsexy. See reduceAttributeErrors for a real good example of that
     var model: Character = Character(0)
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {
-            is CharacterCreationAction.NameInput -> {
+            is CharacterCreationAction.NameChanged -> {
                 val updatedViewState = reduceNameUpdate(action)
                 viewState.postValue(updatedViewState)
             }
-            is CharacterCreationAction.MaxFortuneInput -> {
+            is CharacterCreationAction.MaxFortuneChanged -> {
                 val updatedFortune = action.fortune.toIntOrZero()
                 model = model.copy(maxFortune = updatedFortune, currentFortune = updatedFortune)
             }
-            is CharacterCreationAction.UpdateAttributes -> {
-                model = model.copy(attributes = action.attributes)
+            is CharacterCreationAction.AttributeChanged -> {
+                val updatedViewState = reduceAttributeInput(action)
+                viewState.postValue(updatedViewState)
             }
             is CharacterCreationAction.Save -> {
                 handleSaveAction()
@@ -65,7 +70,7 @@ internal class CharacterCreationViewModel(
         return model.name.isNotBlank() && model.attributes.all { it.value != Attributes.UNFILLED_ATTRIBUTE }
     }
 
-    private fun reduceNameUpdate(action: CharacterCreationAction.NameInput): CharacterCreationViewState {
+    private fun reduceNameUpdate(action: CharacterCreationAction.NameChanged): CharacterCreationViewState {
         model = model.copy(name = action.name)
         val currentViewState = viewState.value!!
         return if (action.name.isBlank()) {
@@ -73,6 +78,15 @@ internal class CharacterCreationViewModel(
         } else {
             currentViewState.copy(nameError = NameError(errorEnabled = false))
         }
+    }
+
+    private fun reduceAttributeInput(action: CharacterCreationAction.AttributeChanged): CharacterCreationViewState {
+        val updatedAttributes = AttributeReducer.reduceAttributeInput(model.attributes, action.input)
+        model = model.copy(attributes = updatedAttributes)
+
+        val updatedErrors = AttributeReducer.reduceErrors(viewState.value?.attributeErrors, action.input)
+        return viewState.value?.copy(attributeErrors = updatedErrors) ?:
+            CharacterCreationViewState(attributeErrors = updatedErrors)
     }
 
     private fun getAttributeErrors(): List<AttributeError> {

@@ -45,8 +45,8 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Save action persists model to repository`() {
-        viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
-        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(testCharacter.maxFortune.toString()))
+        viewModel.submitAction(CharacterCreationAction.NameChanged(testCharacter.name))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneChanged(testCharacter.maxFortune.toString()))
         viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
 
         viewModel.submitAction(CharacterCreationAction.Save)
@@ -73,8 +73,8 @@ class CharacterCreationViewModelTest {
     fun `Current fortune will match max on save action`() {
         val model = Character(0, "name", 15, attributes = testAttributes)
 
-        viewModel.submitAction(CharacterCreationAction.NameInput(model.name))
-        viewModel.submitAction(CharacterCreationAction.MaxFortuneInput(model.maxFortune.toString()))
+        viewModel.submitAction(CharacterCreationAction.NameChanged(model.name))
+        viewModel.submitAction(CharacterCreationAction.MaxFortuneChanged(model.maxFortune.toString()))
         viewModel.submitAction(CharacterCreationAction.UpdateAttributes(testAttributes))
         viewModel.submitAction(CharacterCreationAction.Save)
 
@@ -83,7 +83,7 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Updating name input with a blank name triggers error`() {
-        viewModel.submitAction(CharacterCreationAction.NameInput(""))
+        viewModel.submitAction(CharacterCreationAction.NameChanged(""))
 
         val expected = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
         verify { mockViewStateObserver.onChanged(expected) }
@@ -91,8 +91,8 @@ class CharacterCreationViewModelTest {
 
     @Test
     fun `Updating name while error is present removes error`() {
-        viewModel.submitAction(CharacterCreationAction.NameInput(""))
-        viewModel.submitAction(CharacterCreationAction.NameInput(testCharacter.name))
+        viewModel.submitAction(CharacterCreationAction.NameChanged(""))
+        viewModel.submitAction(CharacterCreationAction.NameChanged(testCharacter.name))
 
         val expectedError = CharacterCreationViewState(nameError = NameError(errorEnabled = true))
         val expected = CharacterCreationViewState(nameError = NameError(errorEnabled = false))
