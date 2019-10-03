@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
         android:id="@+id/layout_fragment_character_details"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:layout_margin="8dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" >
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
             android:id="@+id/details_text_character_name"
@@ -64,11 +68,15 @@
             app:layout_constraintTop_toBottomOf="@id/details_layout_max_fortune"
             app:layout_constraintStart_toStartOf="parent"/>
 
-    <include layout="@layout/layout_collapsible_conditions"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+    <include
             android:id="@+id/details_layout_conditions"
+            layout="@layout/layout_collapsible_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_details_attributes"
+            app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
