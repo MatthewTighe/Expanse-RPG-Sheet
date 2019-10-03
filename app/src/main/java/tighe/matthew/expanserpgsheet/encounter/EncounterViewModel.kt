@@ -62,6 +62,9 @@ class EncounterViewModel(
                     )
                 }
             }
+            is EncounterAction.ClearAll -> {
+                viewModelScope.launch { encounterRepository.removeAll() }
+            }
         }
     }
 

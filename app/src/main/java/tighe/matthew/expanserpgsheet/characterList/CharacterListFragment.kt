@@ -68,7 +68,7 @@ class CharacterListFragment :
 
     override fun onOptionsClick(character: Character, anchor: View) {
         val popup = PopupMenu(activity!!, anchor)
-        popup.menuInflater.inflate(R.menu.menu_character_options, popup.menu)
+        popup.menuInflater.inflate(R.menu.context_character, popup.menu)
         popup.show()
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {

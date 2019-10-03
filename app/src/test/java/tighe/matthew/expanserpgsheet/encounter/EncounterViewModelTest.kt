@@ -174,4 +174,11 @@ class EncounterViewModelTest {
 
         coVerify { mockEncounterRepo.removeEncounterCharacter(character, 0) }
     }
+
+    @Test
+    fun `Clear all action delegates to repository`() {
+        viewModel.submitAction(EncounterAction.ClearAll)
+
+        coVerify { mockEncounterRepo.removeAll() }
+    }
 }

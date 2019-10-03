@@ -75,6 +75,10 @@ class EncounterRepository(
         updateCurrentPositions(position, modificationAction)
     }
 
+    suspend fun removeAll() {
+        encounterDetailDao.deleteAll()
+    }
+
     private suspend fun getNewPositionByInitiative(initiative: Int): Int {
         val details = encounterDetailDao.getAll()
         // New position should be the first where initiative is greater than an existing.

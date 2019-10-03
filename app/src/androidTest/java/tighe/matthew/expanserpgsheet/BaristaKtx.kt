@@ -6,6 +6,7 @@ import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertC
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotExist
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
+import com.schibsted.spain.barista.interaction.BaristaMenuClickInteractions.clickMenu
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 
 // Interactions
@@ -19,6 +20,10 @@ fun String.click() {
 
 @IdRes fun Int.writeText(text: String) {
     writeTo(this, text)
+}
+
+@IdRes fun Int.menuClick() {
+    clickMenu(this)
 }
 
 // Assertions

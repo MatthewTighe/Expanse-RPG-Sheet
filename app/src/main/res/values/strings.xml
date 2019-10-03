@@ -43,12 +43,16 @@
     <string name="wounded">Wounded</string>
     <string name="taken_out">Taken out</string>
 
+
     <string name="characters">Characters</string>
     <string name="encounter">Encounter</string>
+
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="add_encounter">Add to encounter</string>
     <string name="delete">Delete</string>
+    <string name="clear_all">Clear all</string>
+
     <string name="character_already_in_encounter">Character has already been added to encounter.</string>
     <string name="character_added_encounter">Character added to encounter!</string>
 

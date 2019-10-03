@@ -8,5 +8,5 @@
     <item
         android:id="@+id/encounter_fragment"
         android:title="@string/encounter"
-        android:icon="@drawable/ic_encounter" />
+        android:icon="@drawable/ic_encounter_24dp" />
 </menu>

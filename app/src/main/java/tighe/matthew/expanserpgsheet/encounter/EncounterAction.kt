@@ -35,4 +35,6 @@ sealed class EncounterAction : Action {
         val removedCharacter: EncounterCharacter,
         val position: Int
     ) : EncounterAction()
+
+    object ClearAll : EncounterAction()
 }

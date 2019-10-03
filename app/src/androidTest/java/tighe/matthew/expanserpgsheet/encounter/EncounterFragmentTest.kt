@@ -1,6 +1,5 @@
 package tighe.matthew.expanserpgsheet.encounter
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -8,7 +7,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.test.KoinTest
 import org.koin.test.inject
 import tighe.matthew.expanserpgsheet.*
@@ -16,9 +14,9 @@ import tighe.matthew.expanserpgsheet.model.character.Attributes
 import tighe.matthew.expanserpgsheet.model.character.Character
 import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
 import tighe.matthew.expanserpgsheet.model.condition.Condition
+import tighe.matthew.expanserpgsheet.model.encounter.EncounterCharacter
 import tighe.matthew.expanserpgsheet.model.encounter.EncounterRepository
 
-@RunWith(AndroidJUnit4::class)
 class EncounterFragmentTest : KoinTest {
 
     @get:Rule val activityRule = ActivityTestRule(MainActivity::class.java)
@@ -81,6 +79,19 @@ class EncounterFragmentTest : KoinTest {
         val expectedConditions = setOf(Condition.Injured)
         val expected = listOf(testCharacter.copy(conditions = expectedConditions))
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun clearAllOptionRemovesAllCharacters() = runBlocking {
+        val testCharacter2 = testCharacter.copy(id = 2, name = "bobbie")
+        characterRepository.persist(testCharacter2)
+        encounterRepository.addCharacter(testCharacter2, testInitiative + 1)
+
+        R.id.item_clear_all.menuClick()
+
+        val result = encounterRepository.getEncounter().first()
+
+        assertEquals(listOf<EncounterCharacter>(), result)
     }
 
     @Test

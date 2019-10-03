@@ -1,9 +1,7 @@
 package tighe.matthew.expanserpgsheet.encounter
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +22,7 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_encounter, container, false)
     }
 
@@ -41,6 +40,17 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
             adapter.updateCharacters(viewState.encounterCharacters)
         } })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options_encounter, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_clear_all -> viewModel.submitAction(EncounterAction.ClearAll)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDecClick(character: EncounterCharacter) {
