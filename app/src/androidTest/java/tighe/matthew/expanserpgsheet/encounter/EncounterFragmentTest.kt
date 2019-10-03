@@ -106,4 +106,13 @@ class EncounterFragmentTest : KoinTest {
         "STR: 8".isDisplayed()
         "WIL: 9".isDisplayed()
     }
+
+    @Test
+    fun listDoesNotDoesDisappearIfNavItemIsClicked() {
+        testCharacter.name.isDisplayed()
+
+        R.id.encounter_fragment.click()
+
+        testCharacter.name.isDisplayed()
+    }
 }

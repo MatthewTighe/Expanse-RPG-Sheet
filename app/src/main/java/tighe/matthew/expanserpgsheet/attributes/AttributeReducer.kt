@@ -11,7 +11,7 @@ object AttributeReducer {
         } catch (err: NumberFormatException) {
             Attributes.UNFILLED_ATTRIBUTE
         }
-        return when(attributeInput.type) {
+        return when (attributeInput.type) {
             AttributeType.ACCURACY -> attributesUsed.copy(accuracy = updatedValue)
             AttributeType.COMMUNICATION -> attributesUsed.copy(communication = updatedValue)
             AttributeType.CONSTITUTION -> attributesUsed.copy(constitution = updatedValue)
@@ -19,7 +19,7 @@ object AttributeReducer {
             AttributeType.FIGHTING -> attributesUsed.copy(fighting = updatedValue)
             AttributeType.INTELLIGENCE -> attributesUsed.copy(intelligence = updatedValue)
             AttributeType.PERCEPTION -> attributesUsed.copy(perception = updatedValue)
-            AttributeType.STRENGTH ->  attributesUsed.copy(strength = updatedValue)
+            AttributeType.STRENGTH -> attributesUsed.copy(strength = updatedValue)
             AttributeType.WILLPOWER -> attributesUsed.copy(willpower = updatedValue)
         }
     }

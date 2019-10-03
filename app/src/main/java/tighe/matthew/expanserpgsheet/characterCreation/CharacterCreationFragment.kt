@@ -17,11 +17,11 @@ import tighe.matthew.expanserpgsheet.attributes.AttributesView
 
 class CharacterCreationFragment : Fragment() {
     private val viewModel: CharacterCreationViewModel by viewModel()
-    
+
     private val onAttributeInput: (AttributeInput) -> Unit = {
         viewModel.submitAction(CharacterCreationAction.AttributeChanged(it))
     }
-    
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_character_creation, container, false)
     }
@@ -57,7 +57,7 @@ class CharacterCreationFragment : Fragment() {
     private fun handleViewState(viewState: CharacterCreationViewState) {
         val nameView = activity?.findViewById<TextInputLayout>(R.id.layout_input_name)
         viewState.nameError.handleDisplay(nameView)
-        
+
         val attributeLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_creation_attributes)!!
         AttributesView(
             attributeLayout,

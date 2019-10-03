@@ -66,4 +66,13 @@ class CharacterListFragmentTest : KoinTest {
 
         R.string.entry_initiative.isContained()
     }
+
+    @Test
+    fun clickingNavItemDoesNotCauseListToDisappear() {
+        model.name.isDisplayed()
+
+        R.id.character_list_fragment.click()
+
+        model.name.isDisplayed()
+    }
 }

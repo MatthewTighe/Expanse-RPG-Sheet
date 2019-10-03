@@ -134,7 +134,6 @@ class CharacterDetailsViewModelTest {
         }
     }
 
-
     @Test
     fun `ConditionChecked action delegates to repository for adding new condition`() {
         viewModel.submitAction(CharacterDetailsAction.ConditionChecked(Condition.Injured, testInitialCharacterModel))

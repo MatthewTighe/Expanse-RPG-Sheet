@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,6 +23,7 @@ import tighe.matthew.expanserpgsheet.shortSnack
 class CharacterListFragment :
     Fragment(),
     CharacterListAdapter.ClickListeners {
+
     private val viewModel: CharacterListViewModel by viewModel()
 
     override fun onCreateView(
@@ -45,12 +45,8 @@ class CharacterListFragment :
             }
         } })
 
-        val adapter = CharacterListAdapter(this)
-        val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_characters)!!
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            adapter.updateCharacters(viewState.characterList)
+            handleCharacterList(viewState)
             handleInitiativeDialog(viewState)
         } })
 
@@ -79,6 +75,13 @@ class CharacterListFragment :
             }
             true
         }
+    }
+
+    private fun handleCharacterList(viewState: CharacterListViewState) {
+        val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_characters)!!
+        val adapter = CharacterListAdapter(this)
+        recyclerView.adapter = adapter
+        adapter.updateCharacters(viewState.characterList)
     }
 
     private fun handleInitiativeDialog(viewState: CharacterListViewState) {

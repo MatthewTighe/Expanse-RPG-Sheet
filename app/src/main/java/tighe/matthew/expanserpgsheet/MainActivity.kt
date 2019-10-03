@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNav() {
         val navController = findNavController(R.id.nav_host_fragment)
-        findViewById<BottomNavigationView>(R.id.bottom_nav_main)
-            .setupWithNavController(navController)
+
+        with(findViewById<BottomNavigationView>(R.id.bottom_nav_main)) {
+            setupWithNavController(navController)
+//            setOnNavigationItemReselectedListener { /* do nothing */ }
+        }
     }
 }

@@ -26,8 +26,7 @@ internal class CharacterListViewModel(
     @ExperimentalCoroutinesApi
     override fun observeViewState(): LiveData<CharacterListViewState> {
         characterRepository.observeBase().onEach { characters ->
-            val update = viewState.value?.copy(characterList = characters)
-            ?: CharacterListViewState(characterList = characters)
+            val update = viewState.value!!.copy(characterList = characters)
             viewState.postValue(update)
         }.launchIn(viewModelScope)
         return viewState

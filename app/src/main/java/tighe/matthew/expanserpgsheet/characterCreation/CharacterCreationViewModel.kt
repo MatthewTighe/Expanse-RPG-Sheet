@@ -83,8 +83,8 @@ internal class CharacterCreationViewModel(
         model = model.copy(attributes = updatedAttributes)
 
         val updatedErrors = AttributeReducer.reduceErrors(viewState.value?.attributeErrors, action.input)
-        return viewState.value?.copy(attributeErrors = updatedErrors) ?:
-            CharacterCreationViewState(attributeErrors = updatedErrors)
+        return viewState.value?.copy(attributeErrors = updatedErrors)
+            ?: CharacterCreationViewState(attributeErrors = updatedErrors)
     }
 
     private fun getAttributeErrors(): List<AttributeError> {

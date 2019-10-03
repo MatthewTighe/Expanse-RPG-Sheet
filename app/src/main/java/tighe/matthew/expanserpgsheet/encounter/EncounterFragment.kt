@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -30,15 +29,8 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val adapter = EncounterAdapter(this)
-        val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_encounter_characters)!!
-        val touchHelperCallback = EncounterAdapterTouchHelper(adapter)
-        val touchHelper = ItemTouchHelper(touchHelperCallback)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
-        touchHelper.attachToRecyclerView(recyclerView)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            adapter.updateCharacters(viewState.encounterCharacters)
+            handleEncounterCharacterList(viewState)
         } })
     }
 
@@ -91,5 +83,17 @@ class EncounterFragment : Fragment(), EncounterAdapter.AdapterListeners {
     override fun onItemDismissed(character: EncounterCharacter, position: Int) {
         val action = EncounterAction.CharacterRemoved(character, position)
         viewModel.submitAction(action)
+    }
+
+    private fun handleEncounterCharacterList(viewState: EncounterViewState) {
+        val recyclerView = activity?.findViewById<RecyclerView>(R.id.list_encounter_characters)!!
+        val adapter = EncounterAdapter(this)
+        recyclerView.adapter = adapter
+
+        val touchHelperCallback = EncounterAdapterTouchHelper(adapter)
+        val touchHelper = ItemTouchHelper(touchHelperCallback)
+        touchHelper.attachToRecyclerView(recyclerView)
+
+        adapter.updateCharacters(viewState.encounterCharacters)
     }
 }

@@ -78,6 +78,5 @@ class CharacterCreationFragmentTest : KoinTest {
         activityRule.activity.getString(R.string.text_input_error, "Perception").isDisplayed()
         activityRule.activity.getString(R.string.text_input_error, "Strength").isDisplayed()
         activityRule.activity.getString(R.string.text_input_error, "Willpower").isDisplayed()
-
     }
 }
