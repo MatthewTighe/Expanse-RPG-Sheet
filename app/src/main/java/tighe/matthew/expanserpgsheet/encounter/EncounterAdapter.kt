@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import org.koin.core.KoinComponent
+import org.w3c.dom.Text
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.condition.ConditionView
@@ -39,9 +40,11 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
     }
 
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row), KoinComponent {
-        var name = row.findViewById<TextView>(R.id.text_encounter_character_name)!!
-        var initiative = row.findViewById<TextView>(R.id.text_encounter_initiative)!!
-        var maxFortune = row.findViewById<TextView>(R.id.text_encounter_max_fortune)!!
+        var name = row.findViewById<TextView>(R.id.encounter_text_character_name)!!
+        var initiative = row.findViewById<TextView>(R.id.encounter_text_initiative)!!
+        var defense = row.findViewById<TextView>(R.id.encounter_text_defense)
+        var toughness = row.findViewById<TextView>(R.id.encounter_text_toughness)
+        var maxFortune = row.findViewById<TextView>(R.id.encounter_text_max_fortune)!!
         var currentFortune = row.findViewById<EditText>(R.id.edit_text_fortune)!!
         var fortuneLabel = row.findViewById<TextView>(R.id.label_fortune_adjustment)!!
 
@@ -57,7 +60,7 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
 
         var decBtn = row.findViewById<MaterialButton>(R.id.btn_dec_fortune)!!
         var incBtn = row.findViewById<MaterialButton>(R.id.btn_inc_fortune)!!
-        var conditionLayout = row.findViewById<LinearLayout>(R.id.layout_encounter_conditions)!!
+        var conditionLayout = row.findViewById<LinearLayout>(R.id.encounter_layout_conditions)!!
     }
 
     private val characters = mutableListOf<EncounterCharacter>()
@@ -79,6 +82,12 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
         holder.name.text = character.character.name
         holder.initiative.text = holder.itemView.resources.getString(
             R.string.initiative_interpolated, character.detail.initiative
+        )
+        holder.defense.text = holder.itemView.resources.getString(
+            R.string.defense_interpolated, character.character.getDefense()
+        )
+        holder.toughness.text = holder.itemView.resources.getString(
+            R.string.toughness_interpolated, character.character.getToughness()
         )
         holder.maxFortune.text = holder.itemView.resources.getString(
             R.string.max_fortune_interpolated, character.character.maxFortune

@@ -7,12 +7,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/text_encounter_character_name"
+            android:id="@+id/encounter_text_character_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/layout_encounter_fortune_adjustment"
+            app:layout_constraintEnd_toEndOf="@id/encounter_layout_fortune_adjustment"
             android:text="@string/placeholder"
             android:textAlignment="center"
             android:textSize="@dimen/textSizeH4"/>
@@ -21,50 +21,66 @@
             android:id="@+id/view_divider_name_subtext"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/text_encounter_character_name"
-            app:layout_constraintEnd_toEndOf="@id/layout_encounter_fortune_adjustment"
+            app:layout_constraintTop_toBottomOf="@id/encounter_text_character_name"
+            app:layout_constraintEnd_toEndOf="@id/encounter_layout_fortune_adjustment"
             android:background="@color/colorPrimary"/>
 
-    <TextView android:id="@+id/text_encounter_initiative"
+    <TextView android:id="@+id/encounter_text_initiative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/view_divider_name_subtext"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/initiative_interpolated"/>
 
-    <TextView android:id="@+id/text_encounter_max_fortune"
+    <TextView
+            android:id="@+id/encounter_text_defense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text_encounter_initiative"
+            app:layout_constraintTop_toBottomOf="@id/encounter_text_initiative"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/defense_interpolated"/>
+
+    <TextView
+            android:id="@+id/encounter_text_toughness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/encounter_text_defense"
+            android:text="@string/toughness_interpolated"/>
+
+    <TextView
+            android:id="@+id/encounter_text_max_fortune"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/encounter_text_toughness"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/max_fortune_interpolated"/>
 
     <include layout="@layout/layout_attributes_small"
-            android:id="@+id/layout_encounter_attributes_small"
+            android:id="@+id/encounter_layout_attributes_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/layout_encounter_fortune_adjustment"
+            app:layout_constraintStart_toEndOf="@id/encounter_layout_fortune_adjustment"
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <include layout="@layout/layout_fortune_adjustment"
-            android:id="@+id/layout_encounter_fortune_adjustment"
+            android:id="@+id/encounter_layout_fortune_adjustment"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/text_encounter_max_fortune"
+            app:layout_constraintTop_toBottomOf="@id/encounter_text_max_fortune"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <include layout="@layout/layout_collapsible_conditions"
-            android:id="@+id/layout_encounter_conditions"
+            android:id="@+id/encounter_layout_conditions"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_encounter_fortune_adjustment" />
+            app:layout_constraintTop_toBottomOf="@id/encounter_layout_fortune_adjustment" />
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/layout_encounter_conditions"/>
+            app:layout_constraintTop_toBottomOf="@id/encounter_layout_conditions"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

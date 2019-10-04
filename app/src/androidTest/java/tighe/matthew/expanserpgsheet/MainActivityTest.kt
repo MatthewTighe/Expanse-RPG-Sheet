@@ -2,7 +2,6 @@ package tighe.matthew.expanserpgsheet
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -95,7 +94,7 @@ class MainActivityTest {
 
         R.id.encounter_fragment.click()
 
-        R.id.layout_encounter_fortune_adjustment.isDisplayed()
+        R.id.encounter_layout_fortune_adjustment.isDisplayed()
         expectedName.isDisplayed()
         expectedInitialFortune.toString().isDisplayed()
         "Initiative: $expectedInitiative".isDisplayed()

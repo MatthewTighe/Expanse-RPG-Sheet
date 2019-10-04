@@ -16,7 +16,7 @@ class CharacterListAdapter(private val listeners: ClickListeners) : RecyclerView
         fun onOptionsClick(character: Character, anchor: View)
     }
 
-    private var characters = mutableListOf<Character>()
+    private val characters = mutableListOf<Character>()
 
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         var name = row.findViewById<TextView>(R.id.text_character_name)

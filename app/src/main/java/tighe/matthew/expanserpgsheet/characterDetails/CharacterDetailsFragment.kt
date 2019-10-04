@@ -57,22 +57,23 @@ class CharacterDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
-        val textName = activity?.findViewById<TextView>(R.id.details_text_character_name)
         viewModel.observeViewState().observe(this, Observer { it?.let { viewState ->
-            textName?.text = viewState.character.name
+            handleTextViews(viewState)
             handleFortuneViews(viewState)
-            setupConditionView(viewState)
-
-            AttributesView(
-                attributesLayout,
-                attributeInputHandler,
-                viewState.character.attributes,
-                viewState.attributeErrors
-            )
+            handleConditionView(viewState)
+            handleAttributesView(viewState)
         } })
 
         setupFortuneListeners()
+    }
+
+    private fun handleTextViews(viewState: CharacterDetailsViewState) {
+        val textName = activity?.findViewById<TextView>(R.id.details_text_character_name)
+        val textDefense = activity?.findViewById<TextView>(R.id.details_text_defense)
+        val textToughness = activity?.findViewById<TextView>(R.id.details_text_toughness)
+        textName?.text = viewState.character.name
+        textDefense?.text = getString(R.string.defense_interpolated, viewState.character.getDefense())
+        textToughness?.text = getString(R.string.toughness_interpolated, viewState.character.getToughness())
     }
 
     private fun handleFortuneViews(viewState: CharacterDetailsViewState) {
@@ -92,7 +93,7 @@ class CharacterDetailsFragment : Fragment() {
         currentFortuneInput?.addTextChangedListener(currentFortuneWatcher)
     }
 
-    private fun setupConditionView(viewState: CharacterDetailsViewState) {
+    private fun handleConditionView(viewState: CharacterDetailsViewState) {
         val conditionLayout = activity?.findViewById<LinearLayout>(R.id.details_layout_conditions)!!
         val character = viewState.character
         val conditions = viewState.character.conditions
@@ -108,6 +109,16 @@ class CharacterDetailsFragment : Fragment() {
             conditions,
             onConditionChecked,
             onConditionUnchecked
+        )
+    }
+
+    private fun handleAttributesView(viewState: CharacterDetailsViewState) {
+        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
+        AttributesView(
+            attributesLayout,
+            attributeInputHandler,
+            viewState.character.attributes,
+            viewState.attributeErrors
         )
     }
 }

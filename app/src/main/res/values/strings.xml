@@ -35,6 +35,8 @@
     <string name="strength_abbreviated_interpolated">STR: %d</string>
     <string name="willpower_abbreviated_interpolated">WIL: %d</string>
 
+    <string name="defense_interpolated">Defense: %d</string>
+    <string name="toughness_interpolated">Toughness: %d</string>
     <string name="initiative_interpolated">Initiative: %d</string>
     <string name="max_fortune_interpolated">Max Fortune: %d</string>
 
