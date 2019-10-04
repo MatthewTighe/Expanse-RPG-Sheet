@@ -106,4 +106,16 @@ class CharacterDaoTest {
         val expected = characterWithAttributes.copy(id = id)
         assertEquals(expected, result)
     }
+
+    @Test
+    fun characterArmorIsPersisted() = runBlocking {
+        val armor = Armor.Power
+        val characterWithArmor = character.copy(armor = armor)
+
+        val id = characterDao.insert(characterWithArmor)
+        val result = characterDao.getById(id)
+
+        val expected = characterWithArmor.copy(id = id)
+        assertEquals(expected, result)
+    }
 }

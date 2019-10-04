@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,8 +15,10 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 import tighe.matthew.expanserpgsheet.*
+import tighe.matthew.expanserpgsheet.armor.ArmorDropdown
 import tighe.matthew.expanserpgsheet.attributes.AttributeInput
 import tighe.matthew.expanserpgsheet.attributes.AttributesView
+import tighe.matthew.expanserpgsheet.model.character.Armor
 
 class CharacterCreationFragment : Fragment() {
     private val viewModel: CharacterCreationViewModel by viewModel()
@@ -64,5 +69,11 @@ class CharacterCreationFragment : Fragment() {
             onAttributeInput,
             errors = viewState.attributeErrors
         )
+
+        val armorLayout = activity?.findViewById<TextInputLayout>(R.id.creation_layout_armor_dropdown)!!
+        val armorSelectionListener: (Armor) -> Unit = { armor ->
+            Toast.makeText(activity, armor.toString(), Toast.LENGTH_LONG).show()
+        }
+        ArmorDropdown(armorLayout, activity!!, armorSelectionListener)
     }
 }

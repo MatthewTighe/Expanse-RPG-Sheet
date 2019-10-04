@@ -52,6 +52,14 @@
             app:layout_constraintTop_toBottomOf="@id/layout_input_name"
             app:layout_constraintStart_toStartOf="parent"/>
 
+    <include layout="@layout/layout_dropdown"
+            android:id="@+id/creation_layout_armor_dropdown"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/layout_creation_attributes"
+            app:layout_constraintStart_toStartOf="@id/layout_input_max_fortune"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"

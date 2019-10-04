@@ -25,6 +25,14 @@
     <string name="strength">Strength</string>
     <string name="willpower">Willpower</string>
 
+    <string name="armor">Armor</string>
+    <string name="none">None</string>
+    <string name="padding">Padding</string>
+    <string name="light">Light</string>
+    <string name="medium">Medium</string>
+    <string name="heavy">Heavy</string>
+    <string name="power">Power</string>
+
     <string name="accuracy_abbreviated_interpolated">ACR: %d</string>
     <string name="communication_abbreviated_interpolated">COM: %d</string>
     <string name="constitution_abbreviated_interpolated">CON: %d</string>
@@ -44,7 +52,6 @@
     <string name="injured">Injured</string>
     <string name="wounded">Wounded</string>
     <string name="taken_out">Taken out</string>
-
 
     <string name="characters">Characters</string>
     <string name="encounter">Encounter</string>

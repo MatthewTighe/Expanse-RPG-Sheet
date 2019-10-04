@@ -24,4 +24,5 @@
     </style>
 
     <style name="TextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+    <style name="Dropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" />
 </resources>

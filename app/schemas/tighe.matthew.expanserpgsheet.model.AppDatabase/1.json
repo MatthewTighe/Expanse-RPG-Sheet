@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7c9508d59fed59623e555c6207d534c1",
+    "identityHash": "d1e4563b8c8c9f1dab767f66809cdaea",
     "entities": [
       {
         "tableName": "Character",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL, `currentFortune` INTEGER NOT NULL, `accuracy` INTEGER NOT NULL, `communication` INTEGER NOT NULL, `constitution` INTEGER NOT NULL, `dexterity` INTEGER NOT NULL, `fighting` INTEGER NOT NULL, `intelligence` INTEGER NOT NULL, `perception` INTEGER NOT NULL, `strength` INTEGER NOT NULL, `willpower` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `maxFortune` INTEGER NOT NULL, `currentFortune` INTEGER NOT NULL, `armor` TEXT NOT NULL, `accuracy` INTEGER NOT NULL, `communication` INTEGER NOT NULL, `constitution` INTEGER NOT NULL, `dexterity` INTEGER NOT NULL, `fighting` INTEGER NOT NULL, `intelligence` INTEGER NOT NULL, `perception` INTEGER NOT NULL, `strength` INTEGER NOT NULL, `willpower` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -30,6 +30,12 @@
             "fieldPath": "currentFortune",
             "columnName": "currentFortune",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "armor",
+            "columnName": "armor",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -201,7 +207,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7c9508d59fed59623e555c6207d534c1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1e4563b8c8c9f1dab767f66809cdaea')"
     ]
   }
 }
