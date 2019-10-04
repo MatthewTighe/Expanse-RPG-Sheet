@@ -40,6 +40,13 @@ class EncounterFragmentTest : KoinTest {
     }
 
     @Test
+    fun textFieldsAreDisplayed() {
+        testCharacter.name.isDisplayed()
+        testCharacter.defense.toString().isDisplayed()
+        testCharacter.toughness.toString().isDisplayed()
+    }
+
+    @Test
     fun characterFortuneCanBeIncremented() {
         originalFortune.toString().isDisplayed()
 

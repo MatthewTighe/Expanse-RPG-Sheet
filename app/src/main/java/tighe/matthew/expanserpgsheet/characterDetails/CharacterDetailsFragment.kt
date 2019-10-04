@@ -72,8 +72,8 @@ class CharacterDetailsFragment : Fragment() {
         val textDefense = activity?.findViewById<TextView>(R.id.details_text_defense)
         val textToughness = activity?.findViewById<TextView>(R.id.details_text_toughness)
         textName?.text = viewState.character.name
-        textDefense?.text = getString(R.string.defense_interpolated, viewState.character.getDefense())
-        textToughness?.text = getString(R.string.toughness_interpolated, viewState.character.getToughness())
+        textDefense?.text = getString(R.string.defense_interpolated, viewState.character.defense)
+        textToughness?.text = getString(R.string.toughness_interpolated, viewState.character.toughness)
     }
 
     private fun handleFortuneViews(viewState: CharacterDetailsViewState) {

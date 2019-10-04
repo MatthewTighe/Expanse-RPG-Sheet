@@ -18,11 +18,9 @@ data class Character @Ignore constructor(
     constructor(id: Long, name: String, maxFortune: Int, currentFortune: Int, attributes: Attributes) :
             this(id, name, maxFortune, currentFortune, attributes, setOf())
 
-    fun getDefense(): Int {
-        return 10 + attributes.dexterity
-    }
+    val defense: Int
+        get() = 10 + attributes.dexterity
 
-    fun getToughness(): Int {
-        return attributes.constitution
-    }
+    val toughness: Int
+        get() = attributes.constitution
 }

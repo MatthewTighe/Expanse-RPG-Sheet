@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import org.koin.core.KoinComponent
-import org.w3c.dom.Text
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.condition.ConditionView
@@ -84,10 +83,10 @@ class EncounterAdapter(private val listeners: AdapterListeners) :
             R.string.initiative_interpolated, character.detail.initiative
         )
         holder.defense.text = holder.itemView.resources.getString(
-            R.string.defense_interpolated, character.character.getDefense()
+            R.string.defense_interpolated, character.character.defense
         )
         holder.toughness.text = holder.itemView.resources.getString(
-            R.string.toughness_interpolated, character.character.getToughness()
+            R.string.toughness_interpolated, character.character.toughness
         )
         holder.maxFortune.text = holder.itemView.resources.getString(
             R.string.max_fortune_interpolated, character.character.maxFortune

@@ -40,6 +40,13 @@ class CharacterDetailsFragmentTest : KoinTest {
     }
 
     @Test
+    fun textFieldsAreDisplayed() {
+        initialModel.name.isDisplayed()
+        initialModel.defense.toString().isDisplayed()
+        initialModel.toughness.toString().isDisplayed()
+    }
+
+    @Test
     fun maxFortuneCanBeAlteredAndIsPersisted() = runBlocking {
         initialMaxFortune.toString().isDisplayed()
 
