@@ -17,12 +17,13 @@ class CharacterTest {
     }
 
     @Test
-    fun `Toughness is computed with constitution`() {
+    fun `Toughness is computed with constitution and armor bonus`() {
         val con = 5
+        val armor = Armor.Medium
         val attributes = Attributes.UNFILLED_ATTRIBUTES.copy(constitution = con)
-        val character = Character(attributes = attributes)
+        val character = Character(attributes = attributes, armor = armor)
 
-        val result = character.toughness
+        val result = character.toughness + armor.bonus
 
         assertEquals(con, result)
     }

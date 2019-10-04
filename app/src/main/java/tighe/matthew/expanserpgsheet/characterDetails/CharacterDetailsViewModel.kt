@@ -60,6 +60,13 @@ internal class CharacterDetailsViewModel(
             is CharacterDetailsAction.AttributeChanged -> {
                 handleAttributeInput(action)
             }
+            is CharacterDetailsAction.ArmorChanged -> {
+                val currentCharacter = viewState.value!!.character
+                val updatedCharacter = currentCharacter.copy(armor = action.armor)
+                viewModelScope.launch {
+                    repository.update(updatedCharacter)
+                }
+            }
             is CharacterDetailsAction.ConditionChecked -> {
                 viewModelScope.launch {
                     repository.addCondition(action.condition, action.character)

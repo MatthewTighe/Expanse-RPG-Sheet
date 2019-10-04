@@ -10,14 +10,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.UserInputTextWatcher
+import tighe.matthew.expanserpgsheet.armor.ArmorDropdown
 import tighe.matthew.expanserpgsheet.attributes.AttributeInput
 import tighe.matthew.expanserpgsheet.attributes.AttributesView
 import tighe.matthew.expanserpgsheet.condition.ConditionView
+import tighe.matthew.expanserpgsheet.model.character.Armor
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 import tighe.matthew.expanserpgsheet.setTextBeforeWatching
 
@@ -62,6 +65,7 @@ class CharacterDetailsFragment : Fragment() {
             handleFortuneViews(viewState)
             handleConditionView(viewState)
             handleAttributesView(viewState)
+            handleArmorView(viewState)
         } })
 
         setupFortuneListeners()
@@ -93,6 +97,25 @@ class CharacterDetailsFragment : Fragment() {
         currentFortuneInput?.addTextChangedListener(currentFortuneWatcher)
     }
 
+    private fun handleArmorView(viewState: CharacterDetailsViewState) {
+        val armorLayout = activity?.findViewById<TextInputLayout>(R.id.details_layout_armor_dropdown)!!
+        val listener: (Armor) -> Unit = { armor ->
+            viewModel.submitAction(CharacterDetailsAction.ArmorChanged(armor))
+        }
+
+        ArmorDropdown(armorLayout, activity!!, listener, viewState.character.armor)
+    }
+
+    private fun handleAttributesView(viewState: CharacterDetailsViewState) {
+        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
+        AttributesView(
+            attributesLayout,
+            attributeInputHandler,
+            viewState.character.attributes,
+            viewState.attributeErrors
+        )
+    }
+
     private fun handleConditionView(viewState: CharacterDetailsViewState) {
         val conditionLayout = activity?.findViewById<LinearLayout>(R.id.details_layout_conditions)!!
         val character = viewState.character
@@ -109,16 +132,6 @@ class CharacterDetailsFragment : Fragment() {
             conditions,
             onConditionChecked,
             onConditionUnchecked
-        )
-    }
-
-    private fun handleAttributesView(viewState: CharacterDetailsViewState) {
-        val attributesLayout = activity?.findViewById<ConstraintLayout>(R.id.layout_details_attributes)!!
-        AttributesView(
-            attributesLayout,
-            attributeInputHandler,
-            viewState.character.attributes,
-            viewState.attributeErrors
         )
     }
 }

@@ -72,7 +72,7 @@ class CharacterCreationFragment : Fragment() {
 
         val armorLayout = activity?.findViewById<TextInputLayout>(R.id.creation_layout_armor_dropdown)!!
         val armorSelectionListener: (Armor) -> Unit = { armor ->
-            Toast.makeText(activity, armor.toString(), Toast.LENGTH_LONG).show()
+            viewModel.submitAction(CharacterCreationAction.ArmorChanged(armor))
         }
         ArmorDropdown(armorLayout, activity!!, armorSelectionListener)
     }

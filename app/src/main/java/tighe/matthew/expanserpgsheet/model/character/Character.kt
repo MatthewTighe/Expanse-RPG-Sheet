@@ -21,5 +21,5 @@ data class Character @Ignore constructor(
         get() = 10 + attributes.dexterity
 
     val toughness: Int
-        get() = attributes.constitution
+        get() = attributes.constitution + armor.bonus
 }

@@ -43,6 +43,9 @@ internal class CharacterCreationViewModel(
                 val updatedViewState = reduceAttributeInput(action)
                 viewState.postValue(updatedViewState)
             }
+            is CharacterCreationAction.ArmorChanged -> {
+                model = model.copy(armor = action.armor)
+            }
             is CharacterCreationAction.Save -> {
                 handleSaveAction()
             }
