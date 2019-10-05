@@ -17,10 +17,7 @@ import tighe.matthew.expanserpgsheet.R
 import tighe.matthew.expanserpgsheet.ViewState
 import tighe.matthew.expanserpgsheet.attributes.AttributeError
 import tighe.matthew.expanserpgsheet.attributes.AttributeInput
-import tighe.matthew.expanserpgsheet.model.character.AttributeType
-import tighe.matthew.expanserpgsheet.model.character.Attributes
-import tighe.matthew.expanserpgsheet.model.character.Character
-import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.*
 
 class CharacterCreationViewModelTest {
 
@@ -34,7 +31,7 @@ class CharacterCreationViewModelTest {
     private lateinit var viewModel: CharacterCreationViewModel
 
     private val testAttributes = Attributes(1, 2, 3, 4, 5, 6, 7, 8, 9)
-    private val testCharacter = Character(0, "name", 10, attributes = testAttributes)
+    private val testCharacter = Character(0, "name", 10, attributes = testAttributes, armor = Armor.Heavy)
 
     @Before
     @ExperimentalCoroutinesApi
@@ -50,6 +47,7 @@ class CharacterCreationViewModelTest {
     fun `Save action persists model to repository`() {
         viewModel.submitAction(CharacterCreationAction.NameChanged(testCharacter.name))
         viewModel.submitAction(CharacterCreationAction.MaxFortuneChanged(testCharacter.maxFortune.toString()))
+        viewModel.submitAction(CharacterCreationAction.ArmorChanged(Armor.Heavy))
         submitAttributes(testAttributes)
 
         viewModel.submitAction(CharacterCreationAction.Save)

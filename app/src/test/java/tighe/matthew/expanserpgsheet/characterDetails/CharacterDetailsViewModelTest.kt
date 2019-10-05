@@ -16,10 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import tighe.matthew.expanserpgsheet.attributes.AttributeError
 import tighe.matthew.expanserpgsheet.attributes.AttributeInput
-import tighe.matthew.expanserpgsheet.model.character.AttributeType
-import tighe.matthew.expanserpgsheet.model.character.Attributes
-import tighe.matthew.expanserpgsheet.model.character.Character
-import tighe.matthew.expanserpgsheet.model.character.CharacterRepository
+import tighe.matthew.expanserpgsheet.model.character.*
 import tighe.matthew.expanserpgsheet.model.condition.Condition
 
 class CharacterDetailsViewModelTest {
@@ -132,6 +129,13 @@ class CharacterDetailsViewModelTest {
             mockViewStateObserver.onChanged(expectedErrorState)
             mockViewStateObserver.onChanged(expectedFixedState)
         }
+    }
+
+    @Test
+    fun `Changes to armor send an updated character to the repository`() {
+        viewModel.submitAction(CharacterDetailsAction.ArmorChanged(Armor.Heavy))
+
+        coVerify { mockRepo.update(testInitialCharacterModel.copy(armor = Armor.Heavy)) }
     }
 
     @Test
