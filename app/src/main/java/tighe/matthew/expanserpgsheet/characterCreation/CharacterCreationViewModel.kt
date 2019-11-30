@@ -1,5 +1,6 @@
 package tighe.matthew.expanserpgsheet.characterCreation
 
+import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,9 +26,10 @@ internal class CharacterCreationViewModel(
     private val event = SingleLiveEvent<Event>()
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
-    // Mutable state isn't my favorite way to go, but I keep finding that reducing updates from a
-    // nullable livedata is unfun and unsexy. See reduceAttributeErrors for a real good example of that
     var model: Character = Character(0)
+
+    @Bindable var name = ""
+    @Bindable var maxFortune = 0
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {

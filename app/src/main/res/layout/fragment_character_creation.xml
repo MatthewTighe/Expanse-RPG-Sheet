@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+                name="viewModel"
+                type="tighe.matthew.expanserpgsheet.characterCreation.CharacterCreationViewModel" />
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_fragment_character_creation"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,6 +28,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_name"
+                android:text="@={viewModel.name}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -41,6 +50,7 @@
                 android:id="@+id/input_max_fortune"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:text="@={`` +  viewModel.maxFortune}"
                 android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -70,3 +80,4 @@
             app:srcCompat="@drawable/ic_save_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
