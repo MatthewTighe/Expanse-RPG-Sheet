@@ -1,6 +1,5 @@
 package tighe.matthew.expanserpgsheet.characterCreation
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,9 +26,6 @@ internal class CharacterCreationViewModel(
     override fun observeEvent(): SingleLiveEvent<Event> { return event }
 
     var model: Character = Character(0)
-
-    @Bindable var name = ""
-    @Bindable var maxFortune = 0
 
     override fun submitAction(action: CharacterCreationAction) {
         return when (action) {
